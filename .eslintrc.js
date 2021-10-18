@@ -1,20 +1,9 @@
-/*
- * Eslint config file
- * Documentation: https://eslint.org/docs/user-guide/configuring/
- * Install the Eslint extension before using this feature.
- */
+// https://www.npmjs.com/package/eslint-config-standard-with-typescript
+
 module.exports = {
-  env: {
-    es6: true,
-    browser: true,
-    node: true,
-  },
-  ecmaFeatures: {
-    modules: true,
-  },
+  extends: 'standard-with-typescript',
   parserOptions: {
-    ecmaVersion: 2018,
-    sourceType: 'module',
+    project: './tsconfig.json'
   },
   globals: {
     wx: true,
@@ -25,7 +14,9 @@ module.exports = {
     Component: true,
     requirePlugin: true,
     requireMiniProgram: true,
+    __wxConfig: true
   },
-  // extends: 'eslint:recommended',
-  rules: {},
+  rules: {
+    '@typescript-eslint/triple-slash-reference': 0
+  }
 }

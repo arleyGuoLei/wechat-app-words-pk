@@ -1,15 +1,20 @@
 {
-  "name": "miniprogram-ts-less-quickstart",
+  "name": "wechat-words-pk-typescript",
   "version": "1.0.0",
-  "description": "",
-  "scripts": {
-  },
+  "description": "单词天天斗，是一款支持英语单词对战学习(好友对战、随机匹配、人机对战)、挑战模式学习(单词选意)、含生词本等业务闭环、体验极致的小程序",
+  "scripts": {},
   "keywords": [],
-  "author": "",
-  "license": "",
-  "dependencies": {
-  },
+  "author": "arley",
+  "license": "MIT",
+  "dependencies": {},
   "devDependencies": {
-    "miniprogram-api-typings": "^2.8.3-1"
+    "@typescript-eslint/eslint-plugin": "^4.0.1",
+    "eslint": "^7.12.1",
+    "eslint-config-standard-with-typescript": "^21.0.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.0.0",
+    "miniprogram-api-typings": "^2.8.3-1",
+    "typescript": "^4"
   }
 }

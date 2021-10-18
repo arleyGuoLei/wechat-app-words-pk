@@ -4,6 +4,7 @@
     "ignore": []
   },
   "miniprogramRoot": "miniprogram/",
+  "cloudfunctionRoot": "cloudfunctions/",
   "compileType": "miniprogram",
   "libVersion": "2.15.0",
   "projectname": "wechat-words-pk-typescript",
