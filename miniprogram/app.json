@@ -3,10 +3,13 @@
     "pages/home/home"
   ],
   "window": {
+    "backgroundColor": "#FFFFFF",
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "Weixin",
-    "navigationBarTextStyle": "black"
+    "navigationBarTitleText": "单词天天斗",
+    "navigationStyle": "custom"
+  },
+  "usingComponents": {
+    "header": "/components/header/header"
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"

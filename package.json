@@ -5,6 +5,7 @@
   "scripts": {},
   "keywords": [],
   "author": "arley",
+  "private": true,
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {

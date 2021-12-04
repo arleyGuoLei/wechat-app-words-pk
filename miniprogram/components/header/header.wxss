@@ -1,0 +1,11 @@
+.header {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}

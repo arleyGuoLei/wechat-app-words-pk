@@ -19,7 +19,11 @@
     "lib": ["ES2020"],
     "typeRoots": [
       "./typings"
-    ]
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "wxministore": ["typings/types/wxministore"]
+    }
   },
   "include": [
     "./**/*.ts"

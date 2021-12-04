@@ -266,5 +266,9 @@ declare namespace WechatMiniprogram.App {
     }
 }
 
-declare let App: WechatMiniprogram.App.Constructor
+declare let App: WechatMiniprogram.App.Constructor & {
+    /** wxministore 中为 App 增加了 Page、Component 属性，用于拓展 */
+    Page: typeof Page
+    Component: typeof Component
+}
 declare let getApp: WechatMiniprogram.App.GetApp

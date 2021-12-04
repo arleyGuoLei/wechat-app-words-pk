@@ -1,0 +1,59 @@
+.bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 750rpx;
+  height: 140rpx;
+  padding: 0 72rpx;
+  box-sizing: border-box;
+  margin-top: 1vh;
+}
+
+/** 分割线 */
+.bar::before {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 50%;
+  transform: translateX(-1rpx);
+  height: 140rpx;
+  width: 2rpx;
+  background: rgba(109, 170, 240, 1);
+  content: ' ';
+}
+
+.bar-tip,
+.bar-book {
+  display: flex;
+  height: 78rpx;
+}
+
+.bar-tip__icon,
+.bar-book__icon {
+  height: 78rpx;
+  width: 78rpx;
+}
+
+.bar-tip__text,
+.bar-book__text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 50rpx;
+}
+
+.tip-text__title,
+.book-text__title {
+  margin: 1rpx 0 5rpx 0;
+  font-size: 32rpx;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.tip-text__desc,
+.book-text__desc {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.6);
+}

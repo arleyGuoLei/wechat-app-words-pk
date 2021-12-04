@@ -1,8 +1,6 @@
 /// <reference path="./types/index.d.ts" />
 
-interface IAppOption {
-  globalData: {
-    userInfo?: WechatMiniprogram.UserInfo,
-  }
-  userInfoReadyCallback?: WechatMiniprogram.GetUserInfoSuccessCallback,
+// eslint-disable-next-line @typescript-eslint/naming-convention
+declare const __wxConfig: {
+  envVersion: 'develop' | 'trial'| 'release'
 }

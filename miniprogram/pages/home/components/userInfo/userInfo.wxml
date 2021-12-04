@@ -1,0 +1,27 @@
+<view class="user">
+
+  <!-- 主页头像信息，state 中有则显示 state 中数据，否则使用 open-data 显示用户头像 -->
+  <image wx:if="{{$state.user.avatar}}" class="user-avatar" src="{{$state.user.avatar}}" />
+  <open-data wx:else class="user-avatar" type="userAvatarUrl"></open-data>
+
+  <view class="user-info">
+    <!-- 主页用户昵称信息，state 中的显示优先级大于 opendata 优先级 -->
+    <text wx:if="{{$state.user.nickname}}" class="user-info__nickname">{{$state.user.nickname}}</text>
+    <open-data wx:else class="user-info__nickname" type="userNickName"></open-data>
+ 
+    <view class="user-info__grade">
+      <image class="grade-icon" src="./../../../../images/home-grade.png" />
+      <text class="grade-text">词力值： {{$state.user.experience}}</text>
+    </view>
+    <view class="user-info__fight-info">
+      <view class="fight-info__pvp">
+        <image class="pvp-icon" src="./../../../../images/home-pvp.png" />
+        <text class="pvp-text">对战：{{$state.user.totalGames}}局</text>
+      </view>
+      <view class="fight-info__win">
+        <image class="win-icon" src="./../../../../images/home-win.png" />
+        <text class="win-text">胜利：{{$state.user.winGames}}局</text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,15 @@
+page {
+  position: relative;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+.header-title {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: rgba(51, 51, 51, 1);
+  letter-spacing: 8rpx;
+  margin-left: 32rpx;
+}
+

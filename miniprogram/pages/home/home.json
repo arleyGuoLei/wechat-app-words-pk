@@ -1,3 +1,9 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "user-info": "components/userInfo/userInfo",
+    "tool-bar": "components/toolBar/toolBar",
+    "main": "components/main/main",
+    "footer": "components/footer/footer",
+    "background": "components/background/background"
+  }
 }

@@ -1,2 +1,16 @@
-<!--pages/home/home.wxml-->
-<text>pages/home/home.wxml</text>
+<header><text slot="content" class="header-title">单词天天斗</text></header>
+
+<!-- 用户信息展示 -->
+<user-info />
+
+<!-- 提示卡、单词书选择 -->
+<tool-bar />
+
+<!-- 好友对战、随机匹配、词汇挑战、生词本 -->
+<main />
+
+<!-- 排行榜、建议反馈、打赏作者 -->
+<footer />
+
+<!-- 背景、设置入口 -->
+<background />

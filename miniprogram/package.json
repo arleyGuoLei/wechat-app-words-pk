@@ -1,0 +1,11 @@
+{
+  "name": "wechat-words-pk-typescript-miniprogram",
+  "version": "1.0.0",
+  "main": "index.js",
+  "private": true,
+  "license": "MIT",
+  "dependencies": {
+    "wxapp-animate": "^1.0.0",
+    "wxministore": "^1.3.1"
+  }
+}

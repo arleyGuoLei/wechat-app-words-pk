@@ -1,0 +1,24 @@
+.bg {
+  position: absolute;
+  width: 750rpx;
+  height: 1341rpx;
+  left: 0;
+  top: 0;
+  z-index: -1;
+}
+
+.home-sun {
+  position: absolute;
+  width: 124rpx;
+  height: 124rpx;
+  left: 594rpx;
+  top: 190rpx;
+}
+
+.home-setting {
+  position: absolute;
+  width: 37rpx;
+  height: 36rpx;
+  left: 638rpx;
+  top: 234rpx;
+}

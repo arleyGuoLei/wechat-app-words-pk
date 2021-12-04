@@ -1,0 +1,18 @@
+<view class="footer">
+
+  <button class="footer-item" catchtap="onToRanking" hover-class="touch-m" style="width:144rpx;">
+    <image class="footer-icon" src="./../../../../images/home-rank.png" />
+    <text class="footer-text">排行榜</text>
+  </button>
+
+  <button open-type='feedback' class="footer-item" hover-class="touch-m">
+    <image class="footer-icon" src="./../../../../images/home-issue.png" />
+    <text class="footer-text">建议反馈</text>
+  </button>
+
+  <button class="footer-item" hover-class="touch-m" catchtap="onZan">
+    <image class="footer-icon" src="./../../../../images/home-zan.png" />
+    <text class="footer-text">打赏作者</text>
+  </button>
+ 
+</view>
