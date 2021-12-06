@@ -1,3 +1,5 @@
+import { User } from './../models/user'
+
 interface UiState {
   statusBarHeight: number
   CustomBarHeight: number
@@ -5,25 +7,7 @@ interface UiState {
   windowWidth: number
 }
 
-interface UserInfoState {
-  /** 词力值 */
-  experience: number
-
-  /** 总对战次数 */
-  totalGames: number
-
-  /** 对局胜利次数 */
-  winGames: number
-
-  /** 提示卡数目 */
-  totalTip: number
-
-  /** 用户头像信息 */
-  avatar: string
-
-  /** 用户昵称 */
-  nickname: string
-}
+interface UserInfoState extends User {}
 
 interface BookState {
   shortName: string
