@@ -1,6 +1,11 @@
 App.Page({
   data: {},
-  onLoad () {
+  async onLoad () {
+    await wx.cloud.callFunction({
+      name: 'server',
+      data: {
 
+      }
+    })
   }
 })
