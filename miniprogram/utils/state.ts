@@ -37,8 +37,9 @@ const state: State = {
     totalGames: 0,
     winGames: 0,
     totalTip: 0,
-    avatar: 'https://pic1.zhimg.com/v2-7d7b15a4bb1daba4c076ba358d0e5c0a_xll.jpg',
-    nickname: '独立开发者磊子'
+    avatar: '',
+    nickname: '',
+    bookId: ''
   },
   book: {
     shortName: 'CET4'
