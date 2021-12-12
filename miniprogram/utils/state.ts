@@ -1,4 +1,4 @@
-import { User } from './../models/user'
+import { User, Book } from './../../typings/model'
 
 interface UiState {
   statusBarHeight: number
@@ -9,9 +9,7 @@ interface UiState {
 
 interface UserInfoState extends User {}
 
-interface BookState {
-  shortName: string
-}
+interface BookState extends Book {}
 
 export interface State {
   cloudEnv: string
@@ -42,7 +40,12 @@ const state: State = {
     bookId: ''
   },
   book: {
-    shortName: 'CET4'
+    shortName: '',
+    name: '',
+    image: '',
+    peopleNumber: 0,
+    wordsNumber: 0,
+    _id: ''
   }
 }
 

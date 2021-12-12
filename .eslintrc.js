@@ -17,6 +17,7 @@ module.exports = {
     __wxConfig: true
   },
   rules: {
-    '@typescript-eslint/triple-slash-reference': 0
+    '@typescript-eslint/triple-slash-reference': 0,
+    '@typescript-eslint/strict-boolean-expressions': 0
   }
 }

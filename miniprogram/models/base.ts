@@ -14,4 +14,16 @@ export default class {
     const db = wx.cloud.database({ env: getApp<IAppOption>().store.$state.cloudEnv })
     return db.collection(this.collection)
   }
+
+  async server <R, T>(url: string, data?: T): Promise<R> {
+    const { result } = await wx.cloud.callFunction({
+      name: 'server',
+      data: {
+        url,
+        ...data
+      }
+    })
+
+    return result as R
+  }
 }

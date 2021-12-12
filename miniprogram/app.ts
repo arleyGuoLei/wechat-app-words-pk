@@ -1,7 +1,8 @@
 import config from './utils/config'
 import Store from 'wxministore'
-import userModel, { User } from './models/user'
+import userModel from './models/user'
 import state, { State } from './utils/state'
+import { User } from './../typings/model'
 
 export const store = new Store<State>({
   state,
@@ -60,8 +61,10 @@ App<IAppOption>({
   },
 
   async login (): Promise<User> {
-    const user = await userModel.login()
-    await new Promise(resolve => store.setState({ user }, resolve))
+    const selfInfo = await userModel.login()
+    const user = { ...selfInfo, book: undefined }
+    const book = selfInfo.book[0]
+    await new Promise(resolve => store.setState({ user, book }, resolve))
     return user
   }
 })
