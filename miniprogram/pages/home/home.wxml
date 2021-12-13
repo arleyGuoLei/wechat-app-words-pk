@@ -14,3 +14,6 @@
 
 <!-- 背景、设置入口 -->
 <background />
+
+<!-- 加载 -->
+<loading id="loading"/>

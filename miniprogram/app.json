@@ -9,7 +9,8 @@
     "navigationStyle": "custom"
   },
   "usingComponents": {
-    "header": "/components/header/header"
+    "header": "/components/header/header",
+    "loading": "/components/loading/loading"
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"

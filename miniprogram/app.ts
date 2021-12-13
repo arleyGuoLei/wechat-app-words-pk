@@ -3,10 +3,17 @@ import Store from 'wxministore'
 import userModel from './models/user'
 import state, { State } from './utils/state'
 import { User } from './../typings/model'
+import { loading } from './utils/util'
 
 export const store = new Store<State>({
   state,
-  pageListener: {}
+  pageListener: {
+    async onLoad () {
+      loading.show()
+      await getApp<IAppOption>().$loginAsync
+      loading.hide()
+    }
+  }
 })
 
 type $loginAsync = Promise<User>
