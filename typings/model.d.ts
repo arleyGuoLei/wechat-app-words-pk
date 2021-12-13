@@ -62,4 +62,7 @@ export interface Book {
 
   /** 单词书选择人数 */
   peopleNumber: number
+
+  /** 单词书排序 */
+  sort: number
 }
