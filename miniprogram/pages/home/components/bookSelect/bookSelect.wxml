@@ -1,0 +1,28 @@
+<view wx:if="{{show}}" class="mask animated faster fadeIn" catchtap="hide">
+  <!-- 图书选择的白色容器 -->
+  <view class="book-select animated faster slideInUp">
+    <!-- 支持滚动的图书容器 -->
+    <scroll-view
+      class="book-select__scroll"
+      bindscrolltolower="onReachBottom"
+      lower-threshold="120"
+      scroll-y="{{true}}"
+    >
+      <view class="book" 
+        wx:for="{{bookList}}"
+        wx:key="index"
+        wx:for-index="index"
+        wx:for-item="book"
+        catchtap="onChangeBook"
+        data-index="{{index}}"
+      >
+        <image class="book-img" src="{{book.image}}" />
+        <view class="book-info">
+          <text class="book-info__title">{{book.name}} 『{{book.shortName}}』</text>
+          <text class="book-info__words">词汇数量： {{book.wordsNumber}}</text>
+          <text class="book-info__people">选择人数： {{book.peopleNumber}}</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view>

@@ -1,0 +1,61 @@
+.mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.65);
+  overflow: hidden;
+  z-index: 99;
+}
+
+.book-select {
+  position: absolute;
+  width: 100%;
+  border-radius: 24rpx 24rpx 0 0;
+  background-color: #ffffff;
+  bottom: 0;
+  z-index: 1000;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.book-select__scroll {
+  height: 65vh;
+  box-sizing: border-box;
+  padding: 16rpx 0;
+}
+
+.book {
+  display: flex;
+  width: 100%;
+  height: 202rpx;
+  margin: 32rpx 50rpx;
+}
+
+.book-img {
+  height: 202rpx;
+  width: 150rpx;
+}
+
+.book-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 400rpx;
+  margin-left: 48rpx;
+  padding: 12rpx 0 0 16rpx;
+}
+
+.book-info__title {
+  font-size: 34rpx;
+  font-weight: 500;
+  color: rgba(51, 51, 51, 1);
+}
+
+.book-info__words,
+.book-info__people {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: rgba(153, 153, 153, 1);
+}

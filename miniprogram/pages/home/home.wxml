@@ -15,5 +15,8 @@
 <!-- 背景、设置入口 -->
 <background />
 
+<!-- 单词书切换选择 -->
+<book-select id="book-select" />
+
 <!-- 加载 -->
 <loading id="loading"/>
