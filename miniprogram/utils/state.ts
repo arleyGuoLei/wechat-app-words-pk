@@ -45,7 +45,8 @@ const state: State = {
     image: '',
     peopleNumber: 0,
     wordsNumber: 0,
-    _id: ''
+    _id: '',
+    sort: 0
   }
 }
 

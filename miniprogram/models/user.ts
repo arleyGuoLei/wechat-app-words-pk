@@ -20,6 +20,22 @@ class UserModel extends Base {
 
     return userinfo.data
   }
+
+  async changeSelectBook (newSelectBookId: string, oldSelectBookId: string): Promise<boolean> {
+    const changeLog = await this.server<
+    {state: 0, data: string},
+    {newSelectBookId: string, oldSelectBookId: string}
+    >('user/changeSelectBook', {
+      newSelectBookId,
+      oldSelectBookId
+    })
+
+    if (changeLog.state === 0) {
+      return true
+    }
+
+    return false
+  }
 }
 
 export default new UserModel()

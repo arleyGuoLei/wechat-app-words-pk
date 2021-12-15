@@ -15,15 +15,35 @@
   border-radius: 24rpx 24rpx 0 0;
   background-color: #ffffff;
   bottom: 0;
-  z-index: 1000;
   box-sizing: border-box;
   overflow: hidden;
+}
+
+
+.book-select::before,
+.book-select::after {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 48rpx;
+  z-index: 99;
+  content: '';
+}
+
+.book-select::before {
+  top: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.book-select::after {
+  bottom: 16rpx;
+  background: linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
 }
 
 .book-select__scroll {
   height: 65vh;
   box-sizing: border-box;
-  padding: 16rpx 0;
+  padding: 16rpx 0 48rpx 0;
 }
 
 .book {

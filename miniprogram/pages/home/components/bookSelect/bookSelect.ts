@@ -1,4 +1,5 @@
 import bookModel from './../../../../models/book'
+import userModel from './../../../../models/user'
 import { Book } from './../../../../../typings/model'
 import { loading } from './../../../../utils/util'
 import { store } from './../../../../app'
@@ -18,9 +19,17 @@ App.Component({
     onChangeBook (event: WechatMiniprogram.BaseEvent<WechatMiniprogram.IAnyObject, {index: number} >) {
       const { currentTarget: { dataset: { index } } } = event
       const { data: { bookList } } = this
+      const oldBook = store.getState().book
       const book = bookList[index]
-      store.setState({ book })
+
       this.hide()
+
+      // 相当于没切换所选书籍，则不做任何数据处理
+      if (oldBook._id === book._id) {
+        return
+      }
+
+      this.updateSelectModel(book, oldBook)
     },
     hide () {
       this.setData({ show: false })
@@ -61,9 +70,35 @@ App.Component({
         }
       }
     },
-    /** 更新单词书的选择人数 */
-    updateSelectModel () {
-      // TODO: 云函数实现更新，小程序端不应该有更新权限
+    updateSelectModel (newBook: Book, oldBook: Book) {
+      const { data: { bookList } } = this
+
+      // 乐观更新，不关心服务端成功与否
+      void userModel.changeSelectBook(newBook._id, oldBook._id)
+
+      this.setData({
+        bookList: bookList.map(book => {
+          // 老的单词书选择人数 - 1
+          if (book._id === oldBook._id && book.peopleNumber > 0) {
+            return {
+              ...book,
+              peopleNumber: book.peopleNumber - 1
+            }
+          }
+
+          // 新的单词书选择人数 + 1
+          if (book._id === newBook._id) {
+            return {
+              ...book,
+              peopleNumber: book.peopleNumber + 1
+            }
+          }
+
+          return book
+        })
+      })
+
+      store.setState({ book: newBook })
     }
   }
 })
