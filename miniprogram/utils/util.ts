@@ -21,3 +21,32 @@ export const loading = {
     if (loading) { loading.hide() }
   }
 }
+
+export const throttle = function (fn: Function, gapTime = 500): Function {
+  let _lastTime: number
+  return function () {
+    const _nowTime = +new Date()
+    if (_nowTime - _lastTime > gapTime || !_lastTime) {
+      // @ts-expect-errorts-ignore
+      fn.apply(this, arguments)
+      _lastTime = _nowTime
+    }
+  }
+}
+
+export async function sleep (time = 2000): Promise<number> {
+  return await new Promise((resolve) => { setTimeout(() => { resolve(time) }, time) })
+}
+
+/**
+ * 把数组分割成长度为size的数组
+ * @param {array} arr 数组
+ * @param {number} size 每一个数组的长度
+ */
+export function chunk<T> (arr: T[], size: number): T[][] {
+  const arr2 = []
+  for (let i = 0; i < arr.length; i = i + size) {
+    arr2.push(arr.slice(i, i + size))
+  }
+  return arr2
+}

@@ -98,7 +98,13 @@ App.Component({
         })
       })
 
-      store.setState({ book: newBook })
+      store.setState({
+        book: newBook,
+        user: {
+          ...store.getState().user,
+          bookId: newBook._id
+        }
+      })
     }
   }
 })

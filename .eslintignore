@@ -1,1 +1,4 @@
 typings/types/wx/
+cloudfunctions/server/
+node_modules/
+miniprogram_npm/

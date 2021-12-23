@@ -2,7 +2,9 @@
   "name": "wechat-words-pk-typescript",
   "version": "1.0.0",
   "description": "单词天天斗，是一款支持英语单词对战学习(好友对战、随机匹配、人机对战)、挑战模式学习(单词选意)、含生词本等业务闭环、体验极致的小程序",
-  "scripts": {},
+  "scripts": {
+    "lint": "eslint ./"
+  },
   "keywords": [],
   "author": "arley",
   "private": true,

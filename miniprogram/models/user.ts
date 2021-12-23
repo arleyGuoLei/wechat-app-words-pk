@@ -10,6 +10,15 @@ class UserModel extends Base {
     super(UserModel)
   }
 
+  /**
+   * 更新用户头像、昵称信息
+   * @param userinfo 用户信息
+   */
+  async updateUserInfo (userinfo: User): Promise<void> {
+    const { avatar, nickname } = userinfo
+    await this.model.where({ _openid: '{openid}' }).update({ data: { avatar, nickname } })
+  }
+
   async login (): Promise<LoginUserInfo> {
     const userinfo = await this.server<{state: 0, data: LoginUserInfo}, undefined>('user/login')
 

@@ -1,4 +1,4 @@
-import { User, Book } from './../../typings/model'
+import { User, Book, Combat } from './../../typings/model'
 
 interface UiState {
   statusBarHeight: number
@@ -7,9 +7,11 @@ interface UiState {
   windowWidth: number
 }
 
-interface UserInfoState extends User {}
+export interface UserInfoState extends User {}
 
-interface BookState extends Book {}
+export interface BookState extends Book {}
+
+interface CombatState extends Combat {}
 
 export interface State {
   cloudEnv: string
@@ -20,6 +22,8 @@ export interface State {
 
   /** 当前用户选择的单词书信息 */
   book: BookState
+
+  combat: CombatState | null
 }
 
 const state: State = {
@@ -31,13 +35,20 @@ const state: State = {
     windowWidth: 0
   },
   user: {
+    _openid: '',
     experience: 0,
     totalGames: 0,
     winGames: 0,
     totalTip: 0,
     avatar: '',
     nickname: '',
-    bookId: ''
+    bookId: '',
+    config: {
+      combatQuestionNumber: 10,
+      pronounce: true,
+      backgroundMusic: true,
+      vibrate: true
+    }
   },
   book: {
     shortName: '',
@@ -47,7 +58,8 @@ const state: State = {
     wordsNumber: 0,
     _id: '',
     sort: 0
-  }
+  },
+  combat: null
 }
 
 export default state

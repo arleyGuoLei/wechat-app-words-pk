@@ -304,6 +304,11 @@ declare namespace DB {
         count(options: OQ<ICountDocumentOptions>): void
         count(options?: RQ<ICountDocumentOptions>): Promise<ICountResult>
 
+        update(options: OQ<IUpdateSingleDocumentOptions>): void
+        update(
+            options?: RQ<IUpdateSingleDocumentOptions>
+        ): Promise<IUpdateResult>
+
         watch(options: IWatchOptions): RealtimeListener
     }
 
