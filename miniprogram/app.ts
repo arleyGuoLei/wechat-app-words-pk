@@ -4,6 +4,8 @@ import userModel from './models/user'
 import state, { State } from './utils/state'
 import { User } from './../typings/model'
 import { loading } from './utils/util'
+import router, { IRoutes } from './utils/routes'
+import type { Router } from 'wxapp-router'
 
 export const store = new Store<State>({
   state,
@@ -20,6 +22,8 @@ type $loginAsync = Promise<User>
 
 export interface IAppOption {
   store: Store<State>
+  router: Router
+  routes: IRoutes
   $loginAsync?: $loginAsync
   initEnv: () => Promise<void>
   initUiGlobal: () => void
@@ -28,6 +32,8 @@ export interface IAppOption {
 
 App<IAppOption>({
   store,
+  router,
+  routes: router.getRoutes() as IRoutes,
   async onLaunch () {
     this.initUiGlobal()
 

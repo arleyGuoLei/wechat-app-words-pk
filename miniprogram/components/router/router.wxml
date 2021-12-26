@@ -1,0 +1,3 @@
+<view class="wxapp-router" bind:tap="gotoPage">
+  <slot />
+</view>

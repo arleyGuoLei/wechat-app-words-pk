@@ -11,7 +11,8 @@
   },
   "usingComponents": {
     "header": "/components/header/header",
-    "loading": "/components/loading/loading"
+    "loading": "/components/loading/loading",
+    "Router": "/components/router/router"
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"

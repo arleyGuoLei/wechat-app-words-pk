@@ -4,7 +4,9 @@ import { throttle, loading } from './../../../../utils/util'
 import config from './../../../../utils/config'
 import wordModel from './../../../../models/word'
 import CombatModel from './../../../../models/combat'
-import { store } from './../../../../app'
+import { IAppOption, store } from './../../../../app'
+
+const app = getApp<IAppOption>()
 
 App.Component({
   options: {
@@ -39,7 +41,7 @@ App.Component({
      * 随机匹配
      */
     onRandomMatch: throttle(async function (this: {createCombat: (combatType: COMBAT_TYPE) => Promise<void>}) {
-
+      void app.routes.pages.combat.go({})
     }, 500),
 
     /**
