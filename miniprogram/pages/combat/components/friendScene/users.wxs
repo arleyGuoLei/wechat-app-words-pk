@@ -1,0 +1,33 @@
+/* eslint-disable no-var */
+/** NOTE: 小程序的模板不支持函数调用，所以需要用 wxs 做数据预处理，另外注意 wxs 不支持 es6+ */
+
+var defaultUser = {
+  avatar: './../../../../images/combat-default-avatar.png',
+  nickname: '神秘嘉宾',
+  experience: '未知',
+  winRate: '0'
+}
+
+module.exports = {
+  format: function (users) {
+    if (!users || !users.length) { return [] }
+
+    var formatUsers = []
+
+    for (var index = 0; index < 2; index++) {
+      var formatUser = defaultUser
+      var user = users[index]
+      if (user) {
+        formatUser = {
+          avatar: user.avatar,
+          nickname: user.nickname,
+          experience: user.experience,
+          winRate: user.totalGames ? Math.floor(user.winGames / user.totalGames * 100) : 0
+        }
+      }
+      formatUsers.push(formatUser)
+    }
+
+    return formatUsers
+  }
+}

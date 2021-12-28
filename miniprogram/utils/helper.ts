@@ -103,7 +103,10 @@ export const formatCombatInfo = (user: UserInfoState, book: BookState, type: COM
       records: [],
       avatar: user.avatar,
       nickname: user.nickname,
-      _openid: user._openid
+      _openid: user._openid,
+      experience: user.experience,
+      totalGames: user.totalGames,
+      winGames: user.winGames
     }],
     book: {
       _id: book._id,

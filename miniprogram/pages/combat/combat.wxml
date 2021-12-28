@@ -1,0 +1,9 @@
+<header>
+  <view slot="content" class="header">
+    <image class="header-icon touch" catchtap="onBack" src="./../../images/combat-back.png" />
+
+    <text class="header-title">{{$state.combat.type === 'friend' && $state.combat.state === 'create' ? $state.combat.book.name + '（' + $state.combat.wordList.length + '词/局）' : ''}}</text>
+  </view>
+</header>
+
+<friend-scene />

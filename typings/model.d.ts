@@ -111,6 +111,15 @@ interface CombatUser {
 
   /** 用户的 openid */
   _openid: string
+
+  /** 词力值 */
+  experience: number
+
+  /** 总对战次数 */
+  totalGames: number
+
+  /** 对局胜利次数 */
+  winGames: number
 }
 
 export interface CombatWord {
@@ -153,5 +162,5 @@ export interface Combat {
   _id: DB.DocumentId
 
   /** 房间创建时间 */
-  _createTime: DB.ServerDate
+  _createTime: DB.ServerDate | string
 }

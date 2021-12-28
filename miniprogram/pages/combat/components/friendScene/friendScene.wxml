@@ -1,0 +1,22 @@
+<wxs src="./users.wxs" module="users" />
+
+<view class="users">
+  <view class="userinfo" wx:for="{{users.format($state.combat.users)}}" wx:key="index" wx:for-index="index" wx:for-item="user">
+    <image class="userinfo-avatar" src="{{user.avatar}}" />
+    <text class="userinfo-nickname">{{user.nickname}}</text>
+    <text class="userinfo-grade">词力值：{{user.experience}}</text>
+    <text class="userinfo-winRate">斗胜率: {{user.winRate}}%</text>
+  </view>
+</view>
+
+<view class="button-container">
+  <button
+    class="button"
+    hover-class="btn-hover"
+    open-type="{{$state.combat._id ? 'share' : ''}}"
+    data-share="{{$state.combat._id ? true : false}}"
+    catchtap="onShare"
+  >邀请好友</button>
+</view>
+
+<image class="pk-icon" src="./../../../../images/combat-pk.png" />
