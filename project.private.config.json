@@ -13,9 +13,15 @@
     "miniprogram": {
       "list": [
         {
-          "name": "",
+          "name": "创建好友对战房间",
           "pathName": "pages/combat/combat",
           "query": "state=create&type=friend",
+          "scene": null
+        },
+        {
+          "name": "加入好友创建房间",
+          "pathName": "pages/combat/combat",
+          "query": "id=54ad1eea61cc8652018a1c3305857e88&type=friend&state=ready",
           "scene": null
         }
       ]

@@ -2,7 +2,7 @@ import { sleep, chunk } from './util'
 import type { UserInfoState, BookState } from './state'
 import { store } from './../app'
 import userModel from './../models/user'
-import { Word, CombatWord, COMBAT_TYPE, Combat } from './../../typings/model'
+import { Word, CombatWord, COMBAT_TYPE, Combat, CombatUser } from './../../typings/model'
 
 export const DEFAULT_USER_INFO = {
   avatarUrl: 'https://7072-prod-words-pk-1255907426.tcb.qcloud.la/word-pk-logo.jpeg',
@@ -44,7 +44,6 @@ export const getUserInfo = async (getUserProfile = false): Promise<UserInfoState
       })
       await sleep(duration)
     }
-
     const newUser = { ...user, ...baseUserInfo }
     void userModel.updateUserInfo(newUser)
     store.setState({ user: newUser })
@@ -96,18 +95,22 @@ export const formatWordList = (list: Word[], len: number): CombatWord[] => {
   })
 }
 
+export const formatCombatUser = (user: UserInfoState): CombatUser => {
+  return {
+    gradeTotal: 0,
+    records: [],
+    avatar: user.avatar,
+    nickname: user.nickname,
+    _openid: user._openid,
+    experience: user.experience,
+    totalGames: user.totalGames,
+    winGames: user.winGames
+  }
+}
+
 export const formatCombatInfo = (user: UserInfoState, book: BookState, type: COMBAT_TYPE, wordList: CombatWord[]): Pick<Combat, 'users' | 'book' | 'wordList' | 'type'> => {
   const combatInfo = {
-    users: [{
-      gradeTotal: 0,
-      records: [],
-      avatar: user.avatar,
-      nickname: user.nickname,
-      _openid: user._openid,
-      experience: user.experience,
-      totalGames: user.totalGames,
-      winGames: user.winGames
-    }],
+    users: [formatCombatUser(user)],
     book: {
       _id: book._id,
       name: book.name

@@ -1,3 +1,5 @@
+import { DB } from './types/wx/wx-server-sdk'
+
 interface UserConfig {
   /** 对战模式每局的单词数目 */
   combatQuestionNumber: number
@@ -88,9 +90,9 @@ export interface Book {
 export type COMBAT_TYPE = 'friend' | 'npc' | 'random'
 
 /** 新创建的房间 | 用户均已准备 | 正在对局中 | 对战过程中有用户离开，对战解散 | 对战结束 */
-export type COMBAT_STATE = 'create'|'ready'|'start'|'dismiss'|'end'
+export type COMBAT_STATE = 'create' | 'ready' | 'start' | 'dismiss' | 'end'
 
-interface CombatUser {
+export interface CombatUser {
   /** 当局对战总分数 */
   gradeTotal: number
 
@@ -159,7 +161,7 @@ export interface Combat {
   next: string
 
   /** 对战房间 id */
-  _id: DB.DocumentId
+  _id: string | DB.DocumentId
 
   /** 房间创建时间 */
   _createTime: DB.ServerDate | string

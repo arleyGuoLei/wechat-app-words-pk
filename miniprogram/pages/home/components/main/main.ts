@@ -30,7 +30,7 @@ App.Component({
 
       // NOTE: 先用本地数据生成对战信息，用于展示「好友邀请」页面所需信息
       store.setState({
-        combat: { ...combatInfo, state: 'create', next: '', _id: '', _createTime: '' }
+        combat: { ...combatInfo, state: 'create', next: '', _id: '', _createTime: '', isOwner: true }
       })
 
       void app.routes.pages.combat.go({ type: 'friend', state: 'create' })

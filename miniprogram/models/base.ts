@@ -1,6 +1,9 @@
 import { IAppOption } from 'miniprogram/app'
 import type { DB as serverDB } from 'typings/types/wx/wx-server-sdk'
 
+// NOTE: miniprogram-api-typings 中的云函数操作类型定义不全，使用 wx-server-sdk 中的方法来补充
+type Collection = DB.CollectionReference & serverDB.CollectionReference
+
 export default class {
   collection: string
 
@@ -11,10 +14,9 @@ export default class {
     this.collection = Model.$collection
   }
 
-  get model (): serverDB.CollectionReference {
-    // NOTE: miniprogram-api-typings 中的云函数操作类型定义不全，使用 wx-server-sdk 中的方法来替代
+  get model (): Collection {
     const db = wx.cloud.database({ env: getApp<IAppOption>().store.$state.cloudEnv })
-    return db.collection(this.collection) as unknown as serverDB.CollectionReference
+    return db.collection(this.collection) as unknown as Collection
   }
 
   get db (): DB.Database {

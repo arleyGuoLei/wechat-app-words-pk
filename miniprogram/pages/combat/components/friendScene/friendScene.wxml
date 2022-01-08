@@ -11,12 +11,36 @@
 
 <view class="button-container">
   <button
+    wx:if="{{$state.combat.type === 'friend' && $state.combat.state === 'create' && $state.combat.isOwner}}"
     class="button"
     hover-class="btn-hover"
     open-type="{{$state.combat._id ? 'share' : ''}}"
     data-share="{{$state.combat._id ? true : false}}"
     catchtap="onShare"
   >邀请好友</button>
+
+  <button
+    wx:if="{{$state.combat.type === 'friend' && $state.combat.state === 'create' && !$state.combat.isOwner}}"
+    class="button"
+    hover-class="btn-hover"
+    catchtap="onReady"
+  >加入房间</button>
+
+  <button
+    wx:if="{{$state.combat.type === 'friend' && $state.combat.state === 'ready' && $state.combat.isOwner}}"
+    class="button"
+    hover-class="btn-hover"
+    catchtap="onStart"
+  >开始斗词</button>
+
+  <button
+    wx:if="{{$state.combat.type === 'friend' && $state.combat.state === 'ready' && !$state.combat.isOwner}}"
+    class="button"
+    hover-class="btn-hover"
+    catchtap="onExit"
+  >退出对战</button>
+
+
 </view>
 
 <image class="pk-icon" src="./../../../../images/combat-pk.png" />

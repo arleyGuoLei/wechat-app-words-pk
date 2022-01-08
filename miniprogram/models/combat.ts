@@ -1,5 +1,5 @@
 import Base from './base'
-import type { Combat } from './../../typings/model'
+import type { Combat, CombatUser, COMBAT_TYPE } from './../../typings/model'
 
 /**
  * 所有用户可读写：{ "read": true,  "write": true }
@@ -12,7 +12,7 @@ class CombatModel extends Base {
   }
 
   /**
-   * 创建房间并返回房间信息
+   * 创建房间并返回本地的房间信息
    * @param combatInfo 房间信息
    */
   async create (combatInfo: Pick<Combat, 'users' | 'book' | 'wordList' | 'type'>): Promise<Combat> {
@@ -28,9 +28,94 @@ class CombatModel extends Base {
     }
     const { _id } = (await this.model.add({
       data: combatData
-    })) as DB.IAddResult
+    }))
 
     return { ...combatData, _id }
+  }
+
+  async watch (_id: DB.DocumentId, onChange: (snapshot: DB.ISnapshot) => void, onError: (error: any) => void): Promise<DB.RealtimeListener> {
+    const listener = await this.model.doc(_id).watch({
+      onChange,
+      onError
+    })
+
+    return listener
+  }
+
+  async ready (_id: DB.DocumentId, user: CombatUser, type: COMBAT_TYPE): Promise<boolean> {
+    const where: Pick<Combat, '_id' | 'state' | 'type'> & {users: DB.DatabaseQueryCommand} = {
+      _id,
+      type, // 好友对战类型
+      state: 'create', // 新建房间的状态
+      users: this.db.command.size(1) // 已经有房主在房间且没有其他人加入
+    }
+
+    const updateData: Pick<Combat, 'state'> & {users: DB.DatabaseUpdateCommand} = {
+      state: 'ready',
+      users: this.db.command.addToSet(user)
+    }
+
+    const { stats: { updated } } = await this.model.where(where).update({
+      data: updateData
+    })
+
+    if (updated > 0) {
+      return true
+    }
+
+    return false
+  }
+
+  /**
+   * 好友对战 - 准备阶段选择退出房间
+   * @param _id 房间 id
+   */
+  async exit (_id: DB.DocumentId): Promise<boolean> {
+    const where: Pick<Combat, '_id' | 'state' | 'type'> & Record<string, any> = {
+      _id,
+      type: 'friend', // 好友对战类型
+      state: 'ready', // 新建房间的状态
+      'users.1._openid': '{openid}' // 自己为当前加入对战的用户
+    }
+
+    const updateData: Pick<Combat, 'state'> & {users: DB.DatabaseUpdateCommand} = {
+      state: 'create', // 恢复房间为创建状态
+      users: this.db.command.pop()
+    }
+
+    const { stats: { updated } } = await this.model.where(where).update({
+      data: updateData
+    })
+
+    if (updated > 0) {
+      return true
+    }
+
+    return false
+  }
+
+  async start (_id: DB.DocumentId, type: COMBAT_TYPE): Promise<boolean> {
+    const where: Pick<Combat, '_id' | 'state' | 'type'> & {users: DB.DatabaseQueryCommand} & Record<string, any> = {
+      _id,
+      type,
+      state: 'ready', // 已经准备的房间
+      users: this.db.command.size(2), // 房间人数为 2
+      'users.0._openid': '{openid}' // 当前的用户为房间创建者
+    }
+
+    const updateData: Pick<Combat, 'state'> = {
+      state: 'start'
+    }
+
+    const { stats: { updated } } = await this.model.where(where).update({
+      data: updateData
+    })
+
+    if (updated > 0) {
+      return true
+    }
+
+    return false
   }
 }
 

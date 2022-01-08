@@ -11,7 +11,10 @@ export interface UserInfoState extends User {}
 
 export interface BookState extends Book {}
 
-interface CombatState extends Combat {}
+export interface CombatState extends Combat {
+  /** 是否为房主 */
+  isOwner?: boolean
+}
 
 export interface State {
   cloudEnv: string

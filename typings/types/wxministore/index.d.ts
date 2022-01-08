@@ -18,5 +18,9 @@ declare class Store<T> {
 
   setState <Cb>(state: {
     [key in keyof T]?: T[key]
-  }, callback?: Cb): void
+  },
+
+    // NOTE: 回调里获取不到当前 state 的新值，因为其原理为调用 setState 也是异步的
+    callback?: Cb
+  ): void
 }
