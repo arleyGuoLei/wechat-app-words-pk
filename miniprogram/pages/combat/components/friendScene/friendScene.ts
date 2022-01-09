@@ -1,7 +1,7 @@
 import { store } from './../../../../app'
 import combatModel from './../../../../models/combat'
 import { getUserInfo, formatCombatUser } from './../../../../utils/helper'
-import { loading } from './../../../../utils/util'
+import { loading, toast } from './../../../../utils/util'
 
 App.Component({
   options: {
@@ -31,7 +31,7 @@ App.Component({
       const isJoin = await combatModel.ready(combat!._id, formatCombatUser(user), 'friend')
       loading.hide()
       if (!isJoin) {
-        // TODO: 加入失败，房间已满提示
+        void toast.show('房间已经满了哦 ~')
       }
     },
 
@@ -44,7 +44,7 @@ App.Component({
       const isStart = await combatModel.start(combat!._id, 'friend')
       loading.hide()
       if (!isStart) {
-        // TODO: 开始对战异常
+        void toast.show('对战开始失败，好友可能已经退出房间，请重试。如果还是不行请重建房间')
       }
     },
 
@@ -57,7 +57,12 @@ App.Component({
       const isExit = await combatModel.exit(combat!._id)
       loading.hide()
       if (!isExit) {
-        // TODO: 退出房间异常
+        // NOTE: 轻交互重试类的弹窗使用微信自带的提示
+        void wx.showToast({
+          title: '退出失败，请重试 ...',
+          icon: 'none',
+          duration: 1200
+        })
       }
     }
   }

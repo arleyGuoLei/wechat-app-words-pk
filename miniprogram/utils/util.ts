@@ -4,6 +4,12 @@ WechatMiniprogram.IAnyObject,
 { show: (text?: string) => void, hide: () => void }
 >
 
+type IToast = WechatMiniprogram.Component.Instance<
+WechatMiniprogram.IAnyObject,
+WechatMiniprogram.IAnyObject,
+{ show: (text?: string, duration?: number, width?: number, toastId?: string) => Promise<string>, hide: (toastId?: string) => void }
+>
+
 function getLoaingComponent (): ILoading | null {
   const page = getCurrentPages()
   if (!page.length) { return null }
@@ -19,6 +25,26 @@ export const loading = {
   hide () {
     const loading = getLoaingComponent()
     if (loading) { loading.hide() }
+  }
+}
+
+function getToastComponent (toastId: string): IToast | null {
+  const page = getCurrentPages()
+  if (!page.length) { return null }
+
+  return (page[page.length - 1].selectComponent(`#${toastId}`)) as IToast
+}
+
+export const toast = {
+  async show (text = '', duration?: number, width?: number, toastId = 'toast') {
+    const _toast = getToastComponent(toastId)
+    if (_toast) { return await _toast.show(text, duration, width) }
+
+    return await Promise.reject(new Error('not find toast component'))
+  },
+  hide (toastId = 'toast') {
+    const _toast = getToastComponent(toastId)
+    if (_toast) { _toast.hide() }
   }
 }
 

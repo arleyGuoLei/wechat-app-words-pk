@@ -10,3 +10,6 @@
 
 <!-- 加载 -->
 <loading id="loading"/>
+
+<!-- 弹窗 -->
+<toast id="toast" />

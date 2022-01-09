@@ -12,7 +12,8 @@
   "usingComponents": {
     "header": "/components/header/header",
     "loading": "/components/loading/loading",
-    "Router": "/components/router/router"
+    "Router": "/components/router/router",
+    "toast": "/components/toast/toast"
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"

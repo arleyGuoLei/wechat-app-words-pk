@@ -6,7 +6,7 @@ import wordModel from './../../models/word'
 import combatModel from './../../models/combat'
 import { store, IAppOption } from './../../app'
 import watcherChange from './watcherChange'
-import { loading } from './../../utils/util'
+import { loading, toast } from './../../utils/util'
 const app = getApp<IAppOption>()
 
 App.Page({
@@ -70,7 +70,7 @@ App.Page({
         message = '对战已开始'
         break
       default:
-        if (users?.length >= 2) { // 房间是否已经满了
+        if (users?.length >= 2 && users.every(user => user._openid !== store.$state.user._openid)) { // 房间是否已经满了 && 当前这个用户没有加入这个房间
           message = '对战房间已满'
         }
     }
@@ -85,8 +85,9 @@ App.Page({
       })
     } else {
       void this.closeCombatWatcher()
-      console.log(message) // TODO: 弹窗
-      this.onBack()
+      toast.show(message, 2000).finally(() => {
+        this.onBack()
+      })
     }
   },
 
