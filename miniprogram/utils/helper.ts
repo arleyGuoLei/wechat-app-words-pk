@@ -20,6 +20,12 @@ export const DEFAULT_USER_INFO = {
  */
 export const getUserInfo = async (getUserProfile = false): Promise<UserInfoState> => {
   const user = store.getState().user
+  // NOTE: IOS 上可能出现首页加载态未显示，在没登录的情况下，不能创建房间，因为获取不到用户的配置信息，所以在这里做了拦截
+  if (!user._openid) {
+    void wx.showToast({ title: '数据加载中，请重试 ...', icon: 'none', duration: 2000 })
+    throw new Error('not login')
+  }
+
   // 1. 使用数据库存储的数据，即 state 中的 user 数据
   let baseUserInfo = { avatar: user.avatar, nickname: user.nickname }
 
