@@ -14,6 +14,9 @@ export interface BookState extends Book {}
 export interface CombatState extends Combat {
   /** 是否为房主 */
   isOwner?: boolean
+
+  /** 当前对战的 word 在整个对战题目的序号，从 0 开始，回答一题 + 1 */
+  wordsIndex?: number
 }
 
 export interface State {

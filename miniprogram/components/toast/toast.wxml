@@ -6,7 +6,7 @@
 
       <view class="message-text">
         <slot name="content"></slot>
-        <text v-if="{{messageText}}" class="show-message-text">{{messageText}}</text>
+        <text wx:if="{{messageText}}" class="show-message-text">{{messageText}}</text>
       </view>
 
     </view>

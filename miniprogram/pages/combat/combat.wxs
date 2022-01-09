@@ -1,0 +1,17 @@
+module.exports = {
+  formatTitle: function (combat) {
+    if (!combat) {
+      return ''
+    }
+
+    if (combat.state === 'create' || combat.state === 'ready') {
+      return combat.book.name + '（' + combat.wordList.length + '词/局）'
+    }
+
+    if (combat.state === 'start') {
+      return combat.book.shortName + '『 ' + (combat.wordsIndex + 1) + ' / ' + combat.wordList.length + ' 』'
+    }
+
+    return '单词天天斗'
+  }
+}

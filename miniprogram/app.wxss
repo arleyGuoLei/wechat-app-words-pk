@@ -71,3 +71,9 @@
 }
 
 /* ↑↑↑↑↑↑ 旋转动画，首页设置入口 和 匹配页面公用 ↑↑↑↑↑↑ */
+
+.one-line-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

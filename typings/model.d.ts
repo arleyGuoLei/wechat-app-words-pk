@@ -147,8 +147,10 @@ export interface Combat {
   book: {
     /** 所 PK 的单词书 id */
     _id: string
-    /** 所 pk 的单词书的名称，用于展示 */
+    /** 所 pk 的单词书的名称，用于开始对局前的展示 */
     name: string
+    /** 所 pk 的单词书的简称，用于对局过程中的展示 */
+    shortName: string
   }
 
   wordList: CombatWord[]

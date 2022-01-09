@@ -1,0 +1,15 @@
+<view class="userinfo">
+  <view class="left">
+    <view class="left-avatar">
+      <image src="{{$state.combat.users[0].avatar}}" class="left-avatar__img" />
+    </view>
+    <text class="left-nickName one-line-text">{{$state.combat.users[0].nickname}}</text>
+  </view>
+
+  <view class="right">
+    <view class="right-avatar">
+      <image src="{{$state.combat.users[1].avatar}}" class="right-avatar__img" />
+    </view>
+    <text class="right-nickName one-line-text">{{$state.combat.users[1].nickname}}</text>
+  </view>
+</view>

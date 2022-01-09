@@ -10,6 +10,9 @@ import { loading, toast } from './../../utils/util'
 const app = getApp<IAppOption>()
 
 App.Page({
+  data: {
+    debug: false
+  },
   combatWatcher: { close: async () => {} },
 
   async onLoad (query) {
@@ -27,6 +30,15 @@ App.Page({
     if (options.state === 'ready' && options.type === 'friend' && options.id) {
       loading.show('获取房间信息中')
       await this.initCombatWatcher(options.id)
+      loading.hide()
+      return
+    }
+
+    // NOTE: 调试开始对局
+    if (options.state === 'start' && options.id && options.debug === 'true') {
+      loading.show('获取房间信息中')
+      await this.initCombatWatcher(options.id)
+      this.setData({ debug: true })
       loading.hide()
       return
     }
@@ -76,11 +88,12 @@ App.Page({
     }
 
     // NOTE: initCombatInfo 时机只有值为 create 的才是正常的房间
-    if (state === 'create') {
+    if (state === 'create' || this.data.debug) {
       store.setState({
         combat: {
           ...combat,
-          isOwner: store.$state.user._openid === users[0]?._openid // 是否为房主
+          isOwner: store.$state.user._openid === users[0]?._openid, // 是否为房主
+          wordsIndex: 0 // 当前对战所到的题目序号
         }
       })
     } else {

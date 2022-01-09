@@ -1,0 +1,127 @@
+.pk {
+  position: absolute;
+  bottom: 0;
+  height: 70vh;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.progress-left,
+.progress-right {
+  position: absolute;
+  transform-origin: left top;
+  transform: rotate(-90deg);
+  width: 58vh;
+  bottom: 0;
+}
+
+.progress-left {
+  left: 16rpx;
+}
+
+.progress-right {
+  left: 698rpx;
+}
+
+.word {
+  display: block;
+  text-align: center;
+  font-size: 52rpx;
+  font-weight: 500;
+  color: rgba(255, 92, 30, 1);
+  width: 614rpx;
+  margin: 16vh auto;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  bottom: 2.5vh;
+  left: 0;
+  right: 0;
+  box-sizing: border-box;
+  height: 43vh;
+  overflow-y: scroll;
+  justify-content: space-around;
+}
+
+.option {
+  width: 600rpx;
+  margin: 0 auto;
+  height: 110rpx;
+  background: rgba(126, 206, 247, 1);
+  border-radius: 55rpx;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.option:active {
+  background: rgb(114, 181, 218) !important;
+}
+
+.option-text {
+  display: block;
+  position: absolute;
+  text-align: center;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 1);
+  font-size: 28rpx;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  line-height: 110rpx;
+  box-sizing: border-box;
+  padding: 0 72rpx;
+}
+
+.grade {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  flex-direction: column;
+  top: 6vh;
+}
+
+.grade-text {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 0 4rpx;
+}
+
+.grade-text__left,
+.grade-text__right {
+  display: inline-block;
+  font-size: 34rpx;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 1);
+  min-width: 68rpx;
+  text-align: center;
+}
+
+.pk-tip {
+  position: absolute;
+  width: 200rpx;
+  height: 135rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  right: 48rpx;
+  bottom: 52vh;
+}
+
+.pk-tip__img {
+  width: 77rpx;
+  height: 77rpx;
+}
+
+.pk-tip__title {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 1);
+}

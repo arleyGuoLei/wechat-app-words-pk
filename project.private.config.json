@@ -23,6 +23,12 @@
           "pathName": "pages/combat/combat",
           "query": "id=54ad1eea61cc8652018a1c3305857e88&type=friend&state=ready",
           "scene": null
+        },
+        {
+          "name": "开始对局调试",
+          "pathName": "pages/combat/combat",
+          "query": "id=5b049cc861da956a03ae865634a49426&type=friend&state=start&debug=true",
+          "scene": null
         }
       ]
     }

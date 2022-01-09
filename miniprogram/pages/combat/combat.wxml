@@ -1,12 +1,19 @@
+<wxs src="./combat.wxs" module="utils" />
+
 <header>
   <view slot="content" class="header">
     <image class="header-icon touch" catchtap="onBack" src="./../../images/combat-back.png" />
 
-    <text class="header-title">{{($state.combat.type === 'friend' && ($state.combat.state === 'create' || $state.combat.state === 'ready')) ? $state.combat.book.name + '（' + $state.combat.wordList.length + '词/局）' : ''}}</text>
+    <text class="header-title">{{utils.formatTitle($state.combat)}}</text>
+
   </view>
 </header>
 
-<friend-scene />
+<!-- 好友对战的邀请好友、加入对战、开始对战、退出对战场景 -->
+<friend-scene wx:if="{{$state.combat.type === 'friend' && ($state.combat.state === 'create' || $state.combat.state === 'ready')}}" />
+
+<!-- 正式开始对战 -->
+<pk-scene wx:if="{{$state.combat.state === 'start'}}" />
 
 <!-- 加载 -->
 <loading id="loading"/>

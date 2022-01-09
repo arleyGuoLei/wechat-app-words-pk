@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "friend-scene": "./components/friendScene/friendScene"
+    "friend-scene": "./components/friendScene/friendScene",
+    "pk-scene": "./components/pkScene/pkScene"
   }
 }

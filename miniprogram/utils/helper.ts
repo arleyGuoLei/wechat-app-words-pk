@@ -113,7 +113,8 @@ export const formatCombatInfo = (user: UserInfoState, book: BookState, type: COM
     users: [formatCombatUser(user)],
     book: {
       _id: book._id,
-      name: book.name
+      name: book.name,
+      shortName: book.shortName
     },
     wordList,
     type
