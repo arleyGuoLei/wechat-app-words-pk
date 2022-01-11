@@ -1,0 +1,198 @@
+/* eslint-disable no-var */
+
+module.exports = {
+  showLeftSelect: function (combat, selectIndex, optionIndex) {
+    var isOwner = combat.isOwner
+
+    // NOTE: 情况一 ---> 房主 && 当前选择的选项 是 所渲染的选项
+    if (isOwner && selectIndex === optionIndex) {
+      return true
+    }
+
+    // 房主用户数据
+    var combatOwner = combat.users[0]
+    // 当前是第几题
+    var wordsIndex = combat.wordsIndex
+    // 本题的选择数据 { index: number, score: number }
+    var combatOwnerSelectRecord = combatOwner.records[wordsIndex]
+    var remoteSelectIndex = combatOwnerSelectRecord ? combatOwnerSelectRecord.index : -1
+
+    // NOTE: 情况二 ---> 不是房主 && 远程当前选择的选项 是 所渲染的选项 && 本地已经选择了本题
+    if (!isOwner && remoteSelectIndex === optionIndex && !combat.canSelect) {
+      return true
+    }
+
+    return false
+  },
+
+  isLeftSelectWrong: function (combat, selectIndex) {
+    var isOwner = combat.isOwner
+    // 当前是第几题
+    var wordsIndex = combat.wordsIndex
+    // {correctIndex: number, options: T[], word: string, ... }
+    var wordObject = combat.wordList[wordsIndex]
+    // 本题的正确答案
+    var correctIndex = wordObject.correctIndex
+
+    // 房主用户数据
+    var combatOwner = combat.users[0]
+    // 本题的选择数据 { index: number, score: number }
+    var combatOwnerSelectRecord = combatOwner.records[wordsIndex]
+    var remoteSelectIndex = combatOwnerSelectRecord ? combatOwnerSelectRecord.index : -1
+
+    // NOTE: 情况一 ---> 房主 && 本地选择 !== 本题的正确选项
+    if (isOwner && selectIndex !== correctIndex) {
+      return true
+    }
+
+    // NOTE: 情况二 ---> 不是房主 && 远程选择 !== 本题的正确选项
+    if (!isOwner && remoteSelectIndex !== correctIndex) {
+      return true
+    }
+
+    return false
+  },
+
+  isLeftSelectCorrect: function (combat, selectIndex) {
+    var isOwner = combat.isOwner
+    // 当前是第几题
+    var wordsIndex = combat.wordsIndex
+    // {correctIndex: number, options: T[], word: string, ... }
+    var wordObject = combat.wordList[wordsIndex]
+    // 本题的正确答案
+    var correctIndex = wordObject.correctIndex
+
+    // 房主用户数据
+    var combatOwner = combat.users[0]
+    // 本题的选择数据 { index: number, score: number }
+    var combatOwnerSelectRecord = combatOwner.records[wordsIndex]
+    var remoteSelectIndex = combatOwnerSelectRecord ? combatOwnerSelectRecord.index : -1
+
+    // NOTE: 情况一 ---> 房主 && 本地选择 === 本题的正确选项
+    if (isOwner && selectIndex === correctIndex) {
+      return true
+    }
+
+    // NOTE: 情况二 ---> 不是房主 && 远程选择 === 本题的正确选项
+    if (!isOwner && remoteSelectIndex === correctIndex) {
+      return true
+    }
+
+    return false
+  },
+
+  showRightSelect: function (combat, selectIndex, optionIndex) {
+    var isOwner = combat.isOwner
+
+    // NOTE: 情况一 ---> 不是房主 && 当前选择的选项 是 所渲染的选项
+    if (!isOwner && selectIndex === optionIndex) {
+      return true
+    }
+
+    // 非房主用户数据
+    var combatUser = combat.users[1]
+    // 当前是第几题
+    var wordsIndex = combat.wordsIndex
+    // 本题的选择数据 { index: number, score: number }
+    var combatUserSelectRecord = combatUser.records[wordsIndex]
+    var remoteSelectIndex = combatUserSelectRecord ? combatUserSelectRecord.index : -1
+
+    // NOTE: 情况二 ---> 是房主 && 远程当前选择的选项 是 所渲染的选项 && 本地已经选择了本题
+    if (isOwner && remoteSelectIndex === optionIndex && !combat.canSelect) {
+      return true
+    }
+
+    return false
+  },
+
+  isRightSelectWrong: function (combat, selectIndex) {
+    var isOwner = combat.isOwner
+    // 当前是第几题
+    var wordsIndex = combat.wordsIndex
+    // {correctIndex: number, options: T[], word: string, ... }
+    var wordObject = combat.wordList[wordsIndex]
+    // 本题的正确答案
+    var correctIndex = wordObject.correctIndex
+
+    // 非房主用户数据
+    var combatUser = combat.users[1]
+    // 本题的选择数据 { index: number, score: number }
+    var combatUserSelectRecord = combatUser.records[wordsIndex]
+    var remoteSelectIndex = combatUserSelectRecord ? combatUserSelectRecord.index : -1
+
+    // NOTE: 情况一 ---> 不是房主 && 本地选择 !== 本题的正确选项
+    if (!isOwner && selectIndex !== correctIndex) {
+      return true
+    }
+
+    // NOTE: 情况二 ---> 是房主 && 远程选择 !== 本题的正确选项
+    if (isOwner && remoteSelectIndex !== correctIndex) {
+      return true
+    }
+
+    return false
+  },
+
+  isRightSelectCorrect: function (combat, selectIndex) {
+    var isOwner = combat.isOwner
+    // 当前是第几题
+    var wordsIndex = combat.wordsIndex
+    // {correctIndex: number, options: T[], word: string, ... }
+    var wordObject = combat.wordList[wordsIndex]
+    // 本题的正确答案
+    var correctIndex = wordObject.correctIndex
+
+    // 非房主用户数据
+    var combatUser = combat.users[1]
+    // 本题的选择数据 { index: number, score: number }
+    var combatUserSelectRecord = combatUser.records[wordsIndex]
+    var remoteSelectIndex = combatUserSelectRecord ? combatUserSelectRecord.index : -1
+
+    // NOTE: 情况一 ---> 不是房主 && 本地选择 === 本题的正确选项
+    if (!isOwner && selectIndex === correctIndex) {
+      return true
+    }
+
+    // NOTE: 情况二 ---> 是房主 && 远程选择 === 本题的正确选项
+    if (isOwner && remoteSelectIndex === correctIndex) {
+      return true
+    }
+
+    return false
+  },
+
+  getUserRecordScore: function (combat, isLeft) {
+    if (!combat || !combat.users) {
+      return false
+    }
+
+    var index = isLeft ? 0 : 1
+    // 用户数据
+    var user = combat.users[index]
+    // 当前是第几题
+    var wordsIndex = combat.wordsIndex
+    // 本题的选择数据 { index: number, score: number }
+    var selectRecord = user.records[wordsIndex]
+    var selectScore = selectRecord ? selectRecord.score : false
+
+    return selectScore
+  },
+
+  calcProgressPercent: function (combat, isLeft) {
+    if (!combat || !combat.users) {
+      return 0
+    }
+
+    var index = isLeft ? 0 : 1
+
+    // 用户数据
+    var user = combat.users[index]
+
+    // 当前用户总分
+    var gradeTotal = user.gradeTotal
+
+    var wordsLength = combat.wordList.length
+
+    return Math.floor(gradeTotal / wordsLength) // 每道题目最高 100 分
+  }
+}

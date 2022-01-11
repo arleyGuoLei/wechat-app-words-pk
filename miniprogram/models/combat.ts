@@ -117,6 +117,40 @@ class CombatModel extends Base {
 
     return false
   }
+
+  /**
+   * 对战过程选择题目
+   * @param _id 房间 id
+   * @param selectIndex 选择的选项 index，0 ~ 3，-1 表示选择错误
+   * @param score 本题获得的分数
+   * @param wordsIndex 当前题目的 index
+   * @param userIndex 用户是哪一个？房主为 0，普通用户为 1+
+   */
+  async selectOption (_id: DB.DocumentId, selectIndex: number, score: number, wordsIndex: number, userIndex: number): Promise<boolean> {
+    const where: Pick<Combat, '_id' | 'state'> & Record<string, any> = {
+      _id,
+      state: 'start', // 已经开始对战的房间
+      [`users.${userIndex}._openid`]: '{openid}' // 当前用户
+    }
+
+    const updateData: Record<string, DB.DatabaseUpdateCommand | CombatUser['records']> = {
+      [`users.${userIndex}.gradeTotal`]: this.db.command.inc(score),
+      [`users.${userIndex}.records.${wordsIndex}`]: {
+        index: selectIndex,
+        score
+      }
+    }
+
+    const { stats: { updated } } = await this.model.where(where).update({
+      data: updateData
+    })
+
+    if (updated > 0) {
+      return true
+    }
+
+    return false
+  }
 }
 
 export default new CombatModel()

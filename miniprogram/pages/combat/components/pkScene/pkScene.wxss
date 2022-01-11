@@ -78,6 +78,29 @@
   padding: 0 72rpx;
 }
 
+.option-text__correct {
+  color: #fc2a79 !important;
+}
+
+.option-result__left,
+.option-result__right {
+  position: absolute;
+  top: 26rpx;
+}
+
+.option-result__left {
+  left: 12rpx;
+}
+
+.option-result__right {
+  right: 12rpx;
+}
+
+.option-result__icon {
+  height: 58rpx;
+  width: 58rpx;
+}
+
 .grade {
   display: flex;
   position: absolute;
@@ -102,6 +125,58 @@
   color: rgba(255, 255, 255, 1);
   min-width: 68rpx;
   text-align: center;
+}
+
+@keyframes scoreTranslate {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+}
+
+.grade-animate__left,
+.grade-animate__right {
+  position: absolute;
+  display: flex;
+  display: inline-block;
+  height: 48rpx;
+  opacity: 0;
+  animation-name: scoreTranslate;
+  animation-duration: 1000ms;
+  animation-timing-function: ease-in;
+  animation-fill-mode: none;
+  top: -40rpx;
+}
+
+.grade-animate__left {
+  left: 12rpx;
+}
+
+.grade-animate__left > .grade-animate__text {
+  margin-left: 16rpx;
+}
+
+.grade-animate__right {
+  right: 12rpx;
+}
+
+.grade-animate__right > .grade-animate__text {
+  margin-right: 16rpx;
+}
+
+.grade-animate__icon {
+  width: 40rpx;
+  height: 43rpx;
+}
+
+.grade-animate__text {
+  color: #e84379;
+  font-size: 44rpx;
+  line-height: 48rpx;
+  height: 48rpx;
 }
 
 .pk-tip {

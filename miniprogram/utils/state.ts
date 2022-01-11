@@ -17,6 +17,9 @@ export interface CombatState extends Combat {
 
   /** 当前对战的 word 在整个对战题目的序号，从 0 开始，回答一题 + 1 */
   wordsIndex?: number
+
+  /** 当前题是否可以答题，当答完一题时置为 false，切换下一题再切换为 true */
+  canSelect?: boolean
 }
 
 export interface State {

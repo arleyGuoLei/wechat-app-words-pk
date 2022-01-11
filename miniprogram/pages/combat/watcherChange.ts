@@ -20,24 +20,32 @@ function stateChange (this: CombatPage, updatedFields: {state: COMBAT_STATE}, do
       })
       break
     case 'start':
-      // TODO: start 对局
       store.setState({
         combat: {
           ...store.$state.combat!,
-          state: docState
+          state: docState,
+          canSelect: true
         }
       })
       break
   }
 }
 
-function usersChange (this: CombatPage, updatedFields: {users: CombatUser[]}, doc: Combat): void {
-
+function gradeChange (this: CombatPage, updatedFields: {users: CombatUser[]}, doc: Combat): void {
+  // NOTE: 每次回答之后，以下几个 fields 都能监听到变化
+  /** {
+    "users.1.gradeTotal": 90,
+    "users.1.records.0.index": 2,
+    "users.1.records.0.score": 90
+  } */
+  console.log(updatedFields)
 }
 
 const updateMap = {
   state: stateChange,
-  users: usersChange
+  /** 选择选项后，gradeTotal 100% 变化，答对加分，答错减分 */
+  'users.0.gradeTotal': gradeChange,
+  'users.1.gradeTotal': gradeChange
 }
 
 export default function watcherChange (this: CombatPage, snapshot: DB.ISnapshot): void {

@@ -1,29 +1,54 @@
+<wxs src="./pkScene.wxs" module="utils" />
+
 <!-- 用户信息展示 -->
 <user-info />
 
 <!-- TODO: 倒计时 -->
 
 <view class="pk">
-  <progress class="progress-left" duration="50" border-radius="18rpx" stroke-width="36rpx" percent="{{11}}" activeColor="#7ECDF7" backgroundColor="#F5F5F5" active="true" active-mode="forwards" />
-
   <!-- 题目 -->
   <text class="word">{{$state.combat.wordList[$state.combat.wordsIndex].word}}</text>
 
   <!-- 选项按钮 -->
-  <view class="options">
+  <view class="options" animation="{{optionsAnimation}}">
     <block wx:for="{{$state.combat.wordList[$state.combat.wordsIndex].options}}" wx:key="index" wx:for-index="index" wx:for-item="option">
       <view class="option shadow-lg" data-index="{{index}}" catchtap="onSelectOption">
-        <!-- TODO: 答案详情 -->
-        <text class="option-text one-line-text">{{option}}</text>
-        <!-- TODO: 答案详情 -->
+
+        <!-- NOTE: 左侧选择的结果  -->
+        <view class="option-result__left" hidden="{{!utils.showLeftSelect($state.combat, selectIndex, index)}}">
+          <image hidden="{{!utils.isLeftSelectWrong($state.combat, selectIndex)}}" class="option-result__icon" src="./../../../../images/combat-x.png" />
+          <image hidden="{{!utils.isLeftSelectCorrect($state.combat, selectIndex)}}" class="option-result__icon" src="./../../../../images/combat-g.png" />
+        </view>
+
+        <!-- NOTE: 当本地选择后显示正确答案 (红色标记) -->
+        <text class="option-text one-line-text {{(!$state.combat.canSelect && (index === $state.combat.wordList[$state.combat.wordsIndex].correctIndex)) ? 'option-text__correct' : ''}}">{{option}}</text>
+
+        <!-- NOTE: 右侧选择的结果  -->
+        <view class="option-result__right" hidden="{{!utils.showRightSelect($state.combat, selectIndex, index)}}">
+          <image hidden="{{!utils.isRightSelectWrong($state.combat, selectIndex)}}" class="option-result__icon" src="./../../../../images/combat-x.png" />
+          <image hidden="{{!utils.isRightSelectCorrect($state.combat, selectIndex)}}" class="option-result__icon" src="./../../../../images/combat-g.png" />
+        </view>
       </view>
     </block>
   </view>
 
-  <progress class="progress-right" duration="50" border-radius="18rpx" stroke-width="36rpx" percent="{{80}}" activeColor="#7ECDF7" backgroundColor="#F5F5F5" active="true" active-mode="forwards" />
+  <!-- 左侧分数条 -->
+  <progress class="progress-left" duration="50" border-radius="18rpx" stroke-width="36rpx" percent="{{utils.calcProgressPercent($state.combat, true)}}" activeColor="#7ECDF7" backgroundColor="#F5F5F5" active="true" active-mode="forwards" />
 
+  <!-- 右侧分数条 -->
+  <progress class="progress-right" duration="50" border-radius="18rpx" stroke-width="36rpx" percent="{{utils.calcProgressPercent($state.combat, false)}}" activeColor="#7ECDF7" backgroundColor="#F5F5F5" active="true" active-mode="forwards" />
+
+  <!-- 成绩分数 及 分数动画 -->
   <view class="grade">
-    <!-- TODO: 答题分数增加动画 -->
+    <view class="grade-animate__left" wx-if="{{utils.getUserRecordScore($state.combat, true)}}">
+      <image class="grade-animate__icon" src="./../../../../images/combat-pk-getGrade.png" />
+      <text class="grade-animate__text">{{utils.getUserRecordScore($state.combat, true)}}</text>
+    </view>
+
+    <view class="grade-animate__right" wx-if="{{utils.getUserRecordScore($state.combat, false)}}">
+      <text class="grade-animate__text">{{utils.getUserRecordScore($state.combat, false)}}</text>
+      <image class="grade-animate__icon" src="./../../../../images/combat-pk-getGrade.png" />
+    </view>
 
     <view class="grade-text">
       <text class="grade-text__left">{{$state.combat.users[0].gradeTotal}}</text>
