@@ -20,6 +20,9 @@ export interface CombatState extends Combat {
 
   /** 当前题是否可以答题，当答完一题时置为 false，切换下一题再切换为 true */
   canSelect?: boolean
+
+  /** 对战过程倒计时 */
+  countdown?: number
 }
 
 export interface State {

@@ -13,5 +13,9 @@ export default {
   audios: {
     selectCorrect: 'audios/correct.mp3',
     selectWrong: 'audios/wrong.mp3'
-  }
+  },
+  /** 对战模式倒计时时间，单位 s */
+  combatCountDown: 10,
+  /** 对战回答错误扣分 */
+  combatWrongDeduction: -10
 }

@@ -1,5 +1,6 @@
 import { store } from './../../app'
 import { Combat, COMBAT_STATE, CombatUser } from './../../../typings/model'
+import config from './../../utils/config'
 
 interface CombatPage {initCombatInfo: (data: Combat) => void}
 
@@ -24,7 +25,8 @@ function stateChange (this: CombatPage, updatedFields: {state: COMBAT_STATE}, do
         combat: {
           ...store.$state.combat!,
           state: docState,
-          canSelect: true
+          canSelect: true,
+          countdown: config.combatCountDown
         }
       })
       break

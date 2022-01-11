@@ -1,9 +1,12 @@
 <wxs src="./pkScene.wxs" module="utils" />
 
-<!-- 用户信息展示 -->
-<user-info />
+<view class="top">
+  <!-- 用户信息展示 -->
+  <user-info />
 
-<!-- TODO: 倒计时 -->
+  <!-- 倒计时 -->
+  <text animation="{{countdownAnimation}}" class="count-down">{{$state.combat.countdown > 0 ? $state.combat.countdown : 0}}</text>
+</view>
 
 <view class="pk">
   <!-- 题目 -->

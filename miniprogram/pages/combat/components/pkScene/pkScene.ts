@@ -1,32 +1,46 @@
 import combatModel from './../../../../models/combat'
 import { store } from './../../../../app'
-import { throttle } from './../../../../utils/util'
+import { throttle, playAudio } from './../../../../utils/util'
+import config from './../../../../utils/config'
 
 type SelectEvent = WechatMiniprogram.BaseEvent<WechatMiniprogram.IAnyObject, {index: number, useTip?: boolean} >
+
+const COUNT_DOWN_NULL = -1
 
 App.Component({
   data: {
     selectIndex: -1,
-    optionsAnimation: {}
+    optionsAnimation: {},
+    countdownAnimation: {},
+
+    /** 倒计时的计时器，每秒执行一次 */
+    countdownTimer: COUNT_DOWN_NULL,
+
+    /** 每题的倒计时开始时间，用于选择时做分数计算 */
+    countDownStartTime: 0
   },
   options: {
     addGlobalClass: true
   },
   lifetimes: {
-    attached () {
-
+    ready () {
+      this.countdown()
     },
     detached () {
+      clearInterval(this.data.countdownTimer)
     }
   },
   methods: {
     onSelectOption: throttle(async function (event: SelectEvent) {
+      let score = config.combatWrongDeduction
       const { currentTarget: { dataset: { index: selectIndex, useTip = false } } } = event
 
       const id = store.$state.combat?._id as DB.DocumentId
       const wordsIndex = store.$state.combat?.wordsIndex!
+      const wordList = store.$state.combat?.wordList!
       const userIndex = store.$state.combat?.isOwner ? 0 : 1
       const canSelect = store.$state.combat?.canSelect
+      const correctIndex = wordList[wordsIndex].correctIndex
 
       if (!canSelect) {
         void wx.showToast({
@@ -42,10 +56,23 @@ App.Component({
       // @ts-expect-error
       this.setData({ selectIndex })
 
-      // NOTE: 本地提示卡数目 - 1
-      useTip && store.setState({ user: { ...store.$state.user, totalTip: store.$state.user.totalTip - 1 } })
+      if (selectIndex === correctIndex) { // 选择正确
+        playAudio(config.audios.selectCorrect)
 
-      const isSelect = await combatModel.selectOption(id, selectIndex, 1, wordsIndex, userIndex)
+        // NOTE: 本地提示卡数目 - 1
+        useTip && store.setState({ user: { ...store.$state.user, totalTip: store.$state.user.totalTip - 1 } })
+
+        // @ts-expect-error
+        score = this.getScore()
+      } else {
+        playAudio(config.audios.selectWrong)
+
+        store.$state.user.config.vibrate && wx.vibrateShort({ type: 'light' })
+
+        // TODO: 生词本加入错误单词
+      }
+
+      const isSelect = await combatModel.selectOption(id, selectIndex, score, wordsIndex, userIndex)
       if (isSelect) {
         // 选择成功
       } else {
@@ -79,12 +106,58 @@ App.Component({
       })
     }, 500),
 
+    getScore () {
+      // 每道题满分 100 分，选择越快分数越高
+      // score = -10 * (x) + 100
+      const totalMilliSecond = config.combatCountDown * 1000
+      const timeConsuming = Date.now() - this.data.countDownStartTime // 答题耗时
+
+      const score = Math.ceil(-10 * (timeConsuming / (totalMilliSecond / 10)) + 100)
+
+      if (score >= 100) { return 100 }
+      if (score <= 1) { return 1 }
+      return score
+    },
+
     playOptionsAnimation () {
       // TODO: 动画会卡住
       const animate = wx.createAnimation({ duration: 500, timingFunction: 'ease-in-out' })
       animate.scaleX(0.1).opacity(0.1).step()
       animate.scaleX(1).opacity(1).step()
       this.setData({ optionsAnimation: animate.export() })
+    },
+
+    playCountdownAnimation () {
+      const ani = wx.createAnimation({ duration: 500, timingFunction: 'ease-in-out' })
+      ani.scale(1.2).step()
+      ani.scale(1).step()
+      this.setData({ countdownAnimation: ani.export() })
+    },
+
+    countdown () {
+      this.setData({ countDownStartTime: Date.now() })
+      clearInterval(this.data.countdownTimer)
+
+      this.data.countdownTimer = setInterval(() => {
+        const combat = store.getState().combat!
+        const countdownTime = combat.countdown!
+
+        if (countdownTime === 1) {
+          if (combat.canSelect) {
+            const e = { currentTarget: { dataset: { index: -1 } } }
+            this.onSelectOption(e)
+          }
+          clearInterval(this.data.countdownTimer)
+          this.data.countdownTimer = COUNT_DOWN_NULL
+        }
+
+        if (countdownTime > 1 && countdownTime <= 4) {
+          // 最后 1 ~ 3 秒播放动画
+          this.playCountdownAnimation()
+        }
+
+        store.setState({ combat: { ...store.$state.combat!, countdown: countdownTime - 1 } })
+      }, 1000)
     }
   }
 })

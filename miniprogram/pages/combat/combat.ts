@@ -96,7 +96,8 @@ App.Page({
           wordsIndex: 0, // 当前对战所到的题目序号
 
           // TODO: 数据初始化时设置，这里要删除
-          canSelect: true
+          canSelect: true,
+          countdown: config.combatCountDown
         }
       })
     } else {

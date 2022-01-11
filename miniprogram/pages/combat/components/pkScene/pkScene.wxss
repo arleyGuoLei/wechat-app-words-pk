@@ -200,3 +200,21 @@
   font-weight: 600;
   color: rgba(255, 255, 255, 1);
 }
+
+.top {
+  position: relative;
+}
+
+.count-down {
+  height: 100rpx;
+  line-height: 100rpx;
+  font-size: 72rpx;
+  font-weight: 700;
+  color: rgba(255, 143, 101, 1);
+  display: block;
+  text-align: center;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  margin-top: -50rpx;
+}
