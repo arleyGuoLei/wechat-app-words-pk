@@ -1,6 +1,6 @@
 import combatModel from './../../../../models/combat'
 import { store } from './../../../../app'
-import { throttle, playAudio } from './../../../../utils/util'
+import { throttle, playAudio, sleep } from './../../../../utils/util'
 import config from './../../../../utils/config'
 
 type SelectEvent = WechatMiniprogram.BaseEvent<WechatMiniprogram.IAnyObject, {index: number, useTip?: boolean} >
@@ -24,22 +24,27 @@ App.Component({
   },
   lifetimes: {
     ready () {
-      this.clearStateInit()
+      // NOTE: 第一题的选项展示不需要动画
+      this.clearStateInit(false)
     },
     detached () {
       clearInterval(this.data.countdownTimer)
     }
   },
   methods: {
-    clearStateInit () {
-      this.playOptionsAnimation()
+    clearStateInit (playOptionsAnimation = true) {
+      playOptionsAnimation && this.playOptionsAnimation()
       store.setState({
         combat: {
           ...store.$state.combat!,
           canSelect: true,
           countdown: config.combatCountDown
         }
-      }, () => {
+      })
+
+      // 延迟等待选项动画接近完成，再开始倒计时
+      wx.nextTick(async () => {
+        await sleep(300)
         this.countdown()
       })
     },
@@ -132,7 +137,7 @@ App.Component({
     },
 
     playOptionsAnimation () {
-      const animate = wx.createAnimation({ duration: 500, timingFunction: 'ease-in-out' })
+      const animate = wx.createAnimation({ duration: 550, timingFunction: 'ease-in-out' })
       animate.scaleX(0.1).opacity(0.1).step()
       animate.scaleX(1).opacity(1).step()
       this.setData({ optionsAnimation: animate.export() })
@@ -146,6 +151,9 @@ App.Component({
     },
 
     countdown () {
+      // NOTE: 偶现倒计时执行了两次 (猜测是 ready 生命周期执行了两次)，加锁避免
+      if (this.data.countdownTimer !== COUNT_DOWN_NULL) { return }
+
       this.setData({ countDownStartTime: Date.now() })
       clearInterval(this.data.countdownTimer)
 

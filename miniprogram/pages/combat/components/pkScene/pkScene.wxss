@@ -48,6 +48,17 @@
   justify-content: space-around;
 }
 
+.pk-icon {
+  position: absolute;
+  display: block;
+  left: 50%;
+  top: 50%;
+  transform: translate(-175rpx, -80rpx) scale(1.2);
+  width: 350rpx;
+  height: 160rpx;
+  z-index: 0;
+}
+
 .option {
   width: 600rpx;
   margin: 0 auto;
@@ -56,6 +67,7 @@
   border-radius: 55rpx;
   box-sizing: border-box;
   position: relative;
+  z-index: 1;
 }
 
 .option:active {

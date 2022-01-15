@@ -69,6 +69,7 @@ function gradeChange (this: CombatPage, updatedFields: GradeChangeUpdateFields, 
         // NOTE: 还有更多的题目，切换下一题
         await sleep(config.combatNextWordWaiting)
         this.selectComponent('#pkScene').clearStateInit()
+        await sleep(220) // NOTE: 延迟一小会，等选项动画开始切换了，再切换选项按钮上的文案
         store.setState({ combat: { ...store.$state.combat!, wordsIndex: wordsIndex + 1 } })
       }
     }

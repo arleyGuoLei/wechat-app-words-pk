@@ -33,6 +33,8 @@
         </view>
       </view>
     </block>
+
+    <image class="pk-icon" src="./../../../../images/combat-pk.png" />
   </view>
 
   <!-- 左侧分数条 -->

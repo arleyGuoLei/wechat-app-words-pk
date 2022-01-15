@@ -19,5 +19,5 @@ export default {
   /** 对战回答错误扣分 */
   combatWrongDeduction: -10,
   /** 双方都选择完之后，等待多少毫秒切换下一题 */
-  combatNextWordWaiting: 1200
+  combatNextWordWaiting: 1100
 }
