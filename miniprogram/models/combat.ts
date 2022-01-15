@@ -135,7 +135,8 @@ class CombatModel extends Base {
 
     const updateData: Record<string, DB.DatabaseUpdateCommand | CombatUser['records']> = {
       [`users.${userIndex}.gradeTotal`]: this.db.command.inc(score),
-      [`users.${userIndex}.records.${wordsIndex}`]: {
+       // NOTE: index 增加 t 前缀的原因：wxs 中(pkScene.wxs)的对象 key 值不能为数字，不然取不到值；另外也是为了和数组做区分
+      [`users.${userIndex}.records.t${wordsIndex}`]: {
         index: selectIndex,
         score
       }

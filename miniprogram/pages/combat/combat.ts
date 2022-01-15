@@ -93,11 +93,7 @@ App.Page({
         combat: {
           ...combat,
           isOwner: store.$state.user._openid === users[0]?._openid, // 是否为房主
-          wordsIndex: 0, // 当前对战所到的题目序号
-
-          // TODO: 数据初始化时设置，这里要删除
-          canSelect: true,
-          countdown: config.combatCountDown
+          wordsIndex: 0 // 当前对战所到的题目序号
         }
       })
     } else {
@@ -109,6 +105,7 @@ App.Page({
   },
 
   async initCombatWatcher (id: DB.DocumentId) {
+    // @ts-expect-error
     this.combatWatcher = await combatModel.watch(id, watcherChange.bind(this), () => {})
   },
 

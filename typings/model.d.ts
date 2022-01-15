@@ -96,13 +96,13 @@ export interface CombatUser {
   /** 当局对战总分数 */
   gradeTotal: number
 
-  records: Record<number, {
+  records: Record<string, { // key is t0、t1、t2 ...
     /** 所选择的选项 index */
     index: number
 
     /** 选择该题所获得的分数 */
     score: number
-  }> | {}
+  }>
 
   /** 用户头像 */
   avatar: string

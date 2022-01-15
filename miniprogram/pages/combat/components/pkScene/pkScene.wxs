@@ -1,11 +1,15 @@
 /* eslint-disable no-var */
 
+// NOTE: 坑一：wxs 中 key 不能是数字, {0: {}} // error 或 运行时取不到值
+// NOTE: 坑二：wxs 中不能遍历对象，records: {0: {index: 1, score: 99}, 1: {}}：https://developers.weixin.qq.com/community/develop/doc/000680569f81100755279069856000
+// NOTE: 坑三： 用 hidden 在手机上数据变了但不会更新渲染 (从不显示变成显示)，即 showLeftSelect 和 showRightSelect 函数返回显示，但是实际上不会显示
+
 module.exports = {
   showLeftSelect: function (combat, selectIndex, optionIndex) {
     var isOwner = combat.isOwner
 
-    // NOTE: 情况一 ---> 房主 && 当前选择的选项 是 所渲染的选项
-    if (isOwner && selectIndex === optionIndex) {
+    // NOTE: 情况一 ---> 房主 && 当前选择的选项 是 所渲染的选项 && 本地已经选择了本题
+    if (isOwner && selectIndex === optionIndex && !combat.canSelect) {
       return true
     }
 
@@ -14,7 +18,7 @@ module.exports = {
     // 当前是第几题
     var wordsIndex = combat.wordsIndex
     // 本题的选择数据 { index: number, score: number }
-    var combatOwnerSelectRecord = combatOwner.records[wordsIndex]
+    var combatOwnerSelectRecord = combatOwner.records['t' + wordsIndex]
     var remoteSelectIndex = combatOwnerSelectRecord ? combatOwnerSelectRecord.index : -1
 
     // NOTE: 情况二 ---> 不是房主 && 远程当前选择的选项 是 所渲染的选项 && 本地已经选择了本题
@@ -37,7 +41,7 @@ module.exports = {
     // 房主用户数据
     var combatOwner = combat.users[0]
     // 本题的选择数据 { index: number, score: number }
-    var combatOwnerSelectRecord = combatOwner.records[wordsIndex]
+    var combatOwnerSelectRecord = combatOwner.records['t' + wordsIndex]
     var remoteSelectIndex = combatOwnerSelectRecord ? combatOwnerSelectRecord.index : -1
 
     // NOTE: 情况一 ---> 房主 && 本地选择 !== 本题的正确选项
@@ -65,7 +69,7 @@ module.exports = {
     // 房主用户数据
     var combatOwner = combat.users[0]
     // 本题的选择数据 { index: number, score: number }
-    var combatOwnerSelectRecord = combatOwner.records[wordsIndex]
+    var combatOwnerSelectRecord = combatOwner.records['t' + wordsIndex]
     var remoteSelectIndex = combatOwnerSelectRecord ? combatOwnerSelectRecord.index : -1
 
     // NOTE: 情况一 ---> 房主 && 本地选择 === 本题的正确选项
@@ -84,8 +88,8 @@ module.exports = {
   showRightSelect: function (combat, selectIndex, optionIndex) {
     var isOwner = combat.isOwner
 
-    // NOTE: 情况一 ---> 不是房主 && 当前选择的选项 是 所渲染的选项
-    if (!isOwner && selectIndex === optionIndex) {
+    // NOTE: 情况一 ---> 不是房主 && 当前选择的选项 是 所渲染的选项 && 本地已经选择了本题
+    if (!isOwner && selectIndex === optionIndex && !combat.canSelect) {
       return true
     }
 
@@ -94,7 +98,7 @@ module.exports = {
     // 当前是第几题
     var wordsIndex = combat.wordsIndex
     // 本题的选择数据 { index: number, score: number }
-    var combatUserSelectRecord = combatUser.records[wordsIndex]
+    var combatUserSelectRecord = combatUser.records['t' + wordsIndex]
     var remoteSelectIndex = combatUserSelectRecord ? combatUserSelectRecord.index : -1
 
     // NOTE: 情况二 ---> 是房主 && 远程当前选择的选项 是 所渲染的选项 && 本地已经选择了本题
@@ -117,7 +121,7 @@ module.exports = {
     // 非房主用户数据
     var combatUser = combat.users[1]
     // 本题的选择数据 { index: number, score: number }
-    var combatUserSelectRecord = combatUser.records[wordsIndex]
+    var combatUserSelectRecord = combatUser.records['t' + wordsIndex]
     var remoteSelectIndex = combatUserSelectRecord ? combatUserSelectRecord.index : -1
 
     // NOTE: 情况一 ---> 不是房主 && 本地选择 !== 本题的正确选项
@@ -145,7 +149,7 @@ module.exports = {
     // 非房主用户数据
     var combatUser = combat.users[1]
     // 本题的选择数据 { index: number, score: number }
-    var combatUserSelectRecord = combatUser.records[wordsIndex]
+    var combatUserSelectRecord = combatUser.records['t' + wordsIndex]
     var remoteSelectIndex = combatUserSelectRecord ? combatUserSelectRecord.index : -1
 
     // NOTE: 情况一 ---> 不是房主 && 本地选择 === 本题的正确选项
@@ -172,7 +176,7 @@ module.exports = {
     // 当前是第几题
     var wordsIndex = combat.wordsIndex
     // 本题的选择数据 { index: number, score: number }
-    var selectRecord = user.records[wordsIndex]
+    var selectRecord = user.records['t' + wordsIndex]
     var selectScore = selectRecord ? selectRecord.score : false
 
     return selectScore

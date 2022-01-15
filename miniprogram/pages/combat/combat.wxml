@@ -13,7 +13,7 @@
 <friend-scene wx:if="{{$state.combat.type === 'friend' && ($state.combat.state === 'create' || $state.combat.state === 'ready')}}" />
 
 <!-- 正式开始对战 -->
-<pk-scene wx:if="{{$state.combat.state === 'start'}}" />
+<pk-scene id="pkScene" wx:if="{{$state.combat.state === 'start'}}" />
 
 <!-- 加载 -->
 <loading id="loading"/>

@@ -17,19 +17,19 @@
     <block wx:for="{{$state.combat.wordList[$state.combat.wordsIndex].options}}" wx:key="index" wx:for-index="index" wx:for-item="option">
       <view class="option shadow-lg" data-index="{{index}}" catchtap="onSelectOption">
 
-        <!-- NOTE: 左侧选择的结果  -->
-        <view class="option-result__left" hidden="{{!utils.showLeftSelect($state.combat, selectIndex, index)}}">
-          <image hidden="{{!utils.isLeftSelectWrong($state.combat, selectIndex)}}" class="option-result__icon" src="./../../../../images/combat-x.png" />
-          <image hidden="{{!utils.isLeftSelectCorrect($state.combat, selectIndex)}}" class="option-result__icon" src="./../../../../images/combat-g.png" />
+        <!-- NOTE: 左侧选择的结果 坑: 用 hidden 在手机上数据变了但不会更新渲染 (从不显示变成显示)-->
+        <view class="option-result__left" wx:if="{{utils.showLeftSelect($state.combat, selectIndex, index)}}">
+          <image wx:if="{{utils.isLeftSelectWrong($state.combat, selectIndex)}}" class="option-result__icon" src="./../../../../images/combat-x.png" />
+          <image wx:if="{{utils.isLeftSelectCorrect($state.combat, selectIndex)}}" class="option-result__icon" src="./../../../../images/combat-g.png" />
         </view>
 
         <!-- NOTE: 当本地选择后显示正确答案 (红色标记) -->
         <text class="option-text one-line-text {{(!$state.combat.canSelect && (index === $state.combat.wordList[$state.combat.wordsIndex].correctIndex)) ? 'option-text__correct' : ''}}">{{option}}</text>
 
-        <!-- NOTE: 右侧选择的结果  -->
-        <view class="option-result__right" hidden="{{!utils.showRightSelect($state.combat, selectIndex, index)}}">
-          <image hidden="{{!utils.isRightSelectWrong($state.combat, selectIndex)}}" class="option-result__icon" src="./../../../../images/combat-x.png" />
-          <image hidden="{{!utils.isRightSelectCorrect($state.combat, selectIndex)}}" class="option-result__icon" src="./../../../../images/combat-g.png" />
+        <!-- NOTE: 右侧选择的结果，坑: 用 hidden 在手机上数据变了但不会更新渲染 (从不显示变成显示)  -->
+        <view class="option-result__right" wx:if="{{utils.showRightSelect($state.combat, selectIndex, index)}}">
+          <image wx:if="{{utils.isRightSelectWrong($state.combat, selectIndex)}}" class="option-result__icon" src="./../../../../images/combat-x.png" />
+          <image wx:if="{{utils.isRightSelectCorrect($state.combat, selectIndex)}}" class="option-result__icon" src="./../../../../images/combat-g.png" />
         </view>
       </view>
     </block>
@@ -43,12 +43,12 @@
 
   <!-- 成绩分数 及 分数动画 -->
   <view class="grade">
-    <view class="grade-animate__left" wx-if="{{utils.getUserRecordScore($state.combat, true)}}">
+    <view class="grade-animate__left" wx:if="{{utils.getUserRecordScore($state.combat, true)}}">
       <image class="grade-animate__icon" src="./../../../../images/combat-pk-getGrade.png" />
       <text class="grade-animate__text">{{utils.getUserRecordScore($state.combat, true)}}</text>
     </view>
 
-    <view class="grade-animate__right" wx-if="{{utils.getUserRecordScore($state.combat, false)}}">
+    <view class="grade-animate__right" wx:if="{{utils.getUserRecordScore($state.combat, false)}}">
       <text class="grade-animate__text">{{utils.getUserRecordScore($state.combat, false)}}</text>
       <image class="grade-animate__icon" src="./../../../../images/combat-pk-getGrade.png" />
     </view>

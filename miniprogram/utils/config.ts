@@ -17,5 +17,7 @@ export default {
   /** 对战模式倒计时时间，单位 s */
   combatCountDown: 10,
   /** 对战回答错误扣分 */
-  combatWrongDeduction: -10
+  combatWrongDeduction: -10,
+  /** 双方都选择完之后，等待多少毫秒切换下一题 */
+  combatNextWordWaiting: 1200
 }

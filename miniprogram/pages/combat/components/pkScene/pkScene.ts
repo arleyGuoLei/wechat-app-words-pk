@@ -24,13 +24,25 @@ App.Component({
   },
   lifetimes: {
     ready () {
-      this.countdown()
+      this.clearStateInit()
     },
     detached () {
       clearInterval(this.data.countdownTimer)
     }
   },
   methods: {
+    clearStateInit () {
+      this.playOptionsAnimation()
+      store.setState({
+        combat: {
+          ...store.$state.combat!,
+          canSelect: true,
+          countdown: config.combatCountDown
+        }
+      }, () => {
+        this.countdown()
+      })
+    },
     onSelectOption: throttle(async function (event: SelectEvent) {
       let score = config.combatWrongDeduction
       const { currentTarget: { dataset: { index: selectIndex, useTip = false } } } = event
@@ -120,7 +132,6 @@ App.Component({
     },
 
     playOptionsAnimation () {
-      // TODO: 动画会卡住
       const animate = wx.createAnimation({ duration: 500, timingFunction: 'ease-in-out' })
       animate.scaleX(0.1).opacity(0.1).step()
       animate.scaleX(1).opacity(1).step()
