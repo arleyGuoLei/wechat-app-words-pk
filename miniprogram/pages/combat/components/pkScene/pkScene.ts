@@ -32,8 +32,9 @@ App.Component({
     }
   },
   methods: {
-    clearStateInit (playOptionsAnimation = true) {
-      playOptionsAnimation && this.playOptionsAnimation()
+    clearStateInit (playAnimation = true) {
+      playAnimation && this.playOptionsAnimation()
+      playAnimation && this.playCountdownAnimation('refresh')
       store.setState({
         combat: {
           ...store.$state.combat!,
@@ -41,6 +42,8 @@ App.Component({
           countdown: config.combatCountDown
         }
       })
+
+      clearInterval(this.data.countdownTimer) // NOTE: 不继续本题的倒计时了
 
       // 延迟等待选项动画接近完成，再开始倒计时
       wx.nextTick(async () => {
@@ -143,18 +146,27 @@ App.Component({
       this.setData({ optionsAnimation: animate.export() })
     },
 
-    playCountdownAnimation () {
-      const ani = wx.createAnimation({ duration: 500, timingFunction: 'ease-in-out' })
-      ani.scale(1.2).step()
-      ani.scale(1).step()
-      this.setData({ countdownAnimation: ani.export() })
+    /**
+     * 播放倒计时动画
+     * @param type 动画类型，last 为 最后 3 秒放大缩小动画提示，refresh 为重新一轮倒计时渐隐渐显
+     */
+    playCountdownAnimation (type: 'last' | 'refresh' = 'last') {
+      if (type === 'last') {
+        const animate = wx.createAnimation({ duration: 500, timingFunction: 'ease-in-out' })
+        animate.scale(1.2).step()
+        animate.scale(1).step()
+        this.setData({ countdownAnimation: animate.export() })
+      } else {
+        const animate = wx.createAnimation({ duration: 550, timingFunction: 'ease-in-out' })
+        animate.scaleX(0.1).opacity(0.1).step()
+        animate.scaleX(1).opacity(1).step()
+        this.setData({ countdownAnimation: animate.export() })
+      }
     },
 
     countdown () {
-      // NOTE: 偶现倒计时执行了两次 (猜测是 ready 生命周期执行了两次)，加锁避免
-      if (this.data.countdownTimer !== COUNT_DOWN_NULL) { return }
-
-      this.setData({ countDownStartTime: Date.now() })
+      // NOTE: 存储本题开始时间，用于计算分数
+      this.data.countDownStartTime = Date.now()
       clearInterval(this.data.countdownTimer)
 
       this.data.countdownTimer = setInterval(() => {
@@ -167,7 +179,6 @@ App.Component({
             this.onSelectOption(e)
           }
           clearInterval(this.data.countdownTimer)
-          this.data.countdownTimer = COUNT_DOWN_NULL
         }
 
         if (countdownTime > 1 && countdownTime <= 4) {

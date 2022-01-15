@@ -13,9 +13,10 @@
   <text class="word">{{$state.combat.wordList[$state.combat.wordsIndex].word}}</text>
 
   <!-- 选项按钮 -->
-  <view class="options" animation="{{optionsAnimation}}">
+  <view class="options">
     <block wx:for="{{$state.combat.wordList[$state.combat.wordsIndex].options}}" wx:key="index" wx:for-index="index" wx:for-item="option">
-      <view class="option shadow-lg" data-index="{{index}}" catchtap="onSelectOption">
+      <!-- NOTE: 指向选项有动画，背景图无需动画 -->
+      <view class="option shadow-lg" data-index="{{index}}" catchtap="onSelectOption" animation="{{optionsAnimation}}">
 
         <!-- NOTE: 左侧选择的结果 坑: 用 hidden 在手机上数据变了但不会更新渲染 (从不显示变成显示)-->
         <view class="option-result__left" wx:if="{{utils.showLeftSelect($state.combat, selectIndex, index)}}">
@@ -37,11 +38,12 @@
     <image class="pk-icon" src="./../../../../images/combat-pk.png" />
   </view>
 
+  <!-- 坑： 使用 utils.calcProgressPercent($state.combat, true) 在 wxml 中调用计算返回的值变了，但是手机端的进度条 UI 不会更新，所以直接在 wxml 中写表达式计算 -->
   <!-- 左侧分数条 -->
-  <progress class="progress-left" duration="50" border-radius="18rpx" stroke-width="36rpx" percent="{{utils.calcProgressPercent($state.combat, true)}}" activeColor="#7ECDF7" backgroundColor="#F5F5F5" active="true" active-mode="forwards" />
+  <progress class="progress-left" duration="50" border-radius="18rpx" stroke-width="36rpx" percent="{{$state.combat.users[0].gradeTotal / $state.combat.wordList.length}}" activeColor="#7ECDF7" backgroundColor="#F5F5F5" active="true" active-mode="forwards" />
 
   <!-- 右侧分数条 -->
-  <progress class="progress-right" duration="50" border-radius="18rpx" stroke-width="36rpx" percent="{{utils.calcProgressPercent($state.combat, false)}}" activeColor="#7ECDF7" backgroundColor="#F5F5F5" active="true" active-mode="forwards" />
+  <progress class="progress-right" duration="50" border-radius="18rpx" stroke-width="36rpx" percent="{{$state.combat.users[1].gradeTotal / $state.combat.wordList.length}}" activeColor="#7ECDF7" backgroundColor="#F5F5F5" active="true" active-mode="forwards" />
 
   <!-- 成绩分数 及 分数动画 -->
   <view class="grade">
