@@ -162,6 +162,16 @@
   color: #ffffff;
 }
 
+.button-disable {
+  margin-top: 28rpx;
+  width: 600rpx !important;
+  height: 84rpx;
+  border-radius: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .tip {
   display: flex;
   align-items: center;

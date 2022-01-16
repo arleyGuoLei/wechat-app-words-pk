@@ -159,7 +159,7 @@ export interface Combat {
   state: COMBAT_STATE
 
   /** 再来一局的房间 id */
-  next: string
+  next: string | DB.DocumentId
 
   /** 对战房间 id */
   _id: string | DB.DocumentId

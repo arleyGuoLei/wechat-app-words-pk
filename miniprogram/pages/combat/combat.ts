@@ -22,7 +22,11 @@ App.Page({
     // NOTE: 数据库层面创建房间，然后创建该房间的监听及房间数据通过云端首次 watch 初始化
     if (options.state === 'create' && options.type === 'friend') {
       const combatId = await this.createCombat('friend')
+
       await this.initCombatWatcher(combatId)
+
+      // NOTE: 该房间是通过「再来一局」创建的情况下，会携带该参数
+      options.previousId && combatModel.updateNext(options.previousId, combatId)
       return
     }
 

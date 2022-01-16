@@ -16,7 +16,7 @@
 <pk-scene id="pkScene" wx:if="{{$state.combat.state === 'start'}}" />
 
 <!-- 对战结算 -->
-<settle-scene wx:if="{{$state.combat.state === 'end'}}" />
+<settle-scene wx:if="{{$state.combat.state === 'end'}}" bind:onCloseWatcher="closeCombatWatcher" />
 
 <!-- 加载 -->
 <loading id="loading"/>

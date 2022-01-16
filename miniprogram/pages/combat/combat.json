@@ -1,4 +1,5 @@
 {
+  "disableScroll": true,
   "usingComponents": {
     "friend-scene": "./components/friendScene/friendScene",
     "pk-scene": "./components/pkScene/pkScene",

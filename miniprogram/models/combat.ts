@@ -135,12 +135,59 @@ class CombatModel extends Base {
 
     const updateData: Record<string, DB.DatabaseUpdateCommand | CombatUser['records']> = {
       [`users.${userIndex}.gradeTotal`]: this.db.command.inc(score),
-       // NOTE: index 增加 t 前缀的原因：wxs 中(pkScene.wxs)的对象 key 值不能为数字，不然取不到值；另外也是为了和数组做区分
+      // NOTE: index 增加 t 前缀的原因：wxs 中(pkScene.wxs)的对象 key 值不能为数字，不然取不到值；另外也是为了和数组做区分
       [`users.${userIndex}.records.t${wordsIndex}`]: {
         index: selectIndex,
         score
       }
     }
+
+    const { stats: { updated } } = await this.model.where(where).update({
+      data: updateData
+    })
+
+    if (updated > 0) {
+      return true
+    }
+
+    return false
+  }
+
+  async end (_id: DB.DocumentId): Promise<boolean> {
+    const where: Pick<Combat, '_id' | 'state'> & Record<string, any> = {
+      _id,
+      state: 'start', // 对战中的房间
+      'users.0._openid': '{openid}' // 当前的用户为房间创建者
+    }
+
+    const updateData: Pick<Combat, 'state'> = {
+      state: 'end'
+    }
+
+    const { stats: { updated } } = await this.model.where(where).update({
+      data: updateData
+    })
+
+    if (updated > 0) {
+      return true
+    }
+
+    return false
+  }
+
+  /**
+   * 对战结束后再来一局的房间创建
+   * NOTE: 对战结束后房主可以选择再来一局进行房间创建，先是本地修改了房间数据，然后关闭当前对战页，打开新的好友对战房间，获取到下一局的房间 id，这时候进行上一局房间的 next 写入为当前创建的房间 id；上一局的非房主用户监听到 next 数据变化，就可以点击再来一局，点击后跳转至当前对战房间
+   * @param _id 上一局对战房间的房间 id
+   */
+  async updateNext (previousId: DB.DocumentId, next: DB.DocumentId): Promise<boolean> {
+    const where: Pick<Combat, '_id' | 'state'> & Record<string, any> = {
+      _id: previousId,
+      state: 'end', // 已经结束对战的房间
+      'users.0._openid': '{openid}' // 当前的用户为房间创建者
+    }
+
+    const updateData: Pick<Combat, 'next'> = { next }
 
     const { stats: { updated } } = await this.model.where(where).update({
       data: updateData

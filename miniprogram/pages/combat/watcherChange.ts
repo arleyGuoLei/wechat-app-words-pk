@@ -62,12 +62,13 @@ function gradeChange (this: CombatPage, updatedFields: GradeChangeUpdateFields, 
     const nextCombat = store.$state.combat!
     // 用户均已经回答了本题
     if ([0, 1].every(index => typeof nextCombat.users[index].records[`t${wordsIndex}`] !== 'undefined')) {
+      await sleep(config.combatNextWordWaiting)
+
       // NOTE: 当前题目 + 1 >= 所有的题目数量说明没有更多题目了 对战结束
       if (wordsIndex + 1 >= totalWordsLenght) {
-        // TODO: 对战结束，进行结算
+        store.setState({ combat: { ...store.$state.combat!, state: 'end' } })
       } else {
         // NOTE: 还有更多的题目，切换下一题
-        await sleep(config.combatNextWordWaiting)
         this.selectComponent('#pkScene').clearStateInit()
         await sleep(220) // NOTE: 延迟一小会，等选项动画开始切换了，再切换选项按钮上的文案
         store.setState({ combat: { ...store.$state.combat!, wordsIndex: wordsIndex + 1 } })
@@ -85,6 +86,13 @@ function gradeChange (this: CombatPage, updatedFields: GradeChangeUpdateFields, 
   // 结束本地直接修改状态，同时房主修改远程房间状态为对战结束
 }
 
+function nextChange (this: CombatPage, updatedFields: {next: DB.DocumentId}): void {
+  const { next } = updatedFields
+  if (next) {
+    store.setState({ combat: { ...store.$state.combat!, next } })
+  }
+}
+
 const updateMap = {
   state: stateChange,
   /** 选择选项后，gradeTotal 100% 变化，答对加分，答错减分 */
@@ -94,7 +102,8 @@ const updateMap = {
   /** 选择选项后，gradeTotal 100% 变化，答对加分，答错减分 */
   'users.1.gradeTotal': function (this: CombatPage, updatedFields: GradeChangeUpdateFields, doc: Combat) {
     return gradeChange.call(this, updatedFields, doc, 1)
-  }
+  },
+  next: nextChange
 }
 
 export default function watcherChange (this: CombatPage, snapshot: DB.ISnapshot): void {

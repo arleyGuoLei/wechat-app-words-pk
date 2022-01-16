@@ -37,7 +37,8 @@
   </block>
 </scroll-view>
 
-<button wx:if="{{$state.combat.isOwner}}" catchtap="onCreateCombat" class="button" hover-class="btn-hover">再来一局</button>
+<!-- 房主创建房间 || 加入已经创建好的房间(由本局的房主创建的) -->
+<button wx:if="{{$state.combat.isOwner || $state.combat.next}}" catchtap="onCreateCombat" class="button" hover-class="btn-hover">再来一局</button>
 <button wx:else class="button-disable" disabled>等待对方创房</button>
 
 <!-- TODO: 分享战绩海报 -->

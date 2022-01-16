@@ -1,4 +1,5 @@
 {
+  "disableScroll": true,
   "usingComponents": {
     "user-info": "components/userInfo/userInfo",
     "tool-bar": "components/toolBar/toolBar",
