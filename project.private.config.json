@@ -27,7 +27,13 @@
         {
           "name": "开始对局调试",
           "pathName": "pages/combat/combat",
-          "query": "id=5b049cc861da956a03ae865634a49426&type=friend&state=start&debug=true",
+          "query": "id=5b049cc861da956a03ae865634a49426&debug=true",
+          "scene": null
+        },
+        {
+          "name": "对战结束调试",
+          "pathName": "pages/combat/combat",
+          "query": "id=54ad1eea61e2b034074afbe727bc1247&debug=true",
           "scene": null
         }
       ]

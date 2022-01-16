@@ -1,0 +1,49 @@
+<wxs src="./settleScene.wxs" module="utils" />
+
+<view class="top">
+  <!-- 用户信息展示 -->
+  <user-info />
+
+  <!-- 对战输赢结果展示 -->
+  <image wx:if="{{utils.isCombatWin($state.combat)}}" class="face-win" src="./../../../../images/combat-finish-win.png" />
+  <image wx:else class="face-lose" src="./../../../../images/combat-finish-fail.png" />
+
+</view>
+
+<view class="bar">
+  <view class="bar-item">
+    <text class="bar-item__gradeTotal">{{$state.combat.users[0].gradeTotal}}</text>
+    <text class="bar-item__experience">词力值+{{leftIncExperience}}</text>
+  </view>
+  <view class="bar-item">
+    <text class="bar-item__gradeTotal">{{$state.combat.users[1].gradeTotal}}</text>
+    <text class="bar-item__experience">词力值+{{rightIncExperience}}</text>
+  </view>
+</view>
+
+<scroll-view class="words" scroll-y="{{true}}">
+  <image class="words-bg" src="./../../../../images/combat-pk.png" />
+
+  <block wx:for="{{utils.getWordList($state.combat)}}" wx:for-index="index" wx:key="index" wx:for-item="item">
+    <view class="word">
+      <image wx:if="{{item.left}}" class="word-icon" src="./../../../../images/combat-g.png" />
+      <image wx:else class="word-icon" src="./../../../../images/combat-x.png" />
+
+      <text class="word-text">{{item.text}}</text>
+
+      <image wx:if="{{item.right}}" class="word-icon" src="./../../../../images/combat-g.png" />
+      <image wx:else class="word-icon" src="./../../../../images/combat-x.png" />
+    </view>
+  </block>
+</scroll-view>
+
+<button wx:if="{{$state.combat.isOwner}}" catchtap="onCreateCombat" class="button" hover-class="btn-hover">再来一局</button>
+<button wx:else class="button-disable" disabled>等待对方创房</button>
+
+<!-- TODO: 分享战绩海报 -->
+<button class="button" hover-class="btn-hover">分享战绩</button>
+
+<view class="tip">
+  <image class="tip-icon" src="./../../../../images/combat-tip.png" />
+  <text class="tip-text">分享可获得提示卡 * 5</text>
+</view>

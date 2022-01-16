@@ -1,0 +1,56 @@
+/* eslint-disable no-var */
+
+module.exports = {
+  /**
+   * 对战是否胜利
+   * @param combat combat 信息
+   */
+  isCombatWin: function (combat) {
+    if (!combat || !combat.users) {
+      return 0
+    }
+
+    var isOwner = combat.isOwner
+
+    // 房主用户数据
+    var userOwner = combat.users[0]
+
+    // 普通用户数据
+    var userCommon = combat.users[1]
+
+    if (isOwner) {
+      return userOwner.gradeTotal >= userCommon.gradeTotal
+    }
+
+    return userCommon.gradeTotal >= userOwner.gradeTotal
+  },
+
+  getWordList: function (combat) {
+    if (!combat || !combat.users) {
+      return []
+    }
+    var list = []
+
+    var wordList = combat.wordList
+
+    // 房主用户数据
+    var userOwner = combat.users[0]
+
+    // 普通用户数据
+    var userCommon = combat.users[1]
+
+    for (var index = 0; index < wordList.length; index++) {
+      var wordItem = wordList[index]
+      list.push({
+        // 拼接单词 和 正确释义
+        text: wordItem.word + ' ' + wordItem.options[wordItem.correctIndex],
+        // 左侧用户是否选择正确
+        left: userOwner.records['t' + index].index === wordItem.correctIndex,
+        // 右侧用户是否选择正确
+        right: userCommon.records['t' + index].index === wordItem.correctIndex
+      })
+    }
+
+    return list
+  }
+}

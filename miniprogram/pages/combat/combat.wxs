@@ -4,7 +4,7 @@ module.exports = {
       return ''
     }
 
-    if (combat.state === 'create' || combat.state === 'ready') {
+    if (combat.state === 'create' || combat.state === 'ready' || combat.state === 'end') {
       return combat.book.name + '（' + combat.wordList.length + '词/局）'
     }
 

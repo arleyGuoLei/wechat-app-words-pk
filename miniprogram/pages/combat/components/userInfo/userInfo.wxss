@@ -36,7 +36,7 @@
   height: 124rpx;
   border-radius: 50%;
   position: absolute;
-  top: 8rpx;
+  top: 6rpx;
 }
 
 .left-avatar__img {

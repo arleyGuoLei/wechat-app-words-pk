@@ -40,6 +40,10 @@
   background: linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 .book-select__scroll {
   height: 65vh;
   box-sizing: border-box;
@@ -54,8 +58,22 @@
 }
 
 .book-img {
+  position: relative;
   height: 202rpx;
   width: 150rpx;
+}
+
+.book-img:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(transparent 50%,rgba(0,0,0,.05) 100%);
+  pointer-events: none;
+  content: "";
+  display: block;
+  z-index: 1;
 }
 
 .book-info {

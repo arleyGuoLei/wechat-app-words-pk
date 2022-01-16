@@ -15,6 +15,9 @@
 <!-- 正式开始对战 -->
 <pk-scene id="pkScene" wx:if="{{$state.combat.state === 'start'}}" />
 
+<!-- 对战结算 -->
+<settle-scene wx:if="{{$state.combat.state === 'end'}}" />
+
 <!-- 加载 -->
 <loading id="loading"/>
 

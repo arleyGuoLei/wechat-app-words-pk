@@ -34,8 +34,8 @@ App.Page({
       return
     }
 
-    // NOTE: 调试开始对局
-    if (options.state === 'start' && options.id && options.debug === 'true') {
+    // NOTE: 调试对局 'start' || 'end' ，用户侧不存在该分支
+    if (options.id && options.debug === 'true') {
       loading.show('获取房间信息中')
       await this.initCombatWatcher(options.id)
       this.setData({ debug: true })

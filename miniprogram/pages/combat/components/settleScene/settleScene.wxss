@@ -1,0 +1,182 @@
+/* 用户信息及输赢状态 */
+
+.top {
+  position: relative;
+}
+
+.face-win,
+.face-lose {
+  width: 157rpx;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -78.5rpx;
+}
+
+.face-win {
+  height: 157rpx;
+  margin-top: -78.5rpx;
+}
+
+.face-lose {
+  height: 136rpx;
+  margin-top: -68rpx;
+}
+
+/* 词力值分数条 */
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 130rpx;
+  margin-bottom: 20rpx;
+}
+
+.bar-item {
+  display: flex;
+  flex-direction: column;
+  width: 300rpx;
+  align-items: center;
+}
+
+.bar-item__gradeTotal {
+  font-size: 44rpx;
+  font-weight: 600;
+}
+
+.bar-item__experience {
+  font-size: 28rpx;
+  color: rgba(0,0,0,0.8);
+}
+
+.bar-item:first-child > .bar-item__gradeTotal {
+  color:rgba(97,208,251,1);
+}
+
+.bar-item:last-child > .bar-item__gradeTotal {
+  color: rgba(255,217,236,1);
+}
+
+/* 单词选择结果 */
+.words {
+  position: relative;
+  width: 710rpx;
+  height: 40vh;
+  margin: 0rpx auto;
+  background:rgba(255,255,255,0.6);
+  border-radius: 24rpx;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.words::before,
+.words::after {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 36rpx;
+  z-index: 99;
+  content: '';
+}
+
+.words::before {
+  border-top-left-radius: 24rpx;
+  border-top-right-radius: 24rpx;
+  top: 0rpx;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.words::after {
+  border-bottom-left-radius: 24rpx;
+  border-bottom-right-radius: 24rpx;
+  bottom: 0rpx;
+  background: linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+/* 隐藏滚动条：https://developers.weixin.qq.com/community/develop/doc/00006473cf08f8c29da606b2d56c00 */
+::-webkit-scrollbar {
+  display: none;
+}
+
+.words-bg {
+  position: fixed;
+  width: 677rpx;
+  height: 311rpx;
+  margin: 8vh auto;
+  left: 0;
+  right: 0;
+  z-index: 0;
+}
+
+.word {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 78rpx;
+  justify-content: space-around;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+.word:first-of-type {
+  margin-top: 16rpx;
+}
+
+.word:last-of-type {
+  /* 小程序BUG 手机上用 margin-bottom 设置边距没效果 ... */
+  padding-bottom: 16rpx;
+}
+
+.word-icon {
+  height: 42rpx;
+  width: 42rpx;
+}
+
+.word-text {
+  width: 540rpx;
+  height: 78rpx;
+  line-height: 78rpx;
+  text-align: center;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: rgba(0,0,0,1);
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
+/* footer */
+
+.button {
+  margin-top: 28rpx;
+  width: 600rpx !important;
+  height: 84rpx;
+  border-radius: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #7ECEF7;
+  color: #ffffff;
+}
+
+.tip {
+  display: flex;
+  align-items: center;
+  margin: 24rpx auto 0 auto;
+  justify-content: center;
+}
+
+.tip-icon {
+  width: 35rpx;
+  height: 36rpx;
+  margin-right: 8rpx;
+}
+
+.tip-text {
+  font-size: 28rpx;
+  color:rgba(66,66,66,1);
+}
+
