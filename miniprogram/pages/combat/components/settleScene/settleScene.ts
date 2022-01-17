@@ -25,15 +25,24 @@ App.Component({
      * - 各自增加自己的词力值
      */
     async onSettle () {
-      const { isOwner, _id } = store.$state.combat!
+      const { isOwner, _id, users } = store.$state.combat!
       const incExperience = this.getIncExperience()
       isOwner && combatModel.end(_id)
 
+      const isWin = isOwner ? users[0].gradeTotal >= users[1].gradeTotal : users[1].gradeTotal >= users[0].gradeTotal
+
       // NOTE: 云端增加词力值
-      await userModel.incExperience(incExperience)
+      await userModel.incExperience(incExperience, isWin)
 
       // NOTE: 本地增加词力值
-      store.setState({ user: { ...store.$state.user, experience: store.$state.user.experience + incExperience } })
+      store.setState({
+        user: {
+          ...store.$state.user,
+          experience: store.$state.user.experience + incExperience,
+          winGames: store.$state.user.winGames + (isWin ? 1 : 0),
+          totalGames: store.$state.user.totalGames + 1
+        }
+      })
     },
     /**
      * 获取需要增加的词力值，计算规则为 向下取整 (本局分数 / 50)，返回自己需要增加的词力值

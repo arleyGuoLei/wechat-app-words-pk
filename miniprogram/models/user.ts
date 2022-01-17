@@ -49,9 +49,32 @@ class UserModel extends Base {
   /**
    * 对战结算，增加用户词力值 (数据按照计划是需要做接口加密的，做的时候发现微信小程序云开发的数据传输已经做了很严密的数据加密，Charles 手机上和电脑上的小程序都抓不到 http 的数据包，模拟器上的云开发相关请求显示出来的接口也是假的，所以不用担心数据安全问题)
    * @param score 增加的词力值
+   * @param isWin 是否获得胜利
    */
-  async incExperience (score: number): Promise<boolean> {
-    const { stats: { updated } } = await this.model.where({ _openid: '{openid}' }).update({ data: { experience: this.db.command.inc(score) } })
+  async incExperience (score: number, isWin: boolean): Promise<boolean> {
+    const { stats: { updated } } = await this.model.where({ _openid: '{openid}' }).update({
+      data: {
+        experience: this.db.command.inc(score),
+        winGames: this.db.command.inc(isWin ? 1 : 0),
+        totalGames: this.db.command.inc(1)
+      }
+    })
+
+    if (updated > 0) {
+      return true
+    }
+
+    return false
+  }
+
+  async updateConfig (key: keyof User['config'], value: boolean | string): Promise<boolean> {
+    const { stats: { updated } } = await this.model.where({ _openid: '{openid}' }).update({
+      data: {
+        config: {
+          [key]: value
+        }
+      }
+    })
 
     if (updated > 0) {
       return true

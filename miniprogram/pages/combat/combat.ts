@@ -4,6 +4,7 @@ import { formatWordList, getUserInfo, formatCombatInfo } from './../../utils/hel
 import config from './../../utils/config'
 import wordModel from './../../models/word'
 import combatModel from './../../models/combat'
+import userModel from './../../models/user'
 import { store, IAppOption } from './../../app'
 import watcherChange from './watcherChange'
 import { loading, toast } from './../../utils/util'
@@ -139,6 +140,19 @@ App.Page({
     } else {
       void app.router.navigateBack({ delta: 1 })
     }
+  },
+
+  onBgmChange (event: WechatMiniprogram.BaseEvent<WechatMiniprogram.IAnyObject, {action: 'start' | 'pause'} >) {
+    const { action = 'start' } = event.currentTarget.dataset
+    const play = action === 'start'
+
+    const user = store.getState().user
+    user.config.backgroundMusic = play
+    store.setState({ user })
+
+    this.selectComponent('#pkScene').playBgm(play)
+
+    void userModel.updateConfig('backgroundMusic', play)
   }
 
 })

@@ -83,3 +83,12 @@ export function playAudio (src: string): void {
   innerAudioContext.src = src
   innerAudioContext.onError((res) => console.log(res))
 }
+
+export function playPronunciation (word: string): void {
+  // NOTE: 网上可以搜到很多的单词发音接口，搜索「单词发音接口」，自行修改下方 src 链接
+  const src = ''
+
+  !src && console.log(`playPronunciation -> ${word}，请网上自行找一个「单词发音接口」从而实现单词发音功能`)
+
+  src && playAudio(src)
+}

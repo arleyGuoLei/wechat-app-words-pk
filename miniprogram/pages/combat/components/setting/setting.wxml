@@ -1,0 +1,16 @@
+<view class="setting">
+  <view class="setting-item">
+    <text class="setting-item__title">对战背景音乐</text>
+    <switch class="setting-item__switch" color="#7ECEF7" checked="{{$state.user.config.backgroundMusic}}" data-name="backgroundMusic" bindchange="onSwitchChange"/>
+  </view>
+
+  <view class="setting-item">
+    <text class="setting-item__title">播放单词发音</text>
+    <switch class="setting-item__switch" color="#7ECEF7" checked="{{$state.user.config.pronounce}}" data-name="pronounce" bindchange="onSwitchChange"/>
+  </view>
+
+  <view class="setting-item">
+    <text class="setting-item__title">选错误时震动</text>
+    <switch class="setting-item__switch" color="#7ECEF7" checked="{{$state.user.config.vibrate}}" data-name="vibrate" bindchange="onSwitchChange"/>
+  </view>
+</view>

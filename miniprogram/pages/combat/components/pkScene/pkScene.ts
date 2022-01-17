@@ -1,11 +1,14 @@
 import combatModel from './../../../../models/combat'
 import { store } from './../../../../app'
-import { throttle, playAudio, sleep } from './../../../../utils/util'
+import { throttle, playAudio, sleep, playPronunciation } from './../../../../utils/util'
 import config from './../../../../utils/config'
 
 type SelectEvent = WechatMiniprogram.BaseEvent<WechatMiniprogram.IAnyObject, {index: number, useTip?: boolean} >
 
 const COUNT_DOWN_NULL = -1
+
+const BGM_URL = 'cloud://cloud1-2gxt3f0qb7420723.636c-cloud1-2gxt3f0qb7420723-1306236996/5c8a08dc4956424741.mp3'
+let bgm = wx.createInnerAudioContext()
 
 App.Component({
   data: {
@@ -25,9 +28,12 @@ App.Component({
   lifetimes: {
     ready () {
       // NOTE: 第一题的选项展示不需要动画
+      this.initBgm()
       this.clearStateInit(false)
     },
     detached () {
+      this.playBgm(false)
+      bgm?.destroy()
       clearInterval(this.data.countdownTimer)
     }
   },
@@ -35,6 +41,7 @@ App.Component({
     clearStateInit (playAnimation = true) {
       playAnimation && this.playOptionsAnimation()
       playAnimation && this.playCountdownAnimation('refresh')
+
       store.setState({
         combat: {
           ...store.$state.combat!,
@@ -48,6 +55,10 @@ App.Component({
       // 延迟等待选项动画接近完成，再开始倒计时
       wx.nextTick(async () => {
         await sleep(300)
+
+        // NOTE: 播放单词发音 sleep(300) > watcher 中的 sleep(200)，wordIndex 已经 + 1
+        this.playPronunciation()
+
         this.countdown()
       })
     },
@@ -188,6 +199,30 @@ App.Component({
 
         store.setState({ combat: { ...store.$state.combat!, countdown: countdownTime - 1 } })
       }, 1000)
+    },
+
+    playPronunciation () {
+      // NOTE: 播放当前单词的发音， wordIndex 在 watcherChange 切换题目时自增
+      const wordList = store.$state.combat?.wordList!
+      const wordsIndex = store.$state.combat?.wordsIndex!
+      store.$state.user.config.pronounce && playPronunciation(wordList[wordsIndex].word)
+    },
+
+    initBgm () {
+      bgm = wx.createInnerAudioContext()
+      bgm.loop = true
+      bgm.autoplay = false
+      bgm.src = BGM_URL
+      // NOTE: 延迟一会儿再播放，偶现不延迟直接播放没有声音
+      setTimeout(() => { this.playBgm() }, 800)
+    },
+
+    playBgm (play = true) {
+      wx.nextTick(() => {
+        play && store.$state.user.config.backgroundMusic && bgm?.play()
+
+        !play && bgm?.pause()
+      })
     }
   }
 })

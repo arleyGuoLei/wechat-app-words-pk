@@ -6,6 +6,9 @@
 
     <text class="header-title">{{utils.formatTitle($state.combat)}}</text>
 
+    <image catchtap="onBgmChange" data-action="pause" wx:if="{{$state.combat.state === 'start' && $state.user.config.backgroundMusic}}" class="header-bgm-setting" src="./../../images/combat-bgm-open.png" />
+    <image catchtap="onBgmChange" data-action="start" wx:if="{{$state.combat.state === 'start' && !$state.user.config.backgroundMusic}}" class="header-bgm-setting" src="./../../images/combat-bgm-close.png" />
+
   </view>
 </header>
 
@@ -17,6 +20,9 @@
 
 <!-- 对战结算 -->
 <settle-scene wx:if="{{$state.combat.state === 'end'}}" bind:onCloseWatcher="closeCombatWatcher" />
+
+<!-- 设置 -->
+<setting wx:if="{{$state.combat.state === 'create' || $state.combat.state === 'ready'}}"/>
 
 <!-- 加载 -->
 <loading id="loading"/>

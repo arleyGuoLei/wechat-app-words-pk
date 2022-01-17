@@ -43,3 +43,12 @@ page::after {
   color: rgba(255, 255, 255, 1);
   margin-left: 24rpx;
 }
+
+.header-bgm-setting {
+  height: 55rpx;
+  width: 54rpx;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-27rpx);
+  right: 108px;
+}
