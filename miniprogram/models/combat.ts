@@ -94,6 +94,59 @@ class CombatModel extends Base {
     return false
   }
 
+  /**
+   * 好友对战 - 转让房间给已经准备的用户
+   */
+  async transfer (_id: DB.DocumentId): Promise<boolean> {
+    const where: Pick<Combat, '_id' | 'state' | 'type'> & {users: DB.DatabaseQueryCommand} = {
+      _id,
+      state: 'ready', // 已经准备的房间
+      type: 'friend', // 好友对战类型
+      users: this.db.command.size(2) // 已经有两个用户在房间
+    }
+
+    const updateData: Pick<Combat, 'state'> & {users: DB.DatabaseUpdateCommand} = {
+      state: 'create',
+      users: this.db.command.shift()
+      // NOTE: _openid 无法在前端更新，所以没有更新 combat 下的 _openid (初次创建房间的用户)
+    }
+
+    const { stats: { updated } } = await this.model.where(where).update({
+      data: updateData
+    })
+
+    if (updated > 0) {
+      return true
+    }
+
+    return false
+  }
+
+  /**
+  * 对战过程用户离开场景
+  * @param _id 房间 id
+  */
+  async dismiss (_id: DB.DocumentId): Promise<boolean> {
+    const where: Pick<Combat, '_id' | 'state'> = {
+      _id,
+      state: 'start' // 对战中的房间
+    }
+
+    const updateData: Pick<Combat, 'state'> = {
+      state: 'dismiss' // 房间状态更改为异常
+    }
+
+    const { stats: { updated } } = await this.model.where(where).update({
+      data: updateData
+    })
+
+    if (updated > 0) {
+      return true
+    }
+
+    return false
+  }
+
   async start (_id: DB.DocumentId, type: COMBAT_TYPE): Promise<boolean> {
     const where: Pick<Combat, '_id' | 'state' | 'type'> & {users: DB.DatabaseQueryCommand} & Record<string, any> = {
       _id,

@@ -51,6 +51,28 @@ App.Page({
     void app.routes.pages.home.redirectTo({})
   },
 
+  async onUnload () {
+    this.selectComponent('#pkScene')?.playBgm(false)
+
+    await this.closeCombatWatcher()
+
+    const { isOwner, state, _id, type } = store.$state.combat!
+
+    // 好友对战 不是房主，用户已经准备 => 取消准备
+    if (!isOwner && state === 'ready' && type === 'friend') {
+      await combatModel.exit(_id)
+    }
+
+    // 好友对战 是房主，用户已经准备 => 转让房间给已经准备的用户
+    if (isOwner && state === 'ready' && type === 'friend') {
+      await combatModel.transfer(_id)
+    }
+
+    if (state === 'start') {
+      await combatModel.dismiss(_id)
+    }
+  },
+
   async createCombat (combatType: COMBAT_TYPE): Promise<DB.DocumentId> {
     const userinfo = await getUserInfo()
 
@@ -111,7 +133,12 @@ App.Page({
 
   async initCombatWatcher (id: DB.DocumentId) {
     // @ts-expect-error
-    this.combatWatcher = await combatModel.watch(id, watcherChange.bind(this), () => {})
+    this.combatWatcher = await combatModel.watch(id, watcherChange.bind(this), (e) => {
+      void this.closeCombatWatcher()
+      toast.show('服务器连接超时，请重试', 1200).finally(() => {
+        this.onBack()
+      })
+    })
   },
 
   async closeCombatWatcher (retry = true) {

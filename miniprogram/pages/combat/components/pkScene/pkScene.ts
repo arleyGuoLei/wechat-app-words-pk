@@ -6,7 +6,7 @@ import config from './../../../../utils/config'
 
 type SelectEvent = WechatMiniprogram.BaseEvent<WechatMiniprogram.IAnyObject, {index: number, useTip?: boolean} >
 
-const COUNT_DOWN_NULL = -1
+const TIMER_NULL = -1
 
 const BGM_URL = 'cloud://cloud1-2gxt3f0qb7420723.636c-cloud1-2gxt3f0qb7420723-1306236996/5c8a08dc4956424741.mp3'
 let bgm = wx.createInnerAudioContext()
@@ -18,7 +18,10 @@ App.Component({
     countdownAnimation: {},
 
     /** 倒计时的计时器，每秒执行一次 */
-    countdownTimer: COUNT_DOWN_NULL,
+    countdownTimer: TIMER_NULL,
+
+    /** 对战连接异常检测 */
+    detectCombatTimer: TIMER_NULL,
 
     /** 每题的倒计时开始时间，用于选择时做分数计算 */
     countDownStartTime: 0
@@ -181,6 +184,8 @@ App.Component({
       this.data.countDownStartTime = Date.now()
       clearInterval(this.data.countdownTimer)
 
+      clearInterval(this.data.detectCombatTimer)
+
       this.data.countdownTimer = setInterval(() => {
         const combat = store.getState().combat!
         const countdownTime = combat.countdown!
@@ -190,6 +195,7 @@ App.Component({
             const e = { currentTarget: { dataset: { index: -1 } } }
             this.onSelectOption(e)
           }
+          this.detectCombat()
           clearInterval(this.data.countdownTimer)
         }
 
@@ -200,6 +206,18 @@ App.Component({
 
         store.setState({ combat: { ...store.$state.combat!, countdown: countdownTime - 1 } })
       }, 1000)
+    },
+
+    /** 倒计时结束后检测房间状态是否正常，如果在 combatSelectTimeout 内没进入下一轮倒计时，则判断为房间异常 */
+    detectCombat () {
+      this.data.detectCombatTimer = setTimeout(async () => {
+        console.log('题目切换超时')
+
+        const { state, _id } = store.$state.combat!
+        if (state === 'start') {
+          await combatModel.dismiss(_id)
+        }
+      }, config.combatSelectTimeout)
     },
 
     playPronunciation () {

@@ -1,14 +1,14 @@
 import { store } from './../../app'
 import { Combat, COMBAT_STATE } from './../../../typings/model'
 import config from './../../utils/config'
-import { sleep } from './../../utils/util'
+import { sleep, toast } from './../../utils/util'
 
 interface CombatPage {initCombatInfo: (data: Combat) => void, selectComponent: (selector: '#pkScene') => Record<'clearStateInit', () => void>}
 
-function stateChange (this: CombatPage, updatedFields: {state: COMBAT_STATE}, doc: Combat): void {
+async function stateChange (this: CombatPage, updatedFields: {state: COMBAT_STATE}, doc: Combat): Promise<void> {
   const { state } = updatedFields
 
-  const { users, state: docState } = doc
+  const { state: docState, users } = doc
 
   switch (state) {
     case 'ready':
@@ -16,8 +16,8 @@ function stateChange (this: CombatPage, updatedFields: {state: COMBAT_STATE}, do
       store.setState({
         combat: {
           ...store.$state.combat!,
-          users,
-          state: docState
+          ...doc,
+          isOwner: store.$state.user._openid === users[0]?._openid // 是否为房主 (房主用户在用户准备阶段退出，转让房间给普通用户，房主状态也同时变化)
         }
       })
       break
@@ -28,6 +28,10 @@ function stateChange (this: CombatPage, updatedFields: {state: COMBAT_STATE}, do
           state: docState
         }
       })
+      break
+    case 'dismiss':
+      await toast.show('对方逃离, 提前结束对战...', 2000)
+      store.setState({ combat: { ...store.$state.combat!, state: 'end' } })
       break
   }
 }

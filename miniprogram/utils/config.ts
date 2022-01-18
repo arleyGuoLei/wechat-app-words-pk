@@ -19,5 +19,7 @@ export default {
   /** 对战回答错误扣分 */
   combatWrongDeduction: -10,
   /** 双方都选择完之后，等待多少毫秒切换下一题 */
-  combatNextWordWaiting: 1100
+  combatNextWordWaiting: 1100,
+  /** 对战倒计时结束多久另外用户没有选择判定用户已退出，结束对战，单位 ms，例如倒计时 5s 后如果另外一个用户没选择，则判定为连接超时，结束对战 */
+  combatSelectTimeout: 5000
 }

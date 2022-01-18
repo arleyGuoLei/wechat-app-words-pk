@@ -45,9 +45,9 @@ module.exports = {
         // 拼接单词 和 正确释义
         text: wordItem.word + ' ' + wordItem.options[wordItem.correctIndex],
         // 左侧用户是否选择正确
-        left: userOwner.records['t' + index].index === wordItem.correctIndex,
+        left: userOwner.records['t' + index] && userOwner.records['t' + index].index === wordItem.correctIndex,
         // 右侧用户是否选择正确
-        right: userCommon.records['t' + index].index === wordItem.correctIndex
+        right: userCommon.records['t' + index] && userCommon.records['t' + index].index === wordItem.correctIndex
       })
     }
 
