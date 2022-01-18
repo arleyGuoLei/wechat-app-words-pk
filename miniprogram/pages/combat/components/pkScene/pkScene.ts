@@ -1,4 +1,5 @@
 import combatModel from './../../../../models/combat'
+import userWordModel from './../../../../models/userWord'
 import { store } from './../../../../app'
 import { throttle, playAudio, sleep, playPronunciation } from './../../../../utils/util'
 import config from './../../../../utils/config'
@@ -96,11 +97,11 @@ App.Component({
         // @ts-expect-error
         score = this.getScore()
       } else {
+        void userWordModel.add(wordList[wordsIndex].wordId)
+
         playAudio(config.audios.selectWrong)
 
         store.$state.user.config.vibrate && wx.vibrateShort({ type: 'light' })
-
-        // TODO: 生词本加入错误单词
       }
 
       const isSelect = await combatModel.selectOption(id, selectIndex, score, wordsIndex, userIndex)

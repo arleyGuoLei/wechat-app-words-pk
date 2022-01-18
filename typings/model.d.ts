@@ -167,3 +167,11 @@ export interface Combat {
   /** 房间创建时间 */
   _createTime: DB.ServerDate | string
 }
+
+export interface UserWord {
+  _id: string | DB.DocumentId
+  /** 单词 id，关联至 word */
+  wordId: string | DB.DocumentId
+
+  _createTime: DB.ServerDate | string
+}
