@@ -39,6 +39,10 @@ App.Page({
       return
     }
 
+    if (options.type === 'random') {
+      return
+    }
+
     // NOTE: 调试对局 'start' || 'end' ，用户侧不存在该分支
     if (options.id && options.debug === 'true') {
       loading.show('获取房间信息中')

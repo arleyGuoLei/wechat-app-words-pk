@@ -16,7 +16,15 @@ App.Component({
      * 随机匹配
      */
     onRandomMatch: throttle(async function (this: {createCombat: (combatType: COMBAT_TYPE) => Promise<void>}) {
-      await getUserInfo()
+      const userinfo = await getUserInfo()
+      const book = store.getState().book
+      const combatInfo = formatCombatInfo(userinfo, book, 'random', new Array(userinfo.config.combatQuestionNumber).fill({}))
+
+      // NOTE: 先用本地数据生成对战信息，用于展示「好友邀请」页面所需信息
+      store.setState({
+        combat: { ...combatInfo, state: 'create', next: '', _id: '', _createTime: '', isOwner: true }
+      })
+
       void app.routes.pages.combat.go({ type: 'random' })
     }, 500),
 

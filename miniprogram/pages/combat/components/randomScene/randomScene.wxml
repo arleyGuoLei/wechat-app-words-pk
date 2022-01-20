@@ -1,0 +1,12 @@
+<view class="userinfo">
+  <image class="circle-in rotate time-36s" src="./../../../../images/combat-random-in.png" />
+  <image class="circle-out rotate-reverse time-36s" src="./../../../../images/combat-random-out.png" />
+  <image class="userinfo-avatar" src="{{$state.user.avatar}}" />
+</view>
+
+<view class="matching">
+  <text class="matching-title animated fadeIn infinite slower">匹配中…</text>
+  <text class="matching-desc">如果一直匹配不到，可以选择人机对战哦 ~</text>
+  <button hover-class="btn-hover" class="matching-button shadow-lg" catchtap="onStartNPC">开始人机对战</button>
+</view>
+<!-- <text class="matched animated flipInX faster">匹配成功</text> -->

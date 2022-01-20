@@ -35,6 +35,12 @@
           "pathName": "pages/combat/combat",
           "query": "id=54ad1eea61e2b034074afbe727bc1247&debug=true",
           "scene": null
+        },
+        {
+          "name": "随机匹配",
+          "pathName": "pages/combat/combat",
+          "query": "type=random",
+          "scene": null
         }
       ]
     }
