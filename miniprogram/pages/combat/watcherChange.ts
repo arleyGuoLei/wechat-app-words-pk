@@ -2,17 +2,18 @@ import { store } from './../../app'
 import { Combat, COMBAT_STATE } from './../../../typings/model'
 import config from './../../utils/config'
 import { sleep, toast } from './../../utils/util'
+import combatModel from './../../models/combat'
 
 interface CombatPage {initCombatInfo: (data: Combat) => void, selectComponent: (selector: '#pkScene') => Record<'clearStateInit', () => void>}
 
 async function stateChange (this: CombatPage, updatedFields: {state: COMBAT_STATE}, doc: Combat): Promise<void> {
   const { state } = updatedFields
 
-  const { state: docState, users } = doc
+  const { state: docState, users, type, _id } = doc
 
   switch (state) {
-    case 'ready':
-    case 'create': // 好友对战房间，非房主用户退出对战房间，恢复房间状态为 create
+    case 'ready': // 好友对战用户直接 ready || (匹配对战用户自动 ready，需要自动开始对战)
+    case 'create': // (好友对战房间，非房主用户退出对战房间，恢复房间状态为 create || 随机匹配房主更新房间状态从 precreate 到 create)
       store.setState({
         combat: {
           ...store.$state.combat!,
@@ -20,6 +21,17 @@ async function stateChange (this: CombatPage, updatedFields: {state: COMBAT_STAT
           isOwner: store.$state.user._openid === users[0]?._openid // 是否为房主 (房主用户在用户准备阶段退出，转让房间给普通用户，房主状态也同时变化)
         }
       })
+
+      // NOTE: 匹配对战的用户准备，并且当前用户是房主，自动开始对战
+      if (state === 'ready' && type === 'random' && store.$state.user._openid === users[0]?._openid) {
+        console.log('随机匹配自动开始对战')
+
+        const isStart = await combatModel.start(_id, 'random')
+
+        if (!isStart) {
+          // TODO: 随机匹配开始失败，边界情况：正好开始对局，随机匹配的用户正好退出匹配页面
+        }
+      }
       break
     case 'start':
       store.setState({

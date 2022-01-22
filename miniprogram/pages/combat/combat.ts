@@ -1,6 +1,6 @@
 import { ICombatRoute } from 'miniprogram/utils/routes'
 import { Combat, COMBAT_TYPE } from './../../../typings/model'
-import { formatWordList, getUserInfo, formatCombatInfo } from './../../utils/helper'
+import { formatWordList, formatCombatInfo, formatCombatUser } from './../../utils/helper'
 import config from './../../utils/config'
 import wordModel from './../../models/word'
 import combatModel from './../../models/combat'
@@ -40,6 +40,13 @@ App.Page({
     }
 
     if (options.type === 'random') {
+      const startRandom = await this.randomCombat()
+      if (!startRandom) {
+        void this.closeCombatWatcher()
+        toast.show('随机匹配失败，请稍后重试', 2000).finally(() => {
+          this.onBack()
+        })
+      }
       return
     }
 
@@ -78,7 +85,7 @@ App.Page({
   },
 
   async createCombat (combatType: COMBAT_TYPE): Promise<DB.DocumentId> {
-    const userinfo = await getUserInfo()
+    const userinfo = store.$state.user // 避免再次要求用户授权用户信息，所以直接从 state 中获取
 
     // NOTE: 1. 获取随机单词，获取的长度为「每道题目选项数」 * 「用户每局对战题目的数目」，因为每道题目只有一个选项是正确的，所以需要获取「选项数倍数」的单词
     const words = await wordModel.getRandomWords(userinfo.bookId, config.combatOptionNumber * userinfo.config.combatQuestionNumber)
@@ -94,6 +101,35 @@ App.Page({
     store.setState({ combat: { ...combat, isOwner: true } })
 
     return combat._id
+  },
+
+  async randomCombat (): Promise<boolean> {
+    // NOTE: 开发阶段直接打开随机匹配页面的，需要强制设置 type 为 random，显示匹配组件
+    store.setState({ combat: { ...store.$state.combat!, type: 'random' } })
+    const user = store.$state.user
+    const id = await combatModel.lock(formatCombatUser(user), user.bookId)
+
+    if (id) {
+      console.log('锁定随机匹配房间：', id)
+
+      await this.initCombatWatcher(id)
+
+      const isJoin = await combatModel.ready(id, formatCombatUser(user), 'random')
+      if (isJoin) {
+        console.log('随机匹配房间准备成功')
+        return true
+      }
+    }
+
+    const combatId = await this.createCombat('random')
+    await this.initCombatWatcher(combatId)
+    const isCreate = await combatModel.pre2Create(combatId)
+
+    if (isCreate) {
+      console.log('随机匹配房间创建成功')
+      return true
+    }
+    return false
   },
 
   /**
@@ -118,11 +154,15 @@ App.Page({
         }
     }
 
-    // NOTE: initCombatInfo 时机只有值为 create 的才是正常的房间
-    if (state === 'create' || this.data.debug) {
+    console.log('initCombatInfo state =>', state)
+
+    // NOTE: initCombatInfo 时机下值为 create(好友对战) 或
+    // 随机匹配 (precreate、lock) 的才是正常的房间
+    if (['create', 'precreate', 'lock'].includes(state) || this.data.debug) {
       store.setState({
         combat: {
           ...combat,
+          state,
           isOwner: store.$state.user._openid === users[0]?._openid, // 是否为房主
           wordsIndex: 0 // 当前对战所到的题目序号
         }

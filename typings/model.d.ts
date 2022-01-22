@@ -89,8 +89,8 @@ export interface Book {
 /** 好友对战 | 人机对战 | 随机匹配 */
 export type COMBAT_TYPE = 'friend' | 'npc' | 'random'
 
-/** 新创建的房间 | 用户均已准备 | 正在对局中 | 对战过程中有用户离开，对战解散 | 对战结束 */
-export type COMBAT_STATE = 'create' | 'ready' | 'start' | 'dismiss' | 'end'
+/** 新创建的房间 | 用户均已准备 | 正在对局中 | 对战过程中有用户离开，对战解散 | 对战结束 |  随机匹配锁定房间 | 随机匹配预创建的房间 */
+export type COMBAT_STATE = 'create' | 'ready' | 'start' | 'dismiss' | 'end' | 'lock' | 'precreate'
 
 export interface CombatUser {
   /** 当局对战总分数 */

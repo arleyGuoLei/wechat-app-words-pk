@@ -239,7 +239,7 @@ declare namespace DB {
         readonly config: ICloudConfig
         readonly command: DatabaseCommand
         readonly Geo: IGeo
-        readonly serverDate: () => ServerDate
+        readonly serverDate: ({offset}?: {offset: number}) => ServerDate
         readonly RegExp: IRegExpConstructor
 
         private constructor()

@@ -1,17 +1,37 @@
+/* eslint-disable no-var */
+
 module.exports = {
   formatTitle: function (combat) {
     if (!combat) {
       return ''
     }
 
-    if (combat.state === 'create' || combat.state === 'ready' || combat.state === 'end') {
+    // 好友对战
+    if ((combat.state === 'create' || combat.state === 'ready' || combat.state === 'end') && combat.type === 'friend') {
       return combat.book.name + '（' + combat.wordList.length + '词/局）'
     }
 
+    // 随机匹配
+    if ((combat.state === 'create' || combat.state === 'precreate' || combat.state === 'lock' || combat.state === 'ready') && combat.type === 'random') {
+      return combat.book.name
+    }
+
+    // 对战开始
     if (combat.state === 'start') {
       return combat.book.shortName + '『 ' + (combat.wordsIndex + 1) + ' / ' + combat.wordList.length + ' 』'
     }
 
     return '单词天天斗'
+  },
+
+  showSetting: function (combat) {
+    var state = combat.state
+    return state === 'create' || state === 'ready' || state === 'precreate' || state === 'lock'
+  },
+
+  showRandomScene: function (combat) {
+    var state = combat.state
+    var type = combat.type
+    return (state === 'create' || state === 'ready' || state === 'precreate' || state === 'lock') && type === 'random'
   }
 }

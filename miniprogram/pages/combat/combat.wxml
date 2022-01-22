@@ -15,7 +15,7 @@
 <!-- 好友对战的邀请好友、加入对战、开始对战、退出对战场景 -->
 <friend-scene wx:if="{{$state.combat.type === 'friend' && ($state.combat.state === 'create' || $state.combat.state === 'ready')}}" />
 
-<random-scene />
+<random-scene wx:if="{{utils.showRandomScene($state.combat)}}"/>
 
 <!-- 正式开始对战 -->
 <pk-scene id="pkScene" wx:if="{{$state.combat.state === 'start'}}" />
@@ -24,7 +24,7 @@
 <settle-scene wx:if="{{$state.combat.state === 'end'}}" bind:onCloseWatcher="closeCombatWatcher" />
 
 <!-- 设置 -->
-<setting wx:if="{{$state.combat.state === 'create' || $state.combat.state === 'ready'}}"/>
+<setting wx:if="{{utils.showSetting($state.combat)}}"/>
 
 <!-- 加载 -->
 <loading id="loading"/>

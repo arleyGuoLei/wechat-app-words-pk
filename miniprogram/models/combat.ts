@@ -1,5 +1,7 @@
 import Base from './base'
 import type { Combat, CombatUser, COMBAT_TYPE } from './../../typings/model'
+import config from './../utils/config'
+import { store } from './../app'
 
 /**
  * 所有用户可读写：{ "read": true,  "write": true }
@@ -12,7 +14,7 @@ class CombatModel extends Base {
   }
 
   /**
-   * 创建房间并返回本地的房间信息
+   * (预)创建房间并返回本地的房间信息
    * @param combatInfo 房间信息
    */
   async create (combatInfo: Pick<Combat, 'users' | 'book' | 'wordList' | 'type'>): Promise<Combat> {
@@ -22,7 +24,8 @@ class CombatModel extends Base {
       book,
       wordList,
       type,
-      state: 'create',
+      // 随机匹配情况下先做预创建，监听到房间数据后再修改房间状态为 create，避免出现 匹配到的用户已经加入房间，但是房主还没创建监听
+      state: type === 'random' ? 'precreate' : 'create',
       next: '',
       _createTime: this.db.serverDate()
     }
@@ -33,26 +36,22 @@ class CombatModel extends Base {
     return { ...combatData, _id }
   }
 
-  async watch (_id: DB.DocumentId, onChange: (snapshot: DB.ISnapshot) => void, onError: (error: any) => void): Promise<DB.RealtimeListener> {
-    const listener = await this.model.doc(_id).watch({
-      onChange,
-      onError
-    })
-
-    return listener
-  }
-
-  async ready (_id: DB.DocumentId, user: CombatUser, type: COMBAT_TYPE): Promise<boolean> {
-    const where: Pick<Combat, '_id' | 'state' | 'type'> & {users: DB.DatabaseQueryCommand} = {
+  /**
+   * 随机匹配情况下，更新预创建的房间为创建成功
+   * NOTE: 需要预创建是为了防止房主还没创建监听，就出现匹配用户进入房间的情况
+   * 流程：预创建 -> 监听 -> 正式创建
+   * @param _id 房间 id
+   */
+  async pre2Create (_id: DB.DocumentId): Promise<boolean> {
+    const where: Pick<Combat, '_id' | 'state' | 'type'> & Record<string, any> = {
       _id,
-      type, // 好友对战类型
-      state: 'create', // 新建房间的状态
-      users: this.db.command.size(1) // 已经有房主在房间且没有其他人加入
+      type: 'random',
+      state: 'precreate',
+      'users.0._openid': '{openid}' // 自己为房主
     }
 
-    const updateData: Pick<Combat, 'state'> & {users: DB.DatabaseUpdateCommand} = {
-      state: 'ready',
-      users: this.db.command.addToSet(user)
+    const updateData: Pick<Combat, 'state'> = {
+      state: 'create' // 房间更新为创建成功状态
     }
 
     const { stats: { updated } } = await this.model.where(where).update({
@@ -61,6 +60,112 @@ class CombatModel extends Base {
 
     if (updated > 0) {
       return true
+    }
+
+    return false
+  }
+
+  async watch (_id: DB.DocumentId, onChange: (snapshot: DB.ISnapshot) => void, onError: (error: any) => void): Promise<DB.RealtimeListener> {
+    return await new Promise((resolve) => {
+      const listener = this.model.doc(_id).watch({
+        onChange (snapshot) {
+          if (snapshot.type === 'init') {
+            resolve(listener)
+          }
+          onChange.call(this, snapshot)
+        },
+        onError
+      })
+    })
+  }
+
+  /**
+   * 随机匹配 lock 一个房间，返回房间 id (考虑到随机匹配的并发，所以不能先查询房间，再直接更新到准备状态)
+   * NOTE: 随机匹配不强制每局的单词对战数目，只限制单词书一致
+   * @param user 用户数据
+   */
+  async lock (user: CombatUser, bookId: string): Promise<string | DB.DocumentId> {
+    const where: Pick<Combat, 'state' | 'type'> & {users: DB.DatabaseQueryCommand, _createTime: DB.DatabaseQueryCommand} & Record<'book._id'|'users.0._openid', string | DB.DatabaseQueryCommand> = {
+      type: 'random', // 随机匹配
+      state: 'create', // 新建房间的状态
+      users: this.db.command.size(1), // 已经有房主在房间且没有其他人加入
+      'book._id': bookId, // 单词书和自己的一致
+      'users.0._openid': this.db.command.neq(store.$state.user._openid), // 不是自己创建的房间
+
+      // 引用的服务端时间偏移量，毫秒为单位，可以是正数或负数
+      // 创建时间要 > combatRandomMaxTime 之前，以免获取到太久的异常房间
+      _createTime: this.db.command.gt(this.db.serverDate({ offset: -config.combatRandomMaxTime }))
+    }
+
+    const updateData: Pick<Combat, 'state'> & {users: DB.DatabaseUpdateCommand} = {
+      state: 'lock',
+      users: this.db.command.addToSet(user)
+    }
+
+    const { stats: { updated } } = await this.model.where(where).update({
+      data: updateData
+    })
+
+    if (updated > 0) {
+      const { data } = await this.model.where({
+        type: 'random',
+        state: 'lock',
+        'users.1._openid': '{openid}' // 匹配数组第 n 项元素：https://developers.weixin.qq.com/miniprogram/dev/wxcloud/guide/database/query-array-object.html#%E5%8C%B9%E9%85%8D%E6%95%B0%E7%BB%84
+      })
+        .orderBy('_createTime', 'desc') // 降序，查询最新的
+        .limit(1)
+        .field({ _id: true })
+        .get()
+      if (data[0]?._id) {
+        return data[0]._id
+      }
+    }
+
+    return ''
+  }
+
+  async ready (_id: DB.DocumentId, user: CombatUser, type: COMBAT_TYPE): Promise<boolean> {
+    if (type === 'friend') {
+      const where: Pick<Combat, '_id' | 'state' | 'type'> & {users: DB.DatabaseQueryCommand} = {
+        _id,
+        type,
+        state: 'create',
+        users: this.db.command.size(1)
+      }
+
+      const updateData: Pick<Combat, 'state'> & {users: DB.DatabaseUpdateCommand} = {
+        state: 'ready',
+        users: this.db.command.addToSet(user)
+      }
+
+      const { stats: { updated } } = await this.model.where(where).update({
+        data: updateData
+      })
+
+      if (updated > 0) {
+        return true
+      }
+    }
+
+    if (type === 'random') {
+      const where: Pick<Combat, '_id' | 'state' | 'type'> & Record<'users.1._openid', string> = {
+        _id,
+        type,
+        state: 'lock',
+        'users.1._openid': '{openid}'
+      }
+
+      const updateData: Pick<Combat, 'state'> = {
+        state: 'ready'
+      }
+
+      const { stats: { updated } } = await this.model.where(where).update({
+        data: updateData
+      })
+
+      if (updated > 0) {
+        return true
+      }
     }
 
     return false
