@@ -166,6 +166,9 @@ export interface Combat {
 
   /** 房间创建时间 */
   _createTime: DB.ServerDate | string
+
+  /** 开始对战的时间，start 对战数据写入时一起写入，用于同步开始对战计算 */
+  startTime?: DB.ServerDate | string
 }
 
 export interface UserWord {

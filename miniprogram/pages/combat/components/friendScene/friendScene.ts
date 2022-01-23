@@ -31,7 +31,8 @@ App.Component({
       const isJoin = await combatModel.ready(combat!._id, formatCombatUser(user), 'friend')
       loading.hide()
       if (!isJoin) {
-        void toast.show('房间已经满了哦 ~')
+        // 房间满了，或者房间已经被弃用 (precreate)
+        void toast.show('房间可能满了哦 ~')
       }
     },
 

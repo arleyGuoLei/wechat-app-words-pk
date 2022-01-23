@@ -67,7 +67,9 @@ App.Page({
 
     await this.closeCombatWatcher()
 
-    const { isOwner, state, _id, type } = store.$state.combat!
+    if (!store.$state.combat) { return }
+
+    const { isOwner, state, _id, type } = store.$state.combat
 
     // 好友对战 不是房主，用户已经准备 => 取消准备
     if (!isOwner && state === 'ready' && type === 'friend') {
@@ -81,6 +83,13 @@ App.Page({
 
     if (state === 'start') {
       await combatModel.dismiss(_id)
+    }
+
+    // 1. 随机匹配创建好但是没有用户加入的房间，退出时将房间置为 precreate 状态，禁止再有用户加入
+    // 因为可能存在本地还是 precreate 而远程已经为 create 的情况，所以也同样做一样的处理
+    // 2. 好友对战房间，邀请好友加入对战，但是好友还没准备，自己先退出房间了，也得弃用该房间
+    if (isOwner && ['precreate', 'create'].includes(state)) {
+      await combatModel.create2Pre(_id, type)
     }
   },
 
@@ -117,6 +126,13 @@ App.Page({
       const isJoin = await combatModel.ready(id, formatCombatUser(user), 'random')
       if (isJoin) {
         console.log('随机匹配房间准备成功')
+        // NOTE: 开始倒计时，如果一定时间内对战还没开始，则再一次进行随机匹配
+        setTimeout(async () => {
+          if (store.$state.combat?.state === 'ready') {
+            await this.closeCombatWatcher()
+            await this.randomCombat()
+          }
+        }, config.randomReadyWaiting)
         return true
       }
     }
@@ -127,6 +143,7 @@ App.Page({
 
     if (isCreate) {
       console.log('随机匹配房间创建成功')
+      // NOTE: 开始计时，如果一定时间内还没匹配到用户，就开始一局人机对战
       return true
     }
     return false

@@ -1,9 +1,14 @@
+import { Combat } from './../../../../../typings/model'
 import { store } from './../../../../app'
 import { getUserInfo, formatCombatInfo } from './../../../../utils/helper'
+import config from './../../../../utils/config'
 
 App.Component({
   options: {
     addGlobalClass: true
+  },
+  data: {
+    matching: true
   },
   lifetimes: {
     attached () {
@@ -21,6 +26,22 @@ App.Component({
       store.setState({
         combat: { ...combatInfo, state: 'create', next: '', _id: '', _createTime: '', isOwner: true }
       })
+    },
+    startCombat (doc: Combat) {
+      this.setData({ matching: false })
+      void wx.vibrateLong()
+
+      const now = Date.now()
+      const startTime = new Date(doc.startTime as string).getTime()
+      const expectStartTime = startTime + config.randomStartWaiting
+      const timeout = expectStartTime - now > 0 ? expectStartTime - now : 0
+
+      console.log('对战预期开始时间：', expectStartTime)
+      console.log('对战开始延迟时间：', timeout)
+
+      setTimeout(() => {
+        wx.nextTick(() => { store.setState({ combat: { ...store.$state.combat!, state: 'start' } }) })
+      }, timeout)
     }
   }
 })

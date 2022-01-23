@@ -24,5 +24,11 @@ export default {
   combatSelectTimeout: 5000,
 
   /** 随机匹配最多等待多久 (超时则开启人机对战)，单位 ms */
-  combatRandomMaxTime: 2 * 60 * 1000
+  combatRandomMaxTime: 2 * 60 * 1000,
+
+  /** 随机匹配在等待了的情况下，如果多久房主没开始对战，可认为房间异常，房主掉线，则再次重新加入新房间，单位 ms */
+  randomReadyWaiting: 5000,
+
+  /** 匹配成功等待多久开始对战，基于开始时间做计算，单位 ms */
+  randomStartWaiting: 1500
 }

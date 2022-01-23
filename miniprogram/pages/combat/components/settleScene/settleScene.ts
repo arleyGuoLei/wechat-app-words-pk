@@ -96,7 +96,7 @@ App.Component({
 
         const { next } = store.$state.combat!
 
-        // NOTE: 数据变更转场较快，同页面刷新可能闪动，故增加加载态 + 跳转前情况本页数据
+        // NOTE: 数据变更转场较快，同页面刷新可能闪动，故增加加载态 + 跳转前清空本页数据
         store.setState({ combat: null })
 
         wx.nextTick(async () => {

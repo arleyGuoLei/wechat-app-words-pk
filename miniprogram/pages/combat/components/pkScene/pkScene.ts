@@ -211,10 +211,9 @@ App.Component({
     /** 倒计时结束后检测房间状态是否正常，如果在 combatSelectTimeout 内没进入下一轮倒计时，则判断为房间异常 */
     detectCombat () {
       this.data.detectCombatTimer = setTimeout(async () => {
-        console.log('题目切换超时')
-
         const { state, _id } = store.$state.combat!
         if (state === 'start') {
+          console.log('题目切换超时')
           await combatModel.dismiss(_id)
         }
       }, config.combatSelectTimeout)

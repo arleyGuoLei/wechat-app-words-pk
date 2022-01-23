@@ -4,7 +4,7 @@ import config from './../../utils/config'
 import { sleep, toast } from './../../utils/util'
 import combatModel from './../../models/combat'
 
-interface CombatPage {initCombatInfo: (data: Combat) => void, selectComponent: (selector: '#pkScene') => Record<'clearStateInit', () => void>}
+interface CombatPage {initCombatInfo: (data: Combat) => void, selectComponent: (selector: '#pkScene' | '#randomScene') => Record<'clearStateInit' | 'startCombat', (doc?: Combat) => void>, randomCombat: () => Promise<boolean>}
 
 async function stateChange (this: CombatPage, updatedFields: {state: COMBAT_STATE}, doc: Combat): Promise<void> {
   const { state } = updatedFields
@@ -29,17 +29,25 @@ async function stateChange (this: CombatPage, updatedFields: {state: COMBAT_STAT
         const isStart = await combatModel.start(_id, 'random')
 
         if (!isStart) {
-          // TODO: 随机匹配开始失败，边界情况：正好开始对局，随机匹配的用户正好退出匹配页面
+          // NOTE: 随机匹配开始失败，边界情况：正好开始对局，随机匹配的用户正好退出匹配页面
+          // 再次创建随机匹配房间
+          void this.randomCombat()
         }
       }
       break
     case 'start':
-      store.setState({
-        combat: {
-          ...store.$state.combat!,
-          state: docState
-        }
-      })
+    case 'lock': // 随机匹配有用户锁定房间时，房主本地也调整状态到 lock
+      if (type === 'random' && state === 'start') {
+        // 使用匹配组件开始对战，先显示一下匹配成功 (显示时长根据开始时间做计算)，然后再开始对战
+        this.selectComponent('#randomScene').startCombat(doc)
+      } else {
+        store.setState({
+          combat: {
+            ...store.$state.combat!,
+            state: docState
+          }
+        })
+      }
       break
     case 'dismiss':
       await toast.show('对方逃离, 提前结束对战...', 2000)

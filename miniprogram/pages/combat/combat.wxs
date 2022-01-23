@@ -25,11 +25,19 @@ module.exports = {
   },
 
   showSetting: function (combat) {
+    if (!combat) {
+      return false
+    }
+
     var state = combat.state
     return state === 'create' || state === 'ready' || state === 'precreate' || state === 'lock'
   },
 
   showRandomScene: function (combat) {
+    if (!combat) {
+      return false
+    }
+
     var state = combat.state
     var type = combat.type
     return (state === 'create' || state === 'ready' || state === 'precreate' || state === 'lock') && type === 'random'

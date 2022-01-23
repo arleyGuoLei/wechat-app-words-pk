@@ -65,6 +65,34 @@ class CombatModel extends Base {
     return false
   }
 
+  /**
+   * 1. 随机匹配情况下，还没有用户加入房间时，房主退出，则弃用房间，更改房间为 precreate 状态
+   * 2. 好友对战房间，邀请好友加入对战，但是好友还没准备，自己先退出房间了，也得弃用该房间
+   * @param _id 房间 id
+   */
+  async create2Pre (_id: DB.DocumentId, type: COMBAT_TYPE): Promise<boolean> {
+    const where: Pick<Combat, '_id' | 'state' | 'type'> & Record<string, any> = {
+      _id,
+      type,
+      state: 'create',
+      'users.0._openid': '{openid}' // 自己为房主
+    }
+
+    const updateData: Pick<Combat, 'state'> = {
+      state: 'precreate' // 房间更新为预创建状态，将不再接受用户匹配进入
+    }
+
+    const { stats: { updated } } = await this.model.where(where).update({
+      data: updateData
+    })
+
+    if (updated > 0) {
+      return true
+    }
+
+    return false
+  }
+
   async watch (_id: DB.DocumentId, onChange: (snapshot: DB.ISnapshot) => void, onError: (error: any) => void): Promise<DB.RealtimeListener> {
     return await new Promise((resolve) => {
       const listener = this.model.doc(_id).watch({
@@ -261,8 +289,9 @@ class CombatModel extends Base {
       'users.0._openid': '{openid}' // 当前的用户为房间创建者
     }
 
-    const updateData: Pick<Combat, 'state'> = {
-      state: 'start'
+    const updateData: Pick<Combat, 'state' | 'startTime'> = {
+      state: 'start',
+      startTime: this.db.serverDate()
     }
 
     const { stats: { updated } } = await this.model.where(where).update({
