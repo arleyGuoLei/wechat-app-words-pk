@@ -196,6 +196,29 @@ class CombatModel extends Base {
       }
     }
 
+    if (type === 'npc') {
+      const where: Pick<Combat, '_id' | 'state' | 'type'> & Record<'users.0._openid', string> = {
+        _id,
+        type: 'random', // 只有 random 房间可以转换为人机对战
+        state: 'create',
+        'users.0._openid': '{openid}' // 自己是房主
+      }
+
+      const updateData: Pick<Combat, 'state' | 'type'> & {users: DB.DatabaseUpdateCommand} = {
+        state: 'start', // 直接开始对战
+        type: 'npc', // 房间类型转为人机
+        users: this.db.command.addToSet(user) // 增加人机数据
+      }
+
+      const { stats: { updated } } = await this.model.where(where).update({
+        data: updateData
+      })
+
+      if (updated > 0) {
+        return true
+      }
+    }
+
     return false
   }
 

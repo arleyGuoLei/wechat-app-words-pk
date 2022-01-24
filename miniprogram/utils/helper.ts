@@ -101,7 +101,7 @@ export const formatWordList = (list: Word[], len: number): CombatWord[] => {
   })
 }
 
-export const formatCombatUser = (user: UserInfoState): CombatUser => {
+export const formatCombatUser = (user: Pick<UserInfoState, 'avatar' | 'nickname' | '_openid' | 'experience' | 'totalGames' | 'winGames'>): CombatUser => {
   return {
     gradeTotal: 0,
     records: {},

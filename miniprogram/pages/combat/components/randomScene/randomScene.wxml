@@ -7,6 +7,6 @@
 <view class="matching" wx:if="{{matching}}">
   <text class="matching-title animated fadeIn infinite slower">匹配中…</text>
   <text class="matching-desc">如果一直匹配不到，可以选择人机对战哦 ~</text>
-  <button hover-class="btn-hover" class="matching-button shadow-lg" catchtap="onStartNPC">开始人机对战</button>
+  <button hover-class="btn-hover" class="matching-button shadow-lg" catchtap="onStartNPCCombat">开始人机对战</button>
 </view>
 <text wx:else class="matched animated bounceIn">匹配成功</text>

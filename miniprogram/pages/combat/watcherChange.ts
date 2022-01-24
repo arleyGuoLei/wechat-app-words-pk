@@ -40,6 +40,14 @@ async function stateChange (this: CombatPage, updatedFields: {state: COMBAT_STAT
       if (type === 'random' && state === 'start') {
         // 使用匹配组件开始对战，先显示一下匹配成功 (显示时长根据开始时间做计算)，然后再开始对战
         this.selectComponent('#randomScene').startCombat(doc)
+      } else if (type === 'npc' && state === 'start') {
+        store.setState({
+          combat: {
+            ...store.$state.combat!,
+            ...doc, // 人机的用户信息同步至本地
+            state: docState
+          }
+        })
       } else {
         store.setState({
           combat: {
