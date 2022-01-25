@@ -1,4 +1,5 @@
 import { sleep, chunk } from './util'
+import config from './config'
 import type { UserInfoState, BookState } from './state'
 import { store } from './../app'
 import userModel from './../models/user'
@@ -127,4 +128,21 @@ export const formatCombatInfo = (user: UserInfoState, book: BookState, type: COM
   }
 
   return combatInfo
+}
+
+/**
+ * 获取答题获得分数，由当前时间和本题开始时间进行计算
+ * @param startTime 本题开始时间
+ */
+export const getCombatSelectScore = (startTime: number): number => {
+  // 每道题满分 100 分，选择越快分数越高
+  // score = -10 * (x) + 100
+  const totalMilliSecond = config.combatCountDown * 1000
+  const timeConsuming = Date.now() - startTime // 答题耗时
+
+  const score = Math.ceil(-10 * (timeConsuming / (totalMilliSecond / 10)) + 100)
+
+  if (score >= 100) { return 100 }
+  if (score <= 1) { return 1 }
+  return score
 }

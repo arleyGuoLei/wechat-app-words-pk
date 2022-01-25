@@ -1,7 +1,8 @@
 import combatModel from './../../../../models/combat'
 import userWordModel from './../../../../models/userWord'
-import { store } from './../../../../app'
+import { store, events } from './../../../../app'
 import { throttle, playAudio, sleep, playPronunciation } from './../../../../utils/util'
+import { getCombatSelectScore } from './../../../../utils/helper'
 import config from './../../../../utils/config'
 
 type SelectEvent = WechatMiniprogram.BaseEvent<WechatMiniprogram.IAnyObject, {index: number, useTip?: boolean} >
@@ -64,6 +65,8 @@ App.Component({
         this.playPronunciation()
 
         this.countdown()
+
+        events.emit('autoNPCSelect')
       })
     },
     onSelectOption: throttle(async function (event: SelectEvent) {
@@ -96,6 +99,8 @@ App.Component({
 
         // NOTE: 本地提示卡数目 - 1
         useTip && store.setState({ user: { ...store.$state.user, totalTip: store.$state.user.totalTip - 1 } })
+        // NOTE: 使用提示卡答题的都加入到生词本
+        useTip && userWordModel.add(wordList[wordsIndex].wordId)
 
         // @ts-expect-error
         score = this.getScore()
@@ -110,6 +115,9 @@ App.Component({
       const isSelect = await combatModel.selectOption(id, selectIndex, score, wordsIndex, userIndex)
       if (isSelect) {
         // 选择成功
+
+        // NOTE: 人机对战模式下，当前用户选择后，就进行人机选择，避免用户等待
+        store.$state.combat?.type === 'npc' && setTimeout(() => events.emit('npcSelect'), config.NPCSelectDelay)
       } else {
         // @ts-expect-error
         this.setData({ selectIndex: -1 })
@@ -144,14 +152,7 @@ App.Component({
     getScore () {
       // 每道题满分 100 分，选择越快分数越高
       // score = -10 * (x) + 100
-      const totalMilliSecond = config.combatCountDown * 1000
-      const timeConsuming = Date.now() - this.data.countDownStartTime // 答题耗时
-
-      const score = Math.ceil(-10 * (timeConsuming / (totalMilliSecond / 10)) + 100)
-
-      if (score >= 100) { return 100 }
-      if (score <= 1) { return 1 }
-      return score
+      return getCombatSelectScore(this.data.countDownStartTime)
     },
 
     playOptionsAnimation () {

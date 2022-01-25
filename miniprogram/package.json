@@ -5,6 +5,7 @@
   "private": true,
   "license": "MIT",
   "dependencies": {
+    "mitt": "^3.0.0",
     "wxapp-animate": "^1.0.0",
     "wxapp-router": "^0.1.12",
     "wxministore": "^1.3.1"

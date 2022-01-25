@@ -107,15 +107,6 @@ function gradeChange (this: CombatPage, updatedFields: GradeChangeUpdateFields, 
       }
     }
   })
-
-  // users.0.gradeTotal 房主答题，更新 combat.user[0] 数据，只更新 gradeTotal 和 records 数组
-  // users.1.gradeTotal 非房主答题，更新 combat.user[1] 数据，只更新 gradeTotal 和 records 数组
-
-  // 如果双方的同一题都回答完毕，切换到下一题：(从 users.x.records.0.x 提取当前回答的题目，如果combat.user[0、1].records.index.score 均有值，则设置本地的 wordIndex 为 x + 1)
-
-  // 如果 x + 1 === wordList.length 说明对战已经结束，切换下一题 = 结束
-
-  // 结束本地直接修改状态，同时房主修改远程房间状态为对战结束
 }
 
 function nextChange (this: CombatPage, updatedFields: {next: DB.DocumentId}): void {

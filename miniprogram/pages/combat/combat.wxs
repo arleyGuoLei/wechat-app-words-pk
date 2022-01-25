@@ -41,5 +41,15 @@ module.exports = {
     var state = combat.state
     var type = combat.type
     return (state === 'create' || state === 'ready' || state === 'precreate' || state === 'lock') && type === 'random'
+  },
+
+  showNPCScene: function (combat) {
+    if (!combat) {
+      return false
+    }
+
+    var state = combat.state
+    var type = combat.type
+    return ((state === 'create' || state === 'precreate') && type === 'random') || (state === 'start' && type === 'npc')
   }
 }

@@ -1,10 +1,8 @@
 import { Combat } from './../../../../../typings/model'
-import { store } from './../../../../app'
-import { getUserInfo, formatCombatInfo, formatCombatUser } from './../../../../utils/helper'
-import { loading } from './../../../../utils/util'
+import { store, events } from './../../../../app'
+import { getUserInfo, formatCombatInfo } from './../../../../utils/helper'
 import config from './../../../../utils/config'
-import KvModel from './../../../../models/kv'
-import combatModel from './../../../../models/combat'
+import { throttle } from './../../../../utils/util'
 
 App.Component({
   options: {
@@ -46,45 +44,8 @@ App.Component({
         wx.nextTick(() => { store.setState({ combat: { ...store.$state.combat!, state: 'start' } }) })
       }, timeout)
     },
-    async onStartNPCCombat () {
-      const fail = (title: string): void => {
-        loading.hide()
-        void wx.showToast({ title, icon: 'none', duration: 1200 })
-      }
-      const { state, _id } = store.$state.combat!
-      if (state !== 'create') {
-        void wx.showToast({ title: '数据加载中 ...', icon: 'none', duration: 900 })
-        return
-      }
-      loading.show('召唤人机中 ...')
-      const npc = await this.getOneNpc()
-
-      if (!npc) {
-        return fail('人机数据获取失败, 请重试')
-      }
-
-      const isJoin = await combatModel.ready(_id, formatCombatUser({
-        ...npc,
-        experience: 0,
-        totalGames: 0,
-        winGames: 0
-      }), 'npc')
-
-      if (!isJoin) {
-        return fail('人机对战开始失败，请重试')
-      }
-
-      loading.hide()
-    },
-    async getOneNpc () {
-      const npcData = await KvModel.getData('npc')
-      if (npcData) {
-        // NOTE: 随机取所有人机数据中的一个
-        const index = Math.floor(Math.random() * npcData.length)
-        return npcData[index]
-      }
-
-      return null
-    }
+    onStartNPCCombat: throttle(function () {
+      events.emit('startNPCCombat')
+    }, 800)
   }
 })

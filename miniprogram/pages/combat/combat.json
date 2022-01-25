@@ -5,6 +5,7 @@
     "pk-scene": "./components/pkScene/pkScene",
     "settle-scene": "./components/settleScene/settleScene",
     "setting": "./components/setting/setting",
-    "random-scene": "./components/randomScene/randomScene"
+    "random-scene": "./components/randomScene/randomScene",
+    "npc-scene": "./components/npcScene/npcScene"
   }
 }

@@ -5,7 +5,7 @@ import config from './../../utils/config'
 import wordModel from './../../models/word'
 import combatModel from './../../models/combat'
 import userModel from './../../models/user'
-import { store, IAppOption } from './../../app'
+import { store, IAppOption, events } from './../../app'
 import watcherChange from './watcherChange'
 import { loading, toast } from './../../utils/util'
 const app = getApp<IAppOption>()
@@ -144,6 +144,12 @@ App.Page({
     if (isCreate) {
       console.log('随机匹配房间创建成功')
       // NOTE: 开始计时，如果一定时间内还没匹配到用户，就开始一局人机对战
+
+      setTimeout(async () => {
+        if (store.$state.combat?.state === 'create') {
+          events.emit('startNPCCombat')
+        }
+      }, config.combatRandomMaxTime)
       return true
     }
     return false

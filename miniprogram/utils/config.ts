@@ -30,5 +30,17 @@ export default {
   randomReadyWaiting: 5000,
 
   /** 匹配成功等待多久开始对战，基于开始时间做计算，单位 ms */
-  randomStartWaiting: 1500
+  randomStartWaiting: 1500,
+
+  /** 人机最快的选择时间，单位 ms */
+  minNPCSelectTime: 2000,
+
+  /** 人机对战随机增加的时间间隔，单位 ms，最终选择时间由 minNPCSelectTime + (0 ~ NPCSelectMaxGap) */
+  NPCSelectMaxGap: 1000,
+
+  /** 人机对战当前用户选择后多久进行人机的选择 (如果还没选择的话才会调用到人机选择逻辑) */
+  NPCSelectDelay: 200,
+
+  /** 人机模式正确率，例如：75%，则设置为 0.75 */
+  NPCCorrectRate: 0.75
 }

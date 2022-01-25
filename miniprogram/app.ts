@@ -6,6 +6,16 @@ import { User } from './../typings/model'
 import { loading } from './utils/util'
 import router, { IRoutes } from './utils/routes'
 import type { Router } from 'wxapp-router'
+import mitt, { Emitter } from 'mitt'
+
+type IEvents = Emitter<{
+  /** 开始人机对战 */
+  startNPCCombat: unknown
+  /** 进行人机选择 */
+  npcSelect: unknown
+  /** 自动人机选择倒计时 */
+  autoNPCSelect: unknown
+}>
 
 export const store = new Store<State>({
   state,
@@ -18,12 +28,15 @@ export const store = new Store<State>({
   }
 })
 
+export const events: IEvents = mitt()
+
 type $loginAsync = Promise<User>
 
 export interface IAppOption {
   store: Store<State>
   router: Router
   routes: IRoutes
+  events: IEvents
   $loginAsync?: $loginAsync
   initEnv: () => Promise<void>
   initUiGlobal: () => void
@@ -34,6 +47,7 @@ App<IAppOption>({
   store,
   router,
   routes: router.getRoutes() as IRoutes,
+  events,
   async onLaunch () {
     this.initUiGlobal()
 

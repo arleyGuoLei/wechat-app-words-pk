@@ -335,12 +335,13 @@ class CombatModel extends Base {
    * @param score 本题获得的分数
    * @param wordsIndex 当前题目的 index
    * @param userIndex 用户是哪一个？房主为 0，普通用户为 1+
+   * @param openid 人机选择的情况下，传入人机的 openid 值
    */
-  async selectOption (_id: DB.DocumentId, selectIndex: number, score: number, wordsIndex: number, userIndex: number): Promise<boolean> {
+  async selectOption (_id: DB.DocumentId, selectIndex: number, score: number, wordsIndex: number, userIndex: number, openid?: string): Promise<boolean> {
     const where: Pick<Combat, '_id' | 'state'> & Record<string, any> = {
       _id,
       state: 'start', // 已经开始对战的房间
-      [`users.${userIndex}._openid`]: '{openid}' // 当前用户
+      [`users.${userIndex}._openid`]: openid ?? '{openid}' // 人机或当前用户
     }
 
     const updateData: Record<string, DB.DatabaseUpdateCommand | CombatUser['records']> = {

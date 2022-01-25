@@ -15,7 +15,10 @@
 <!-- 好友对战的邀请好友、加入对战、开始对战、退出对战场景 -->
 <friend-scene wx:if="{{$state.combat.type === 'friend' && ($state.combat.state === 'create' || $state.combat.state === 'ready')}}" />
 
+<!-- 随机匹配场景 -->
 <random-scene id="randomScene" wx:if="{{utils.showRandomScene($state.combat)}}"/>
+
+<npc-scene id="npcScene" wx:if="{{utils.showNPCScene($state.combat)}}"/>
 
 <!-- 正式开始对战 -->
 <pk-scene id="pkScene" wx:if="{{$state.combat.state === 'start'}}" />
