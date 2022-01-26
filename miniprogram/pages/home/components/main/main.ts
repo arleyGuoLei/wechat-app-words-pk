@@ -21,8 +21,9 @@ App.Component({
       const combatInfo = formatCombatInfo(userinfo, book, 'random', new Array(userinfo.config.combatQuestionNumber).fill({}))
 
       // NOTE: 先用本地数据生成对战信息，用于展示「好友邀请」页面所需信息
+      // NOTE: 该处的 state 应该为 precreate 或 create 更加合理，但是如果为这两个值，小程序数据变了，小程序的 UI 却不会变 ... 小程序框架有 BUG，
       store.setState({
-        combat: { ...combatInfo, state: 'create', next: '', _id: '', _createTime: '', isOwner: true }
+        combat: { ...combatInfo, state: 'lock', next: '', _id: '', _createTime: '', isOwner: true }
       })
 
       void app.routes.pages.combat.go({ type: 'random' })

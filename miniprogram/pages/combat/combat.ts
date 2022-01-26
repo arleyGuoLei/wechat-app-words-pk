@@ -195,7 +195,7 @@ App.Page({
       store.setState({
         combat: {
           ...combat,
-          state,
+          state: this.data.isShareResult ? 'end' : state,
           isOwner: store.$state.user._openid === users[0]?._openid, // 是否为房主
           wordsIndex: 0 // 当前对战所到的题目序号
         }
@@ -236,7 +236,16 @@ App.Page({
     }
 
     if (from === 'button' && state === 'end' && _id && book) {
-      !this.data.isShareSuccess && userModel.addTotalTip(config.combatShareAddTotalTip)
+      if (!this.data.isShareSuccess) {
+        void userModel.addTotalTip(config.combatShareAddTotalTip)
+        store.setState({
+          user: {
+            ...store.$state.user,
+            totalTip: store.$state.user.totalTip + config.combatShareAddTotalTip
+          }
+        })
+      }
+
       this.data.isShareSuccess = true
       const user = isOwner ? users![0] : users![1]
       const anotherUser = isOwner ? users![1] : users![0]
@@ -244,7 +253,7 @@ App.Page({
       const correctRate = Math.ceil(Object.keys(user.records).filter((key) => user.records[key].score !== config.combatWrongDeduction).length / wordList!.length * 100)
 
       return {
-        title: `我在和${anotherUser.nickname}的「${book.name}」对战中达到了 ${correctRate}% 的正确率，点我查看详情`,
+        title: `我在和${anotherUser.nickname}的「${book.name}」对战获 ${correctRate}% 的正确率，点我查看详情`,
         path: `/pages/combat/combat?id=${String(_id)}&share_result=true`,
         imageUrl: './../../images/share-default-bg.png'
       }

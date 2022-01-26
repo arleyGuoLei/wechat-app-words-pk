@@ -13,11 +13,13 @@
 <view class="bar">
   <view class="bar-item">
     <text class="bar-item__gradeTotal">{{$state.combat.users[0].gradeTotal}}</text>
-    <text class="bar-item__experience">词力值+{{leftIncExperience}}</text>
+    <text wx:if="{{!isShareResult}}" class="bar-item__experience">词力值+{{leftIncExperience}}</text>
+    <text wx:else class="bar-item__experience">对战得分</text>
   </view>
   <view class="bar-item">
     <text class="bar-item__gradeTotal">{{$state.combat.users[1].gradeTotal}}</text>
-    <text class="bar-item__experience">词力值+{{rightIncExperience}}</text>
+    <text wx:if="{{!isShareResult}}" class="bar-item__experience">词力值+{{rightIncExperience}}</text>
+    <text wx:else class="bar-item__experience">对战得分</text>
   </view>
 </view>
 

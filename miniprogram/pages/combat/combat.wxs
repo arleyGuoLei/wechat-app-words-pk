@@ -31,9 +31,11 @@ module.exports = {
 
     var state = combat.state
 
-    // NOTE: 微信小程序 bug，有 state === 'precreate'，返回 true 也不会展示
-    // 1. return ['precreate', 'create', 'lock', 'ready'].indexOf(state) !== -1
-    return ['start', 'dismiss', 'end'].indexOf(state) === -1
+    // NOTE: 微信小程序 bug，有 state === 'precreate'，随机匹配情况下，返回 true 也不会展示
+    // 写法 1. return ['precreate', 'create', 'lock', 'ready'].indexOf(state) !== -1
+    // 写法 2. return ['start', 'dismiss', 'end'].indexOf(state) === -1
+    // ↑ 上面两个写法都没用，最后在 home/main 中跳转随机匹配的时候 store.setState({ combat: { ...combatInfo, state: 'lock', next: '', _id: '', _createTime: '', isOwner: true }})，设置 state 为 lock 解决的
+    return ['precreate', 'create', 'lock', 'ready'].indexOf(state) !== -1
   },
 
   showRandomScene: function (combat) {
