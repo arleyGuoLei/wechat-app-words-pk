@@ -30,7 +30,10 @@ module.exports = {
     }
 
     var state = combat.state
-    return state === 'create' || state === 'ready' || state === 'precreate' || state === 'lock'
+
+    // NOTE: 微信小程序 bug，有 state === 'precreate'，返回 true 也不会展示
+    // 1. return ['precreate', 'create', 'lock', 'ready'].indexOf(state) !== -1
+    return ['start', 'dismiss', 'end'].indexOf(state) === -1
   },
 
   showRandomScene: function (combat) {
