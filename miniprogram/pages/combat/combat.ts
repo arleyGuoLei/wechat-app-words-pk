@@ -12,13 +12,23 @@ const app = getApp<IAppOption>()
 
 App.Page({
   data: {
-    debug: false
+    debug: false,
+    isShareResult: false, // 是否为战绩分享，如果是的话，直接展示的为结算页
+    isShareSuccess: false // 是否已经分享过，一局只增加一次分享赠送的提示卡
   },
   combatWatcher: { close: async () => {} },
 
   async onLoad (query) {
     await app.$loginAsync
     const options: ICombatRoute = query as unknown as ICombatRoute
+
+    if (options.id && options.share_result === 'true') {
+      loading.show('获取战绩中 ...')
+      this.setData({ isShareResult: true })
+      await this.initCombatWatcher(options.id)
+      loading.hide()
+      return
+    }
 
     // NOTE: 数据库层面创建房间，然后创建该房间的监听及房间数据通过云端首次 watch 初始化
     if (options.state === 'create' && options.type === 'friend') {
@@ -52,9 +62,9 @@ App.Page({
 
     // NOTE: 调试对局 'start' || 'end' ，用户侧不存在该分支
     if (options.id && options.debug === 'true') {
+      this.data.debug = true
       loading.show('获取房间信息中')
       await this.initCombatWatcher(options.id)
-      this.setData({ debug: true })
       loading.hide()
       return
     }
@@ -178,10 +188,10 @@ App.Page({
     }
 
     console.log('initCombatInfo state =>', state)
-
     // NOTE: initCombatInfo 时机下值为 create(好友对战) 或
     // 随机匹配 (precreate、lock) 的才是正常的房间
-    if (['create', 'precreate', 'lock'].includes(state) || this.data.debug) {
+    // 当前分享战绩的房间
+    if (['create', 'precreate', 'lock'].includes(state) || this.data.debug || this.data.isShareResult) {
       store.setState({
         combat: {
           ...combat,
@@ -215,13 +225,28 @@ App.Page({
   },
 
   onShareAppMessage ({ from }) {
-    const { _id, book, state } = store.getState().combat ?? {}
+    const { _id, book, state, wordList, users, isOwner } = store.getState().combat ?? {}
 
     if (from === 'button' && state === 'create' && _id && book) {
       return {
         title: `❤ @你, 来一起pk「${book.name}」吖，点我进入`,
         path: `/pages/combat/combat?id=${String(_id)}&type=friend&state=ready`,
         imageUrl: './../../images/share-pk-bg.png'
+      }
+    }
+
+    if (from === 'button' && state === 'end' && _id && book) {
+      !this.data.isShareSuccess && userModel.addTotalTip(config.combatShareAddTotalTip)
+      this.data.isShareSuccess = true
+      const user = isOwner ? users![0] : users![1]
+      const anotherUser = isOwner ? users![1] : users![0]
+
+      const correctRate = Math.ceil(Object.keys(user.records).filter((key) => user.records[key].score !== config.combatWrongDeduction).length / wordList!.length * 100)
+
+      return {
+        title: `我在和${anotherUser.nickname}的「${book.name}」对战中达到了 ${correctRate}% 的正确率，点我查看详情`,
+        path: `/pages/combat/combat?id=${String(_id)}&share_result=true`,
+        imageUrl: './../../images/share-default-bg.png'
       }
     }
 

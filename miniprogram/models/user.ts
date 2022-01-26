@@ -82,6 +82,24 @@ class UserModel extends Base {
 
     return false
   }
+
+  /**
+   * 增加提示卡
+   * @param inc 增加的数目
+   */
+  async addTotalTip (inc: number): Promise<boolean> {
+    const { stats: { updated } } = await this.model.where({ _openid: '{openid}' }).update({
+      data: {
+        totalTip: this.db.command.inc(inc)
+      }
+    })
+
+    if (updated > 0) {
+      return true
+    }
+
+    return false
+  }
 }
 
 export default new UserModel()

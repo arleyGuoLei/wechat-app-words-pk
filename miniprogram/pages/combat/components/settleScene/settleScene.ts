@@ -8,6 +8,12 @@ import { throttle, loading, sleep } from './../../../../utils/util'
 const app = getApp<IAppOption>()
 
 App.Component({
+  properties: {
+    isShareResult: {
+      type: Boolean,
+      value: false
+    }
+  },
   data: {
     leftIncExperience: 0,
     rightIncExperience: 0
@@ -16,7 +22,11 @@ App.Component({
     addGlobalClass: true
   },
   lifetimes: {
-    ready () { void this.onSettle() }
+    ready () {
+      if (!this.data.isShareResult) {
+        void this.onSettle()
+      }
+    }
   },
   methods: {
     /**
@@ -63,11 +73,12 @@ App.Component({
 
       return isOwner ? left : right
     },
-    onCreateCombat: throttle(async function (this: {createCombat: (combatType: COMBAT_TYPE) => Promise<void>, triggerEvent: WechatMiniprogram.Component.InstanceMethods<{}>['triggerEvent']}) {
+    onCreateCombat: throttle(async function (this: {createCombat: (combatType: COMBAT_TYPE) => Promise<void>, triggerEvent: WechatMiniprogram.Component.InstanceMethods<{}>['triggerEvent'], data: {isShareResult: boolean}}) {
       const { isOwner, _id } = store.$state.combat!
+      const isShareResult = this.data.isShareResult
 
-      // 房主点击再来一局，将创建一个好友对战的房间
-      if (isOwner) {
+      // 分享的房间点击再来一局 或 房主点击再来一局，将创建一个好友对战的房间
+      if (isShareResult || isOwner) {
         // 结束本局的数据变更监听
         this.triggerEvent('onCloseWatcher')
         loading.show('创建中')
@@ -84,7 +95,8 @@ App.Component({
         })
 
         wx.nextTick(async () => {
-          await app.routes.pages.combat.redirectTo({ type: 'friend', state: 'create', previousId: _id }) // 注意跳转方式为 redirectTo，并且需要携带上房间 id
+          const otherParame = isShareResult ? {} : { previousId: _id }
+          await app.routes.pages.combat.redirectTo({ type: 'friend', state: 'create', ...otherParame }) // 注意跳转方式为 redirectTo，并且非分享战绩结果的房间需要携带上房间 id
           loading.hide()
         })
       } else { // 加入上一局房主创建的房间
@@ -105,6 +117,9 @@ App.Component({
           loading.hide()
         })
       }
-    }, 500)
+    }, 500),
+    onGoHome () {
+      void app.routes.pages.home.redirectTo({})
+    }
   }
 })

@@ -41,6 +41,12 @@
           "pathName": "pages/combat/combat",
           "query": "type=random",
           "scene": null
+        },
+        {
+          "name": "对战结果分享战绩",
+          "pathName": "pages/combat/combat",
+          "query": "id=41ae62ef61f14caa00e9e8c404a32a18&share_result=true",
+          "scene": null
         }
       ]
     }

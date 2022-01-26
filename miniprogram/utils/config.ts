@@ -42,5 +42,8 @@ export default {
   NPCSelectDelay: 200,
 
   /** 人机模式正确率，例如：75%，则设置为 0.75 */
-  NPCCorrectRate: 0.75
+  NPCCorrectRate: 0.75,
+
+  /** 对战模式分享战绩赠送的提示卡数目 */
+  combatShareAddTotalTip: 5
 }

@@ -37,14 +37,26 @@
   </block>
 </scroll-view>
 
-<!-- 房主创建房间 || 加入已经创建好的房间(由本局的房主创建的) -->
-<button wx:if="{{$state.combat.isOwner || $state.combat.next}}" catchtap="onCreateCombat" class="button" hover-class="btn-hover">再来一局</button>
-<button wx:else class="button-disable" disabled>等待对方创房</button>
+<view wx:if="{{!isShareResult}}">
+  <!-- 房主创建房间 || 加入已经创建好的房间(由本局的房主创建的) -->
+  <button wx:if="{{$state.combat.isOwner || $state.combat.next}}" catchtap="onCreateCombat" class="button" hover-class="btn-hover">再来一局</button>
+  <button wx:else class="button-disable" disabled>等待对方创房</button>
 
-<!-- TODO: 分享战绩海报 -->
-<button class="button" hover-class="btn-hover">分享战绩</button>
+  <button class="button" hover-class="btn-hover" open-type="share">分享战绩</button>
 
-<view class="tip">
-  <image class="tip-icon" src="./../../../../images/combat-tip.png" />
-  <text class="tip-text">分享可获得提示卡 * 5</text>
+  <view class="tip">
+    <image class="tip-icon" src="./../../../../images/combat-tip.png" />
+    <text class="tip-text">分享可获得提示卡 * 5</text>
+  </view>
 </view>
+<view wx:else>
+  <button catchtap="onCreateCombat" class="button animated infinite slow pulse" hover-class="btn-hover">创建好友对战</button>
+
+  <button catchtap="onGoHome" class="button" hover-class="btn-hover">返回首页</button>
+
+  <view class="tip">
+    <image class="tip-icon" src="./../../../../images/combat-tip.png" />
+    <text class="tip-text">和 TA 一起 PK 单词很有趣哦</text>
+  </view>
+</view>
+

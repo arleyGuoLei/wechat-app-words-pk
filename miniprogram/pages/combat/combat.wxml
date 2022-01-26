@@ -24,7 +24,7 @@
 <pk-scene id="pkScene" wx:if="{{$state.combat.state === 'start'}}" />
 
 <!-- 对战结算 -->
-<settle-scene wx:if="{{$state.combat.state === 'end'}}" bind:onCloseWatcher="closeCombatWatcher" />
+<settle-scene wx:if="{{$state.combat.state === 'end'}}" bind:onCloseWatcher="closeCombatWatcher" isShareResult="{{isShareResult}}" />
 
 <!-- 设置 -->
 <setting wx:if="{{utils.showSetting($state.combat)}}"/>

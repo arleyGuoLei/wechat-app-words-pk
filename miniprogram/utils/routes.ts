@@ -20,6 +20,9 @@ export interface ICombatRoute {
 
   /** 调试状态 (对战页有些场景在用户侧是无法直接进入的，通过路由参数强制进入需要加上 debug 参数) */
   debug?: string
+
+  /** 是否为分享结果，用于对战结束后的分享战绩标识 */
+  share_result?: string
 }
 
 export interface IRoutes {
