@@ -83,22 +83,21 @@ App.Component({
         this.triggerEvent('onCloseWatcher')
         loading.show('创建中')
 
+        // 等待一会儿，确保上一局已经断开连接
         await sleep(200)
 
         const userinfo = await getUserInfo()
         const book = store.getState().book
         const combatInfo = formatCombatInfo(userinfo, book, 'friend', new Array(userinfo.config.combatQuestionNumber).fill({}))
 
-        // NOTE: 先用本地数据生成对战信息，用于展示「好友邀请」页面所需信息
+        const otherParame = isShareResult ? {} : { previousId: _id }
+        await app.routes.pages.combat.redirectTo({ type: 'friend', state: 'create', ...otherParame }) // 注意跳转方式为 redirectTo，并且非分享战绩结果的房间需要携带上房间 id
+
+        // ↑ 跳转页面后有一个异步的初始化请求，↓ 的数据更新测试是在异步初始化 watch 之前，所以能在 redirectTo 后执行
         store.setState({
           combat: { ...combatInfo, state: 'create', next: '', _id: '', _createTime: '', isOwner: true }
         })
-
-        wx.nextTick(async () => {
-          const otherParame = isShareResult ? {} : { previousId: _id }
-          await app.routes.pages.combat.redirectTo({ type: 'friend', state: 'create', ...otherParame }) // 注意跳转方式为 redirectTo，并且非分享战绩结果的房间需要携带上房间 id
-          loading.hide()
-        })
+        loading.hide()
       } else { // 加入上一局房主创建的房间
         // 结束本局的数据变更监听
         this.triggerEvent('onCloseWatcher')
