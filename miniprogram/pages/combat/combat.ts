@@ -170,7 +170,7 @@ App.Page({
    * @param combat 对战房间信息
    */
   initCombatInfo (combat: Combat) {
-    const { users, state } = combat ?? {}
+    const { users, state, type } = combat ?? {}
 
     let message = '房间状态异常'
     switch (state) {
@@ -180,6 +180,9 @@ App.Page({
         break
       case 'start':
         message = '对战已开始'
+        break
+      case 'precreate': // await combatModel.create2Pre(_id, type)
+        message = '房间已解散'
         break
       default:
         if (users?.length >= 2 && users.every(user => user._openid !== store.$state.user._openid)) { // 房间是否已经满了 && 当前这个用户没有加入这个房间
@@ -191,7 +194,10 @@ App.Page({
     // NOTE: initCombatInfo 时机下值为 create(好友对战) 或
     // 随机匹配 (precreate、lock) 的才是正常的房间
     // 当前分享战绩的房间
-    if (['create', 'precreate', 'lock'].includes(state) || this.data.debug || this.data.isShareResult) {
+    if ((['precreate', 'lock'].includes(state) && type !== 'friend') ||
+    (state === 'create' && type === 'friend') ||
+    this.data.debug ||
+    this.data.isShareResult) {
       store.setState({
         combat: {
           ...combat,
