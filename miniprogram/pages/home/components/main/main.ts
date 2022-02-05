@@ -46,7 +46,7 @@ App.Component({
     }, 500),
 
     /**
-     * 词汇挑战
+     * 每日词汇
      */
     onChallengeWord () {
 

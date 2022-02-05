@@ -199,5 +199,13 @@ module.exports = {
     var wordsLength = combat.wordList.length
 
     return Math.floor(gradeTotal / wordsLength) // 每道题目最高 100 分
+  },
+
+  showAnswer: function (combat, index) {
+    if (combat && typeof combat.canSelect !== 'undefined' && !combat.canSelect && (index === combat.wordList[combat.wordsIndex].correctIndex)) {
+      return true
+    }
+
+    return false
   }
 }

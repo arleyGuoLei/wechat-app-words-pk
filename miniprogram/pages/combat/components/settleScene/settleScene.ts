@@ -74,7 +74,7 @@ App.Component({
       return isOwner ? left : right
     },
     onCreateCombat: throttle(async function (this: {createCombat: (combatType: COMBAT_TYPE) => Promise<void>, triggerEvent: WechatMiniprogram.Component.InstanceMethods<{}>['triggerEvent'], data: {isShareResult: boolean}}) {
-      const { isOwner, _id } = store.$state.combat!
+      const { isOwner, _id, type } = store.$state.combat!
       const isShareResult = this.data.isShareResult
 
       // 分享的房间点击再来一局 或 房主点击再来一局，将创建一个好友对战的房间
@@ -88,15 +88,25 @@ App.Component({
 
         const userinfo = await getUserInfo()
         const book = store.getState().book
-        const combatInfo = formatCombatInfo(userinfo, book, 'friend', new Array(userinfo.config.combatQuestionNumber).fill({}))
 
-        const otherParame = isShareResult ? {} : { previousId: _id }
-        await app.routes.pages.combat.redirectTo({ type: 'friend', state: 'create', ...otherParame }) // 注意跳转方式为 redirectTo，并且非分享战绩结果的房间需要携带上房间 id
+        if (type === 'friend') {
+          const combatInfo = formatCombatInfo(userinfo, book, 'friend', new Array(userinfo.config.combatQuestionNumber).fill({}))
 
-        // ↑ 跳转页面后有一个异步的初始化请求，↓ 的数据更新测试是在异步初始化 watch 之前，所以能在 redirectTo 后执行
-        store.setState({
-          combat: { ...combatInfo, state: 'create', next: '', _id: '', _createTime: '', isOwner: true }
-        })
+          const otherParame = isShareResult ? {} : { previousId: _id }
+          await app.routes.pages.combat.redirectTo({ type: 'friend', state: 'create', ...otherParame }) // 注意跳转方式为 redirectTo，并且非分享战绩结果的房间需要携带上房间 id
+
+          // ↑ 跳转页面后有一个异步的初始化请求，↓ 的数据更新测试是在异步初始化 watch 之前，所以能在 redirectTo 后执行
+          store.setState({
+            combat: { ...combatInfo, state: 'create', next: '', _id: '', _createTime: '', isOwner: true }
+          })
+        } else {
+          const combatInfo = formatCombatInfo(userinfo, book, 'random', new Array(userinfo.config.combatQuestionNumber).fill({}))
+
+          void app.routes.pages.combat.redirectTo({ type: 'random' })
+
+          store.setState({ combat: { ...combatInfo, state: 'lock', next: '', _id: '', _createTime: '', isOwner: true } })
+        }
+
         loading.hide()
       } else { // 加入上一局房主创建的房间
         // 结束本局的数据变更监听

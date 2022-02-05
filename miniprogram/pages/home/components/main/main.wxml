@@ -22,8 +22,8 @@
 
     <button class="btn-two shadow-lg" hover-class="btn-hover" catchtap="onChallengeWord">
       <view class="btn-two__text">
-        <text class="btn-two__title">词汇挑战</text>
-        <text class="btn-two__desc">a wrong, over!</text>
+        <text class="btn-two__title">每日词汇</text>
+        <text class="btn-two__desc">Everyday Study</text>
       </view>
       <image class="btn-two__icon" src="./../../../../images/home-pikaqiu.png" />
     </button>
@@ -31,7 +31,7 @@
     <button class="btn-two shadow-lg" hover-class="btn-hover" catchtap="onToUserWords">
       <view class="btn-two__text">
         <text class="btn-two__title">生词本</text>
-        <text class="btn-two__desc">review Words !</text>
+        <text class="btn-two__desc">Review Words !</text>
       </view>
       <image class="btn-two__icon" style="width: 56rpx;" src="./../../../../images/home-userwords.png" />
     </button>

@@ -24,8 +24,9 @@
           <image wx:if="{{utils.isLeftSelectCorrect($state.combat, selectIndex)}}" class="option-result__icon" src="./../../../../images/combat-g.png" />
         </view>
 
-        <!-- NOTE: 当本地选择后显示正确答案 (红色标记) -->
-        <text class="option-text one-line-text {{(!$state.combat.canSelect && (index === $state.combat.wordList[$state.combat.wordsIndex].correctIndex)) ? 'option-text__correct' : ''}}">{{option}}</text>
+        <!-- NOTE: 当本地选择后显示正确答案 (红色标记)，小程序 BUG 不用 wx:if wxs 数据更新执行后 UI 不更新，所以分成了两个标签，唯一区别在于是否增加 option-text__correct 类名 -->
+        <text wx:if="{{utils.showAnswer($state.combat, index)}}" class="option-text one-line-text option-text__correct">{{option}}</text>
+        <text wx:else class="option-text one-line-text">{{option}}</text>
 
         <!-- NOTE: 右侧选择的结果，坑: 用 hidden 在手机上数据变了但不会更新渲染 (从不显示变成显示)  -->
         <view class="option-result__right" wx:if="{{utils.showRightSelect($state.combat, selectIndex, index)}}">
