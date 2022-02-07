@@ -1,0 +1,32 @@
+<view class="problem">
+  <text class="problem-word">challenge</text>
+  <text class="problem-usphone">/ˈtʃælɪndʒ/</text>
+
+  <view class="problem-options">
+
+    <view catchtap="onSelectOption" data-index="{{index}}" 
+      class="option touch-s option-correct" >
+        <text class="option-text">option</text>
+        <image class="option-icon" src="./../../../../images/combat-g.png" />
+    </view>
+
+    <view catchtap="onSelectOption" data-index="{{index}}" 
+      class="option touch-s" >
+        <text class="option-text">option</text>
+        <image class="option-icon" src="./../../../../images/combat-x.png" />
+    </view>
+
+    <view catchtap="onSelectOption" data-index="{{index}}" 
+      class="option touch-s option-wrong" >
+        <text class="option-text">option</text>
+        <image class="option-icon" src="./../../../../images/combat-x.png" />
+    </view>
+
+    <view catchtap="onSelectOption" data-index="{{index}}" 
+      class="option touch-s" >
+        <text class="option-text">option</text>
+        <image class="option-icon" src="./../../../../images/combat-x.png" />
+    </view>
+
+  </view>
+</view>

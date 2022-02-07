@@ -1,0 +1,42 @@
+.top {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 32rpx 50rpx 0;
+}
+
+.top-line {
+  display: flex;
+  justify-content: space-between;
+}
+
+.top-item {
+  display: flex;
+  align-items: center;
+  height: 64rpx;
+}
+
+.top-icon {
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 32rpx;
+}
+
+.top-text {
+  color: #333333;
+  font-size: 36rpx;
+}
+
+.top-item__countdown {
+  width: 150rpx;
+}
+
+.top-item__countdown .top-icon {
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.top-item__countdown .top-text {
+  font-size: 56rpx;
+  font-weight: 600;
+}

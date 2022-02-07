@@ -1,0 +1,68 @@
+problem {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.problem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.problem-word {
+  font-size: 52rpx;
+  font-weight: 500;
+  color: rgba(51, 51, 51, 1);
+  max-width: 720rpx;
+  overflow: hidden;
+}
+
+.problem-usphone {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: rgba(153, 153, 153, 1);
+  max-width: 650rpx;
+  margin-top: 12rpx;
+}
+
+.problem-options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 64rpx;
+}
+
+.option {
+  width: 700rpx;
+  height: 120rpx;
+  background: rgba(248, 248, 248, 1);
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 0 16rpx 0 32rpx;
+  margin-top: 24rpx;
+}
+
+.option-wrong {
+  background: rgba(233, 95, 86, 0.5) !important;
+}
+
+.option-correct {
+  background:rgba(50,168,238,0.5) !important;
+}
+
+.option-text {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: rgba(51, 51, 51, 1);
+  width: 600rpx;
+}
+
+.option-icon {
+  width: 40rpx;
+  height: 40rpx;
+}

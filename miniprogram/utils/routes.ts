@@ -5,6 +5,7 @@ const router = new Router()
 
 export const routesConfig = [
   { path: '/home', route: '/pages/home/home' },
+  { path: '/learning', route: '/pages/learning/learning' },
   { path: '/combat', route: '/pages/combat/combat' }
 ]
 
@@ -28,6 +29,7 @@ export interface ICombatRoute {
 export interface IRoutes {
   pages: {
     home: Route<{}>
+    learning: Route<{}>
     combat: Route<ICombatRoute>
   }
 }

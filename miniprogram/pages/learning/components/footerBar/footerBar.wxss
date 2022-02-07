@@ -1,0 +1,31 @@
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 0 114rpx;
+  margin: 64rpx 0;
+}
+
+.footer-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.item-icon {
+  width: 72rpx;
+  height: 72rpx;
+}
+
+.footer-item:first-child .item-icon,
+.footer-item:last-child .item-icon {
+  width: 52rpx;
+  height: 52rpx;
+}
+
+.item-text {
+  margin-top: 4rpx;
+  color: #999999;
+  font-size: 24rpx;
+}

@@ -47,6 +47,11 @@
           "pathName": "pages/combat/combat",
           "query": "id=41ae62ef61f14caa00e9e8c404a32a18&share_result=true",
           "scene": null
+        },
+        {
+          "name": "每日词汇",
+          "pathName": "pages/learning/learning",
+          "scene": null
         }
       ]
     }

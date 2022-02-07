@@ -49,7 +49,7 @@ App.Component({
      * 每日词汇
      */
     onChallengeWord () {
-
+      void app.routes.pages.learning.go({})
     },
 
     /**

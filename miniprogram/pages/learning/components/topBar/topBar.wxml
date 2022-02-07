@@ -1,0 +1,20 @@
+<view class="top">
+  <view class="top-line">
+    <view class="top-item">
+      <image class="top-icon" src="./../../../../images/learning-hp.png" />
+      <text class="top-text">剩余机会：3</text>
+    </view>
+  </view>
+
+  <view class="top-line">
+    <view class="top-item">
+      <image class="top-icon" src="./../../../../images/learning-score.png" />
+      <text class="top-text">当前分数：3</text>
+    </view>
+
+    <view class="top-item top-item__countdown">
+      <image class="top-icon" src="./../../../../images/learning-countdown.png" />
+      <text class="top-text">30</text>
+    </view>
+  </view>
+</view>
