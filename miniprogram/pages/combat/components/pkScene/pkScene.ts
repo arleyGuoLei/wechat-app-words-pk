@@ -1,5 +1,6 @@
 import combatModel from './../../../../models/combat'
 import userWordModel from './../../../../models/userWord'
+import userModel from './../../../../models/user'
 import { store, events } from './../../../../app'
 import { throttle, playAudio, sleep, playPronunciation } from './../../../../utils/util'
 import { getCombatSelectScore } from './../../../../utils/helper'
@@ -115,6 +116,9 @@ App.Component({
       const isSelect = await combatModel.selectOption(id, selectIndex, score, wordsIndex, userIndex)
       if (isSelect) {
         // 选择成功
+
+        // NOTE: 选择成功，如果是使用提示卡的，数据库中提示卡数目 - 1
+        useTip && userModel.addTotalTip(-1)
 
         // NOTE: 人机对战模式下，当前用户选择后，就进行人机选择，避免用户等待
         store.$state.combat?.type === 'npc' && setTimeout(() => events.emit('npcSelect'), config.NPCSelectDelay)

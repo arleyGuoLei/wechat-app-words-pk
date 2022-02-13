@@ -57,5 +57,8 @@ export default {
   learningHealthPoint: 3,
 
   /** 每日词汇每题的倒计时，单位 s */
-  learningCountDown: 30
+  learningCountDown: 30,
+
+  /** 每日词汇剩余多少题目没回答时进行下页题目的预请求加载 */
+  learningWordsSurplusPreload: 5
 }

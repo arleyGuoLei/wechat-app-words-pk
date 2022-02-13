@@ -1,6 +1,6 @@
 <top-bar />
 
-<problem wordItem="{{$state.learning.wordList[$state.learning.wordsIndex]}}" />
+<problem wordItem="{{$state.learning.wordList[$state.learning.wordsIndex]}}" bind:loadMoreWords="loadWordsData" />
 
 <footer-bar />
 

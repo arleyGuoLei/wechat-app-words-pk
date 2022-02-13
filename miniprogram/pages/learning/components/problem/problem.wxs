@@ -1,0 +1,45 @@
+/* eslint-disable no-var */
+
+module.exports = {
+  isSelectCorrect: function (wordItem, selectIndex, optionIndex) {
+    // 本题的正确答案
+    var correctIndex = wordItem.correctIndex
+
+    // 本题选择正确
+    if (correctIndex === selectIndex && optionIndex === selectIndex) {
+      return true
+    }
+
+    return false
+  },
+  isSelectWrong: function (wordItem, selectIndex, optionIndex) {
+    // 本题的正确答案
+    var correctIndex = wordItem.correctIndex
+
+    // 本题选择错误
+    if (correctIndex !== selectIndex && optionIndex === selectIndex) {
+      return true
+    }
+
+    return false
+  },
+  setOptionBgColor: function (wordItem, selectIndex, optionIndex) {
+    // 本题的正确答案
+    var correctIndex = wordItem.correctIndex
+
+    // selectIndex >=-1 则说明本题已经选择
+    var isSelected = selectIndex >= -1
+
+    // 正确选项标记蓝色，只要选择了本题就做标记，无需关心当前选择的选项是哪一个
+    if (correctIndex === optionIndex && isSelected) {
+      return 'option-correct'
+    }
+
+    // 选择错误的选项标记为红色
+    if (correctIndex !== selectIndex && optionIndex === selectIndex) {
+      return 'option-wrong'
+    }
+
+    return ''
+  }
+}

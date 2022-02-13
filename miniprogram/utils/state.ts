@@ -25,7 +25,7 @@ export interface CombatState extends Combat {
   countdown?: number
 }
 
-type LearningWord = CombatWord
+export type LearningWord = CombatWord
 
 export interface LearningState {
   /** 当前分数 */

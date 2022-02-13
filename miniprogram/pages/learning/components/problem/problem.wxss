@@ -27,6 +27,10 @@ problem {
   margin-top: 12rpx;
 }
 
+.problem-usphone__hidden {
+  opacity: 0;
+}
+
 .problem-options {
   display: flex;
   flex-direction: column;
@@ -45,6 +49,7 @@ problem {
   box-sizing: border-box;
   padding: 0 16rpx 0 32rpx;
   margin-top: 24rpx;
+  overflow: hidden;
 }
 
 .option-wrong {

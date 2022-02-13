@@ -1,17 +1,21 @@
+<wxs src="./problem.wxs" module="utils" />
+
 <view class="problem">
   <text class="problem-word">{{wordItem.word}}</text>
-  <text hidden="{{!wordItem.usphone}}" class="problem-usphone">/{{wordItem.usphone}}/</text>
+  <text class="problem-usphone {{!wordItem.usphone && 'problem-usphone__hidden'}}">/{{wordItem.usphone}}/</text>
 
   <view class="problem-options">
 
     <block wx:for="{{wordItem.options}}" wx:key="index" wx:for-index="index" wx:for-item="option">
       <view catchtap="onSelectOption" data-index="{{index}}" 
-      class="option touch-s" >
+      class="option touch-s {{utils.setOptionBgColor(wordItem, selectIndex, index)}}" animation="{{optionsAnimation}}">
         <text class="option-text">{{option}}</text>
 
-        <!-- option-wrong option-correct -->
-        <!-- <image class="option-icon" src="./../../../../images/combat-g.png" /> -->
-        <!-- <image class="option-icon" src="./../../../../images/combat-x.png" /> -->
+        <!-- 当前选项选择正确 -->
+        <image wx:if="{{utils.isSelectCorrect(wordItem, selectIndex, index)}}" class="option-icon" src="./../../../../images/combat-g.png" />
+
+        <!-- 当前选项选择错误 -->
+        <image wx:if="{{utils.isSelectWrong(wordItem, selectIndex, index)}}" class="option-icon" src="./../../../../images/combat-x.png" />
       </view>
     </block>
 
