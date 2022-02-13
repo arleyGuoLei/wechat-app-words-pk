@@ -2,19 +2,19 @@
   <view class="top-line">
     <view class="top-item">
       <image class="top-icon" src="./../../../../images/learning-hp.png" />
-      <text class="top-text">剩余机会：3</text>
+      <text class="top-text">剩余机会：{{$state.learning.healthPoint}}</text>
     </view>
   </view>
 
   <view class="top-line">
     <view class="top-item">
       <image class="top-icon" src="./../../../../images/learning-score.png" />
-      <text class="top-text">当前分数：3</text>
+      <text class="top-text">当前分数：{{$state.learning.score}}</text>
     </view>
 
     <view class="top-item top-item__countdown">
       <image class="top-icon" src="./../../../../images/learning-countdown.png" />
-      <text class="top-text">30</text>
+      <text class="top-text">{{$state.learning.countdown}}</text>
     </view>
   </view>
 </view>

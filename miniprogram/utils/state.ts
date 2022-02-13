@@ -1,4 +1,4 @@
-import { User, Book, Combat } from './../../typings/model'
+import { User, Book, Combat, CombatWord } from './../../typings/model'
 
 interface UiState {
   statusBarHeight: number
@@ -25,6 +25,25 @@ export interface CombatState extends Combat {
   countdown?: number
 }
 
+type LearningWord = CombatWord
+
+export interface LearningState {
+  /** 当前分数 */
+  score: number
+
+  /** 剩余机会 */
+  healthPoint: number
+
+  /** 题目列表 */
+  wordList: LearningWord[]
+
+  /** 当前题目在整个对战题目 wordList 中的序号，从 0 开始，回答一题 + 1 */
+  wordsIndex: number
+
+  /** 题目选择倒计时 */
+  countdown: number
+}
+
 export interface State {
   cloudEnv: string
   ui: UiState
@@ -35,7 +54,11 @@ export interface State {
   /** 当前用户选择的单词书信息 */
   book: BookState
 
+  /** 对战模式数据 */
   combat: CombatState | null
+
+  /** 每日词汇数据 */
+  learning: LearningState | null
 }
 
 const state: State = {
@@ -71,7 +94,8 @@ const state: State = {
     _id: '',
     sort: 0
   },
-  combat: null
+  combat: null,
+  learning: null
 }
 
 export default state

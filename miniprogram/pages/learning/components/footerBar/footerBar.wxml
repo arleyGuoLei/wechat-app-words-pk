@@ -6,7 +6,7 @@
 
   <view class="footer-item touch-m">
     <image class="item-icon" src="./../../../../images/word-tip.png" />
-      <text class="item-text">提示卡 x 999</text>
+      <text class="item-text">提示卡 x {{$state.user.totalTip}}</text>
   </view>
 
   <view class="footer-item touch-m">

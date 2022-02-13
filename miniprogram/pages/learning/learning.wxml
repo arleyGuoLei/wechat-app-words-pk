@@ -1,5 +1,11 @@
 <top-bar />
 
-<problem />
+<problem wordItem="{{$state.learning.wordList[$state.learning.wordsIndex]}}" />
 
 <footer-bar />
+
+<!-- 加载 -->
+<loading id="loading" />
+
+<!-- 弹窗 -->
+<toast id="toast" />

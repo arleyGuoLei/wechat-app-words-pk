@@ -45,5 +45,17 @@ export default {
   NPCCorrectRate: 0.75,
 
   /** 对战模式分享战绩赠送的提示卡数目 */
-  combatShareAddTotalTip: 5
+  combatShareAddTotalTip: 5,
+
+  /** 每日词汇每次加载的词汇数目 */
+  learningPageSize: 20,
+
+  /** 每日词汇每道题目的选项数目 */
+  learningOptionNumber: 4,
+
+  /** 每日词汇每局的默认生命值 */
+  learningHealthPoint: 3,
+
+  /** 每日词汇每题的倒计时，单位 s */
+  learningCountDown: 30
 }
