@@ -28,12 +28,13 @@ enum OptionIndex {
 
 const TIMER_NULL = -1
 
+let countdownTimer = TIMER_NULL
+
 App.Component({
   data: {
     selectIndex: OptionIndex.notSelect,
     optionsAnimation: {},
-    canSelect: true,
-    countdownTimer: TIMER_NULL
+    canSelect: true
   },
   options: {
     addGlobalClass: true
@@ -50,7 +51,7 @@ App.Component({
       void this.clearStateInit(false)
     },
     detached () {
-      clearInterval(this.data.countdownTimer)
+      clearInterval(countdownTimer)
     }
   },
   methods: {
@@ -123,7 +124,7 @@ App.Component({
 
       if (healthPoint <= 1) {
         // TODO: 没有生命值了，显示弹窗
-        clearInterval(this.data.countdownTimer)
+        clearInterval(countdownTimer)
         return false
       }
 
@@ -142,7 +143,7 @@ App.Component({
       this.setData({ selectIndex: OptionIndex.notSelect })
       store.setState({ learning: { ...store.$state.learning!, countdown: config.learningCountDown } })
 
-      clearInterval(this.data.countdownTimer) // NOTE: 不继续本题的倒计时了
+      clearInterval(countdownTimer) // NOTE: 不继续本题的倒计时了
 
       // 延迟等待选项动画接近完成，再开始倒计时、解除选择锁定
       wx.nextTick(async () => {
@@ -161,9 +162,9 @@ App.Component({
     },
 
     countdown () {
-      clearInterval(this.data.countdownTimer)
+      clearInterval(countdownTimer)
 
-      this.data.countdownTimer = setInterval(() => {
+      countdownTimer = setInterval(() => {
         const learning = store.getState().learning!
         const countdownTime = learning.countdown
 
@@ -172,7 +173,7 @@ App.Component({
             const e = { currentTarget: { dataset: { index: -1 } } }
             this.onSelectOption(e)
           }
-          clearInterval(this.data.countdownTimer)
+          clearInterval(countdownTimer)
         }
 
         store.setState({ learning: { ...store.$state.learning!, countdown: countdownTime - 1 } })

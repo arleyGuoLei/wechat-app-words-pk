@@ -10,6 +10,15 @@ type SelectEvent = WechatMiniprogram.BaseEvent<WechatMiniprogram.IAnyObject, {in
 
 const TIMER_NULL = -1
 
+/** 倒计时的计时器，每秒执行一次 */
+let countdownTimer = TIMER_NULL
+
+/** 对战连接异常检测 */
+let detectCombatTimer = TIMER_NULL
+
+/** 每题的倒计时开始时间，用于选择时做分数计算 */
+let countDownStartTime = 0
+
 const BGM_URL = 'cloud://cloud1-2gxt3f0qb7420723.636c-cloud1-2gxt3f0qb7420723-1306236996/5c8a08dc4956424741.mp3'
 let bgm = wx.createInnerAudioContext()
 
@@ -17,16 +26,7 @@ App.Component({
   data: {
     selectIndex: -1,
     optionsAnimation: {},
-    countdownAnimation: {},
-
-    /** 倒计时的计时器，每秒执行一次 */
-    countdownTimer: TIMER_NULL,
-
-    /** 对战连接异常检测 */
-    detectCombatTimer: TIMER_NULL,
-
-    /** 每题的倒计时开始时间，用于选择时做分数计算 */
-    countDownStartTime: 0
+    countdownAnimation: {}
   },
   options: {
     addGlobalClass: true
@@ -40,7 +40,7 @@ App.Component({
     detached () {
       this.playBgm(false)
       bgm?.destroy()
-      clearInterval(this.data.countdownTimer)
+      clearInterval(countdownTimer)
     }
   },
   methods: {
@@ -56,7 +56,7 @@ App.Component({
         }
       })
 
-      clearInterval(this.data.countdownTimer) // NOTE: 不继续本题的倒计时了
+      clearInterval(countdownTimer) // NOTE: 不继续本题的倒计时了
 
       // 延迟等待选项动画接近完成，再开始倒计时
       wx.nextTick(async () => {
@@ -156,7 +156,7 @@ App.Component({
     getScore () {
       // 每道题满分 100 分，选择越快分数越高
       // score = -10 * (x) + 100
-      return getCombatSelectScore(this.data.countDownStartTime)
+      return getCombatSelectScore(countDownStartTime)
     },
 
     playOptionsAnimation () {
@@ -186,12 +186,12 @@ App.Component({
 
     countdown () {
       // NOTE: 存储本题开始时间，用于计算分数
-      this.data.countDownStartTime = Date.now()
-      clearInterval(this.data.countdownTimer)
+      countDownStartTime = Date.now()
+      clearInterval(countdownTimer)
 
-      clearInterval(this.data.detectCombatTimer)
+      clearInterval(detectCombatTimer)
 
-      this.data.countdownTimer = setInterval(() => {
+      countdownTimer = setInterval(() => {
         const combat = store.getState().combat!
         const countdownTime = combat.countdown!
 
@@ -201,7 +201,7 @@ App.Component({
             this.onSelectOption(e)
           }
           this.detectCombat()
-          clearInterval(this.data.countdownTimer)
+          clearInterval(countdownTimer)
         }
 
         if (countdownTime > 1 && countdownTime <= 4) {
@@ -215,7 +215,7 @@ App.Component({
 
     /** 倒计时结束后检测房间状态是否正常，如果在 combatSelectTimeout 内没进入下一轮倒计时，则判断为房间异常 */
     detectCombat () {
-      this.data.detectCombatTimer = setTimeout(async () => {
+      detectCombatTimer = setTimeout(async () => {
         const { state, _id } = store.$state.combat!
         if (state === 'start') {
           console.log('题目切换超时')

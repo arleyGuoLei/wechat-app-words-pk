@@ -1,6 +1,6 @@
 <top-bar />
 
-<problem wx:if="{{$state.learning.wordList.length}}" wordItem="{{$state.learning.wordList[$state.learning.wordsIndex]}}" bind:loadMoreWords="loadWordsData" />
+<problem wordItem="{{$state.learning.wordList[$state.learning.wordsIndex]}}" bind:loadMoreWords="loadWordsData" />
 
 <footer-bar />
 
