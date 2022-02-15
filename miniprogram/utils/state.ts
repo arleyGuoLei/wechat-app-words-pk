@@ -1,4 +1,5 @@
 import { User, Book, Combat, CombatWord } from './../../typings/model'
+import { AppConfig } from './../models/kv'
 
 interface UiState {
   statusBarHeight: number
@@ -59,6 +60,8 @@ export interface State {
 
   /** 每日词汇数据 */
   learning: LearningState | null
+
+  appConfig: AppConfig
 }
 
 const state: State = {
@@ -95,7 +98,10 @@ const state: State = {
     sort: 0
   },
   combat: null,
-  learning: null
+  learning: null,
+  appConfig: {
+    backgroundMusicUrl: ''
+  }
 }
 
 export default state

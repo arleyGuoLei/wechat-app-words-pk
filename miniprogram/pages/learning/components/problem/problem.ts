@@ -1,7 +1,7 @@
 import { throttle, playAudio, sleep, playPronunciation } from './../../../../utils/util'
 import { LearningWord } from './../../../../utils/state'
 import config from './../../../../utils/config'
-import { store } from './../../../../app'
+import { store, events } from './../../../../app'
 import userWordModel from './../../../../models/userWord'
 import userModel from './../../../../models/user'
 
@@ -49,12 +49,15 @@ App.Component({
     ready () {
       // NOTE: 第一题的选项展示不需要动画
       void this.clearStateInit(false)
+      events.on('onGetLearningTip', this.onGetTip.bind(this))
     },
     detached () {
       clearInterval(countdownTimer)
+      events.off('onGetLearningTip')
     }
   },
   methods: {
+
     onSelectOption: throttle(async function (this: IProblem, event: SelectEvent) {
       if (!this.data.canSelect) {
         void wx.showToast({ title: '点击太快，请稍等', icon: 'none', duration: 1200 })
@@ -125,6 +128,8 @@ App.Component({
       if (healthPoint <= 1) {
         // TODO: 没有生命值了，显示弹窗
         clearInterval(countdownTimer)
+        events.emit('playLearningBgm', false) // 停止背景音乐的播放
+
         return false
       }
 
@@ -180,13 +185,28 @@ App.Component({
       }, 1000)
     },
 
-    playPronunciation () {
-      const wordList = store.$state.learning?.wordList!
-
-      if (!wordList.length) { return }
+    onGetTip: throttle(async function (this: {onSelectOption: (event: SelectEvent) => Promise<void>}) {
+      const totalTip = store.$state.user.totalTip
+      if (totalTip <= 0) {
+        void wx.showToast({ title: '没有提示卡了哦', icon: 'none', duration: 800 })
+        return
+      }
 
       const wordsIndex = store.$state.learning?.wordsIndex!
-      store.$state.user.config.pronounce && playPronunciation(wordList[wordsIndex].word)
+
+      void this.onSelectOption({
+        // @ts-expect-error
+        currentTarget: {
+          dataset: {
+            index: store.$state.learning?.wordList[wordsIndex].correctIndex!,
+            useTip: true
+          }
+        }
+      })
+    }, 500),
+
+    playPronunciation () {
+      store.$state.user.config.pronounce && events.emit('playLearningPronunciation')
     }
 
   }

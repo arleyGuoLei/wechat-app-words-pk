@@ -1,6 +1,7 @@
 import config from './utils/config'
 import Store from 'wxministore'
 import userModel from './models/user'
+import KvModel from './models/kv'
 import state, { State } from './utils/state'
 import { User } from './../typings/model'
 import { loading } from './utils/util'
@@ -15,6 +16,12 @@ type IEvents = Emitter<{
   npcSelect: unknown
   /** 自动人机选择倒计时 */
   autoNPCSelect: unknown
+  /** 播放每日词汇的单词发音 */
+  playLearningPronunciation: unknown
+  /** 播放每日词汇的背景音乐 */
+  playLearningBgm: boolean
+  /** 每日词汇使用提示卡 */
+  onGetLearningTip: unknown
 }>
 
 export const store = new Store<State>({
@@ -41,6 +48,7 @@ export interface IAppOption {
   initEnv: () => Promise<void>
   initUiGlobal: () => void
   login: () => $loginAsync
+  initConfig: () => Promise<void>
 }
 
 App<IAppOption>({
@@ -54,6 +62,7 @@ App<IAppOption>({
     // 初始化云开发，赋值 cloudEnv 才可进行云开发操作
     await this.initEnv()
 
+    void this.initConfig()
     this.$loginAsync = this.login()
   },
 
@@ -85,6 +94,15 @@ App<IAppOption>({
 
       store.setState({ cloudEnv: env }, resolve)
     })
+  },
+
+  async initConfig () {
+    const appConfig = await KvModel.getData('config')
+    if (appConfig) {
+      store.setState({ appConfig })
+    } else {
+      void wx.showToast({ title: '小程序配置获取失败，请稍后重试', icon: 'none', duration: 2000 })
+    }
   },
 
   async login (): Promise<User> {

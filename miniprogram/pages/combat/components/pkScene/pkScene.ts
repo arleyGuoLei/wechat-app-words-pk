@@ -19,7 +19,6 @@ let detectCombatTimer = TIMER_NULL
 /** 每题的倒计时开始时间，用于选择时做分数计算 */
 let countDownStartTime = 0
 
-const BGM_URL = 'cloud://cloud1-2gxt3f0qb7420723.636c-cloud1-2gxt3f0qb7420723-1306236996/5c8a08dc4956424741.mp3'
 let bgm = wx.createInnerAudioContext()
 
 App.Component({
@@ -235,7 +234,7 @@ App.Component({
       bgm = wx.createInnerAudioContext()
       bgm.loop = true
       bgm.autoplay = false
-      bgm.src = BGM_URL
+      bgm.src = store.$state.appConfig.backgroundMusicUrl
       // NOTE: 延迟一会儿再播放，偶现不延迟直接播放没有声音
       setTimeout(() => { this.playBgm() }, 800)
     },

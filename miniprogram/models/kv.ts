@@ -6,8 +6,14 @@ export interface INPC {
   nickname: string
 }
 
+export interface AppConfig {
+  /** 对战背景音乐 */
+  backgroundMusicUrl: string
+}
+
 export interface IKV {
   npc: INPC[]
+  config: AppConfig
 }
 
 class KvModel extends Base {

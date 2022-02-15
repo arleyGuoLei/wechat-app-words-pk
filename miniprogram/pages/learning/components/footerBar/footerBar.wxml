@@ -1,16 +1,17 @@
 <view class="footer">
   <view class="footer-item touch-m">
-    <image class="item-icon" src="./../../../../images/combat-bgm-open.png" />
-      <text class="item-text">背景音乐</text>
+    <image wx:if="{{$state.user.config.backgroundMusic}}" class="item-icon" data-action="pause" catchtap="onBgmChange" src="./../../../../images/combat-bgm-open.png" />
+    <image wx:else class="item-icon" data-action="start" catchtap="onBgmChange" src="./../../../../images/combat-bgm-close.png" />
+    <text class="item-text">背景音乐</text>
   </view>
 
-  <view class="footer-item touch-m">
+  <view class="footer-item touch-m" catchtap="onGetTip">
     <image class="item-icon" src="./../../../../images/word-tip.png" />
-      <text class="item-text">提示卡 x {{$state.user.totalTip}}</text>
+    <text class="item-text">提示卡 x {{$state.user.totalTip}}</text>
   </view>
 
-  <view class="footer-item touch-m">
+  <view class="footer-item touch-m" catchtap="onPlayPronunciation">
     <image class="item-icon" src="./../../../../images/word-play.png" />
-      <text class="item-text">单词发音</text>
+    <text class="item-text">单词发音</text>
   </view>
 </view>
