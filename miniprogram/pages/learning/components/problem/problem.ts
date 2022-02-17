@@ -1,4 +1,4 @@
-import { throttle, playAudio, sleep, playPronunciation } from './../../../../utils/util'
+import { throttle, playAudio, sleep } from './../../../../utils/util'
 import { LearningWord } from './../../../../utils/state'
 import config from './../../../../utils/config'
 import { store, events } from './../../../../app'
@@ -50,6 +50,7 @@ App.Component({
       // NOTE: 第一题的选项展示不需要动画
       void this.clearStateInit(false)
       events.on('onGetLearningTip', this.onGetTip.bind(this))
+      events.on('learningNextWord', this.next.bind(this))
     },
     detached () {
       clearInterval(countdownTimer)
@@ -109,7 +110,13 @@ App.Component({
       }
 
       // 选择正确 当前分数 + 1
-      store.setState({ learning: { ...store.$state.learning!, score: store.$state.learning!.score + 1 } })
+      store.setState({
+        learning: {
+          ...store.$state.learning!,
+          score: store.$state.learning!.score + 1,
+          experience: store.$state.learning!.experience + 1 // 词力值 + 1，答题结束后弹窗时进行结算并清空
+        }
+      })
     },
 
     /**
@@ -121,12 +128,46 @@ App.Component({
       playAudio(config.audios.selectWrong)
       store.$state.user.config.vibrate && wx.vibrateShort({ type: 'light' })
 
-      const healthPoint = store.$state.learning!.healthPoint
+      const healthPoint = store.$state.learning!.healthPoint ? store.$state.learning!.healthPoint : 1 // 使用弹窗复活的次数兜底，最小剩余机会不能 < 0
 
       store.setState({ learning: { ...store.$state.learning!, healthPoint: healthPoint - 1 } })
 
       if (healthPoint <= 1) {
-        // TODO: 没有生命值了，显示弹窗
+        events.emit('showLearningPopup', true) // 显示得分排名弹窗，继续/再来一局
+
+        // NOTE: 当数据库中的最大分数小于本地得分时，更新数据库中的历史最高分数
+        const score = store.$state.learning?.score ?? 0
+        if (store.$state.user.learning.maxScore <= score) {
+          const book = store.$state.book.shortName
+          void userModel.updateLearing(score, book).then((res) => {
+            res && store.setState({ // 更新本地历史最大得分
+              user: {
+                ...store.$state.user,
+                learning: {
+                  maxScore: score,
+                  bookShortName: book
+                }
+              }
+            })
+          })
+        }
+
+        const experience = store.$state.learning?.experience ?? 0
+        if (experience) {
+          void userModel.incExperience(experience, false, 'learning').then(res => {
+            res && store.setState({ // 更新用户的词力值
+              user: {
+                ...store.$state.user,
+                experience: store.$state.user.experience + experience
+              },
+              learning: {
+                ...store.$state.learning!,
+                experience: 0 // 清空待增加的词力值，答题后下轮结束答题再结算剩余词力值
+              }
+            })
+          })
+        }
+
         clearInterval(countdownTimer)
         events.emit('playLearningBgm', false) // 停止背景音乐的播放
 

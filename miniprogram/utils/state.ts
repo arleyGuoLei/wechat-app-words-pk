@@ -43,6 +43,9 @@ export interface LearningState {
 
   /** 题目选择倒计时 */
   countdown: number
+
+  /** 本局每日词汇剩余未增加的词力值，在答题结束时进行结算，每答对一题增加一次分数 */
+  experience: number
 }
 
 export interface State {
@@ -86,6 +89,10 @@ const state: State = {
       pronounce: true,
       backgroundMusic: true,
       vibrate: true
+    },
+    learning: {
+      maxScore: 0,
+      bookShortName: ''
     }
   },
   book: {

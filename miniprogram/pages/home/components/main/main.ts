@@ -48,7 +48,8 @@ App.Component({
     /**
      * 每日词汇
      */
-    onChallengeWord () {
+    async onChallengeWord () {
+      await getUserInfo()
       void app.routes.pages.learning.go({})
     },
 

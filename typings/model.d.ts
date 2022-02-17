@@ -40,6 +40,14 @@ export interface User {
 
   /** 用户配置 */
   config: UserConfig
+
+  /** 每日词汇最高分数 */
+  learning: {
+    /** 每日词汇的最高分数值 */
+    maxScore: number
+    /** 获得最高分数时的单词书缩写 */
+    bookShortName: string
+  }
 }
 
 /** 示例数据：{"_id":"BEC_100","rank":100,"word":"tool","bookId":"BEC","usphone":"tul","trans":[{"tranCn":"工具，用具；器械，机床；手段","pos":"n"},{"tranCn":"使用工具；用机床装备工厂","pos":"v"}]} */

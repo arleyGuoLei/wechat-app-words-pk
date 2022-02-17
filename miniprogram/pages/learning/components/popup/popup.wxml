@@ -1,0 +1,17 @@
+<view class="popup" wx:if="{{show && content}}">
+  <view class="message">
+    <image class="message-icon" src="./../../../../images/message-logo.png" />
+    <view class="message-text">
+      <text class="show-message-text">当前得分排名：{{rank}}</text>
+     
+      <button data-action="{{content.action.value}}" class="btn shadow-lg animated pulse infinite slower" open-type="{{content.action.type ==='open-type' ? content.action.value : ''}}" catchtap="onNext">
+        <image wx:if="{{content.icon}}" class="btn-icon" src="{{content.icon}}" />
+        <text class="btn-text">{{content.button}}</text>
+      </button>
+
+      <text class="show-message-desc">{{content.message}}</text>
+    </view>
+  </view>
+
+  <image class="message-close touch" src="./../../../../images/message-close.png" catchtap="onToHome"/>
+</view>
