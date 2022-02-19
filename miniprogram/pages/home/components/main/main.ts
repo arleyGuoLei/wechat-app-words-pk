@@ -57,7 +57,7 @@ App.Component({
      * 生词本
      */
     onToUserWords () {
-
+      void app.routes.pages.review.go({})
     }
   }
 })

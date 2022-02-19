@@ -31,7 +31,7 @@
     <button class="btn-two shadow-lg" hover-class="btn-hover" catchtap="onToUserWords">
       <view class="btn-two__text">
         <text class="btn-two__title">生词本</text>
-        <text class="btn-two__desc">Review Words !</text>
+        <text class="btn-two__desc">Review Words</text>
       </view>
       <image class="btn-two__icon" style="width: 56rpx;" src="./../../../../images/home-userwords.png" />
     </button>

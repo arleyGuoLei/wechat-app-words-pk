@@ -186,3 +186,8 @@ export interface UserWord {
 
   _createTime: DB.ServerDate | string
 }
+
+export interface IUserWords {
+  nextPage: number | null
+  list: Word[]
+}

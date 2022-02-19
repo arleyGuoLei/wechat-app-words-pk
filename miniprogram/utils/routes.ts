@@ -6,7 +6,8 @@ const router = new Router()
 export const routesConfig = [
   { path: '/home', route: '/pages/home/home' },
   { path: '/learning', route: '/pages/learning/learning' },
-  { path: '/combat', route: '/pages/combat/combat' }
+  { path: '/combat', route: '/pages/combat/combat' },
+  { path: '/review', route: '/pages/review/review' }
 ]
 
 export interface ICombatRoute {
@@ -28,8 +29,13 @@ export interface ICombatRoute {
 
 export interface IRoutes {
   pages: {
+    /** 首页 */
     home: Route<{}>
+    /** 每日词汇 */
     learning: Route<{}>
+    /** 生词本 */
+    review: Route<{}>
+    /** 对战模式 */
     combat: Route<ICombatRoute>
   }
 }

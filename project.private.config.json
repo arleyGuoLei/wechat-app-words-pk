@@ -51,6 +51,13 @@
         {
           "name": "每日词汇",
           "pathName": "pages/learning/learning",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "生词本",
+          "pathName": "pages/review/review",
+          "query": "",
           "scene": null
         }
       ]

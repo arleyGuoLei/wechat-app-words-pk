@@ -2,7 +2,8 @@
   "pages": [
     "pages/home/home",
     "pages/combat/combat",
-    "pages/learning/learning"
+    "pages/learning/learning",
+    "pages/review/review"
   ],
   "window": {
     "backgroundColor": "#FFFFFF",
