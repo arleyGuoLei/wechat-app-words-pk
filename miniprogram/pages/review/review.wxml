@@ -1,0 +1,8 @@
+<block wx:for="{{wordsList}}" wx:key="_id" wx:for-index="index" wx:for-item="userWord">
+  <word-item index="{{index}}" userWord="{{userWord}}" bind:delete="onDeleteWord" />
+</block>
+
+<text class="onBottom" wx:if="{{!nextPage && wordsList.length}}">👻 没有更多数据 👻</text>
+
+<!-- 加载 -->
+<loading id="loading" />

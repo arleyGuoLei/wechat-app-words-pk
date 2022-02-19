@@ -1,5 +1,6 @@
 import userWordModel from './../../models/userWord'
 import { IUserWords } from './../../../typings/model'
+import { loading } from './../../utils/util'
 
 interface PageData {
   wordsList: IUserWords['list']
@@ -8,6 +9,7 @@ interface PageData {
 
 interface PageInstance {
   getData: () => Promise<void>
+  onDeleteWord: (event: WechatMiniprogram.CustomEvent<{index: number, _id: string}>) => void
 }
 
 App.Page<PageData, PageInstance>({
@@ -21,6 +23,7 @@ App.Page<PageData, PageInstance>({
   async getData () {
     const page = this.data.nextPage
     if (page) {
+      loading.show()
       const myDate = await userWordModel.getMyList(page)
       if (!myDate) {
         console.log('获取生词失败，请重试')
@@ -28,11 +31,28 @@ App.Page<PageData, PageInstance>({
         return
       }
       const { nextPage, list } = myDate
-
       this.setData({ wordsList: this.data.wordsList.concat(list), nextPage })
+      loading.hide()
     }
   },
-  onReachBottom () {
+  async onReachBottom () {
+    await this.getData()
+  },
+  async onPullDownRefresh () {
+    this.setData({ nextPage: 1, wordsList: [] }, async () => {
+      try {
+        await this.getData()
+      } catch (error) {
+        void wx.showToast({ title: '刷新失败，请重试', icon: 'none', duration: 2000 })
+      }
+      void wx.stopPullDownRefresh()
+    })
+  },
 
+  onDeleteWord ({ detail: { index } }) {
+    // NOTE: 在列表中删除词汇，服务端的删除在组件中已经执行
+    const { data: { wordsList } } = this
+    wordsList.splice(index, 1)
+    this.setData({ wordsList })
   }
 })

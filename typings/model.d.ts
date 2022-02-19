@@ -185,6 +185,8 @@ export interface UserWord {
   wordId: string | DB.DocumentId
 
   _createTime: DB.ServerDate | string
+
+  timestamp: number
 }
 
 export interface IUserWords {

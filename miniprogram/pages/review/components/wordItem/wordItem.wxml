@@ -1,0 +1,20 @@
+<view class="item" catchlongpress="onLongpress" catchtap="onTapWord">
+  <view class="item-left">
+    <view class="item-left__word">
+      <text class="item-left__word-text">{{userWord.word}}</text>
+      <text class="item-left__word-usphone">{{userWord.usphone?'/'+userWord.usphone+'/':''}}</text>
+    </view>
+    <text class="item-left__trans">
+      <block wx:for="{{userWord.trans}}" wx:key="j" wx:for-index="j" wx:for-item="trans">{{trans.pos?trans.pos+'.':''}}{{trans.tranCn}}</block>
+    </text>
+  </view>
+
+  <view class="item-right">
+    <view catchtap="onPlayAudio" class="item-right__audio animated fadeIn fast" wx:if="{{status === 'audio'}}">
+      <image src="./../../../../images/word-play.png" />
+    </view>
+    <view catchtap="onDelete" class="item-right__delete animated fast slideInRight" wx:else>
+      <image src="./../../../../images/word-delete.png" />
+    </view>
+  </view>
+</view>

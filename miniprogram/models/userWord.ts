@@ -12,8 +12,27 @@ class UserWordModel extends Base {
   }
 
   async add (wordId: string): Promise<DB.DocumentId> {
-    const { _id } = (await this.model.add({ data: { wordId, _createTime: this.db.serverDate() } }))
+    const { _id } = (await this.model.add({
+      data: {
+        wordId,
+        _createTime: this.db.serverDate(),
+        timestamp: Date.now() // serverDate 不支持 sort 排序，增加时间戳整数用于排序查询
+      }
+    }))
     return _id
+  }
+
+  /**
+   * 根据生词 id 删除生词本词汇
+   * @param id 生词本的词汇 _id
+   */
+  async delete (id: DB.DocumentId): Promise<boolean> {
+    const { stats: { removed } } = await this.model.doc(id).remove()
+
+    if (removed) {
+      return true
+    }
+    return false
   }
 
   async getMyList (page: number): Promise<IUserWords | null> {

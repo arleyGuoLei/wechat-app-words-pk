@@ -1,5 +1,7 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+    "word-item": "components/wordItem/wordItem"
+  },
   "navigationStyle": "default",
   "navigationBarTextStyle": "black",
   "navigationBarBackgroundColor": "#ffffff",

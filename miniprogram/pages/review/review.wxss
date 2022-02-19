@@ -1,0 +1,12 @@
+page {
+  background-color: #f8f8f8;
+}
+
+.onBottom {
+  font-size: 28rpx;
+  color: rgba(153, 153, 153, 1);
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
