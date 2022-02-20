@@ -26,6 +26,7 @@ App.Page<PageData, PageInstance>({
       loading.show()
       const myDate = await userWordModel.getMyList(page)
       if (!myDate) {
+        this.setData({ wordsList: [], nextPage: null })
         console.log('获取生词失败，请重试')
         void wx.showToast({ title: '获取生词失败，请稍后重试', icon: 'none', duration: 2000 })
         return
@@ -38,17 +39,6 @@ App.Page<PageData, PageInstance>({
   async onReachBottom () {
     await this.getData()
   },
-  async onPullDownRefresh () {
-    this.setData({ nextPage: 1, wordsList: [] }, async () => {
-      try {
-        await this.getData()
-      } catch (error) {
-        void wx.showToast({ title: '刷新失败，请重试', icon: 'none', duration: 2000 })
-      }
-      void wx.stopPullDownRefresh()
-    })
-  },
-
   onDeleteWord ({ detail: { index } }) {
     // NOTE: 在列表中删除词汇，服务端的删除在组件中已经执行
     const { data: { wordsList } } = this

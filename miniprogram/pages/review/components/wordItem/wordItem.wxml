@@ -4,9 +4,12 @@
       <text class="item-left__word-text">{{userWord.word}}</text>
       <text class="item-left__word-usphone">{{userWord.usphone?'/'+userWord.usphone+'/':''}}</text>
     </view>
-    <text class="item-left__trans">
+
+    <text wx:if="{{!showTrans}}" class="item-left__trans {{showTrans ? '' : 'item-left__trans-tip'}}">点击显示释义，长按可切换删除/发音</text>
+    <text wx:else class="item-left__trans">
       <block wx:for="{{userWord.trans}}" wx:key="j" wx:for-index="j" wx:for-item="trans">{{trans.pos?trans.pos+'.':''}}{{trans.tranCn}}</block>
     </text>
+
   </view>
 
   <view class="item-right">

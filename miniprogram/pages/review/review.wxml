@@ -4,5 +4,10 @@
 
 <text class="onBottom" wx:if="{{!nextPage && wordsList.length}}">👻 没有更多数据 👻</text>
 
+<view wx:if="{{(wordsList.length ===0 && !nextPage)}}" class="blank">
+  <image class="blank-img" src="./../../images/message-logo.png" />
+  <text class="blank-text">还没有生词需要复习哦</text>
+</view>
+
 <!-- 加载 -->
 <loading id="loading" />

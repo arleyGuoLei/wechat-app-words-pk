@@ -7,6 +7,28 @@ page {
   color: rgba(153, 153, 153, 1);
   display: block;
   text-align: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  box-sizing: border-box;
+  padding: 28px 0 64px 0;
+}
+
+
+.blank {
+  display: flex;
+  flex-direction: column;
+  height: 70vh;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.blank-img {
+  width: 267rpx;
+  height: 200rpx;
+}
+
+.blank-text {
+  margin-top: 48rpx;
+  color: rgba(153, 153, 153, 1);
+  font-size: 34rpx;
+  font-weight: 500;
 }

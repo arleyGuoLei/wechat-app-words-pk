@@ -6,5 +6,5 @@
   "navigationBarTextStyle": "black",
   "navigationBarBackgroundColor": "#ffffff",
   "navigationBarTitleText": "生词本",
-  "enablePullDownRefresh": true
+  "backgroundColor": "#f8f8f8"
 }

@@ -6,6 +6,7 @@
   margin: 20rpx auto 0 auto;
   display: flex;
   justify-content: space-between;
+  overflow: hidden;
 }
 
 .item-left {
@@ -68,4 +69,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.item-left__trans-tip {
+  color: rgba(204, 204, 204, .8);
 }

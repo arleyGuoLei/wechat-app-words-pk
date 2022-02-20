@@ -8,7 +8,8 @@ App.Component({
     userWord: Object
   },
   data: {
-    status: 'audio'
+    status: 'delete',
+    showTrans: false
   },
   options: {
     addGlobalClass: true
@@ -19,7 +20,7 @@ App.Component({
       this.setData({ status: this.data.status === 'audio' ? 'delete' : 'audio' })
     },
     onTapWord () {
-      void wx.showToast({ title: '长按切换「删除」「发音」', icon: 'none', duration: 2000 })
+      this.setData({ showTrans: !this.data.showTrans })
     },
     onPlayAudio () {
       const { word } = this.properties.userWord as Word
