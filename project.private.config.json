@@ -65,6 +65,12 @@
           "pathName": "pages/ranking/ranking",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "设置页",
+          "pathName": "pages/setting/setting",
+          "query": "",
+          "scene": null
         }
       ]
     }

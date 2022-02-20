@@ -8,7 +8,8 @@ export const routesConfig = [
   { path: '/learning', route: '/pages/learning/learning' },
   { path: '/combat', route: '/pages/combat/combat' },
   { path: '/review', route: '/pages/review/review' },
-  { path: '/ranking', route: '/pages/ranking/ranking' }
+  { path: '/ranking', route: '/pages/ranking/ranking' },
+  { path: '/setting', route: '/pages/setting/setting' }
 ]
 
 export interface ICombatRoute {
@@ -40,6 +41,8 @@ export interface IRoutes {
     combat: Route<ICombatRoute>
     /** 排行榜 */
     ranking: Route<{}>
+    /** 设置页 */
+    setting: Route<{}>
   }
 }
 

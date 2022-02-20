@@ -4,7 +4,8 @@
     "pages/combat/combat",
     "pages/learning/learning",
     "pages/review/review",
-    "pages/ranking/ranking"
+    "pages/ranking/ranking",
+    "pages/setting/setting"
   ],
   "window": {
     "backgroundColor": "#FFFFFF",
