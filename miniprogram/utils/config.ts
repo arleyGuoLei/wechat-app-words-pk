@@ -60,5 +60,8 @@ export default {
   learningCountDown: 30,
 
   /** 每日词汇剩余多少题目没回答时进行下页题目的预请求加载 */
-  learningWordsSurplusPreload: 5
+  learningWordsSurplusPreload: 5,
+
+  /** 对战设置每局的对战单词数目 */
+  combatQuestionNumbers: [5, 8, 10, 12, 15, 20]
 }

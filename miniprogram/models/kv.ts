@@ -9,6 +9,7 @@ export interface INPC {
 export interface AppConfig {
   /** 对战背景音乐 */
   backgroundMusicUrl: string
+  wechat: string
 }
 
 export interface IKV {

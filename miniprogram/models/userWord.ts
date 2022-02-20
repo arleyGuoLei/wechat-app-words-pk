@@ -43,6 +43,16 @@ class UserWordModel extends Base {
 
     return data
   }
+
+  async deleteAll (): Promise<boolean> {
+    const deleted = await this.server<{state: 0, data: boolean}, undefined>('user/clearUserWords')
+
+    if (deleted.state !== 0) {
+      return false
+    }
+
+    return deleted.data
+  }
 }
 
 export default new UserWordModel()

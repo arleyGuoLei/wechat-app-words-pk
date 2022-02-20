@@ -107,7 +107,8 @@ const state: State = {
   combat: null,
   learning: null,
   appConfig: {
-    backgroundMusicUrl: ''
+    backgroundMusicUrl: '',
+    wechat: '34805850'
   }
 }
 

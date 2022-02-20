@@ -38,3 +38,9 @@
     <button class="card-item__title" hover-class="none">关于项目 & 关于我</button>
   </view>
 </view>
+
+<view class="card shadow-box">
+  <view class="card-item" catchtap="onChat" wx:if="{{$state.appConfig.wechat}}">
+    <button class="card-item__title" hover-class="none">微信联系：{{$state.appConfig.wechat}} (复制)</button>
+  </view>
+</view>
