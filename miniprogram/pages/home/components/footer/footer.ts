@@ -13,7 +13,7 @@ App.Component({
       void app.routes.pages.ranking.go({})
     },
     onAbout () {
-
+      void app.routes.pages.about.go({})
     }
   }
 })

@@ -71,6 +71,12 @@
           "pathName": "pages/setting/setting",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "关于",
+          "pathName": "pages/about/about",
+          "query": "",
+          "scene": null
         }
       ]
     }

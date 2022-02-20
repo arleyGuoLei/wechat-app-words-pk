@@ -1,8 +1,10 @@
 import config from './../../utils/config'
 import userModel from './../../models/user'
 import userWordModel from './../../models/userWord'
-import { store } from './../../app'
+import { store, IAppOption } from './../../app'
 import { getUserInfo } from './../../utils/helper'
+
+const app = getApp<IAppOption>()
 
 App.Page({
   onSelect (event: WechatMiniprogram.BaseEvent<WechatMiniprogram.IAnyObject, {type: 'combatQuestionNumber' | 'backgroundMusic' | 'pronounce' | 'vibrate'} >) {
@@ -67,6 +69,6 @@ App.Page({
     void wx.setClipboardData({ data: store.$state.appConfig.wechat })
   },
   onAbout () {
-
+    void app.routes.pages.about.go({})
   }
 })

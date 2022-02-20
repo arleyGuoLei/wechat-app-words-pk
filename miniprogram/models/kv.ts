@@ -10,6 +10,7 @@ export interface AppConfig {
   /** 对战背景音乐 */
   backgroundMusicUrl: string
   wechat: string
+  about: string
 }
 
 export interface IKV {

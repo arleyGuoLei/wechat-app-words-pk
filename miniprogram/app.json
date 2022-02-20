@@ -5,7 +5,8 @@
     "pages/learning/learning",
     "pages/review/review",
     "pages/ranking/ranking",
-    "pages/setting/setting"
+    "pages/setting/setting",
+    "pages/about/about"
   ],
   "window": {
     "backgroundColor": "#FFFFFF",

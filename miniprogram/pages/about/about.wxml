@@ -1,0 +1,3 @@
+<view class="rich-content">
+  <rich-text nodes="{{$state.appConfig.about}}" />
+</view>
