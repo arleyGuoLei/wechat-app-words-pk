@@ -52,7 +52,7 @@
 .item-left__word-text {
   font-size: 36rpx;
   font-weight: 600;
-  color: rgba(126, 205, 247, 1);
+  color: rgba(0, 0, 0, .8);
 }
 
 .item-left__word-usphone {
@@ -64,7 +64,7 @@
 
 .item-left__trans {
   font-size: 28rpx;
-  color: rgba(0, 0, 0, 0.8);
+  color: #626675;
   width: 580rpx;
   overflow: hidden;
   text-overflow: ellipsis;
