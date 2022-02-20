@@ -1,5 +1,5 @@
 import userWordModel from './../../models/userWord'
-import { IUserWords } from './../../../typings/model'
+import { IUserWords } from './../../../typings/data'
 import { loading } from './../../utils/util'
 
 interface PageData {

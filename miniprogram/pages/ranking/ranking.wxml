@@ -1,26 +1,24 @@
-<top-bar type="{{type}}" />
+<top-bar type="{{type}}" bind:change="changeType" />
 
-<info index="1" avatar="https://thirdwx.qlogo.cn/mmopen/vi_32/BAo7oN89bad6atY95sIzZ50fDNM3K7gWu27bVxNcfkguPFx2VdKazuiaVVuUCiaC1Xee9EPz6Kea8zATj1geFTfg/132" nickname="arleyarleyarleyarleyarley" score="99999" tag="CET4" />
-<info index="2" avatar="https://thirdwx.qlogo.cn/mmopen/vi_32/BAo7oN89bad6atY95sIzZ50fDNM3K7gWu27bVxNcfkguPFx2VdKazuiaVVuUCiaC1Xee9EPz6Kea8zATj1geFTfg/132" nickname="磊子 | 独立开发者" score="888" />
-<info index="3" avatar="https://thirdwx.qlogo.cn/mmopen/vi_32/BAo7oN89bad6atY95sIzZ50fDNM3K7gWu27bVxNcfkguPFx2VdKazuiaVVuUCiaC1Xee9EPz6Kea8zATj1geFTfg/132" nickname="磊子 | 独立开发者" score="77" tag="高考+" />
-<info index="20" avatar="https://thirdwx.qlogo.cn/mmopen/vi_32/BAo7oN89bad6atY95sIzZ50fDNM3K7gWu27bVxNcfkguPFx2VdKazuiaVVuUCiaC1Xee9EPz6Kea8zATj1geFTfg/132" nickname="磊子 | 独立开发者" score="1" />
-<info index="20" avatar="https://thirdwx.qlogo.cn/mmopen/vi_32/BAo7oN89bad6atY95sIzZ50fDNM3K7gWu27bVxNcfkguPFx2VdKazuiaVVuUCiaC1Xee9EPz6Kea8zATj1geFTfg/132" nickname="磊子 | 独立开发者" score="1" />
-<info index="20" avatar="https://thirdwx.qlogo.cn/mmopen/vi_32/BAo7oN89bad6atY95sIzZ50fDNM3K7gWu27bVxNcfkguPFx2VdKazuiaVVuUCiaC1Xee9EPz6Kea8zATj1geFTfg/132" nickname="磊子 | 独立开发者" score="1" />
-<info index="20" avatar="https://thirdwx.qlogo.cn/mmopen/vi_32/BAo7oN89bad6atY95sIzZ50fDNM3K7gWu27bVxNcfkguPFx2VdKazuiaVVuUCiaC1Xee9EPz6Kea8zATj1geFTfg/132" nickname="磊子 | 独立开发者" score="1" />
-<info index="20" avatar="https://thirdwx.qlogo.cn/mmopen/vi_32/BAo7oN89bad6atY95sIzZ50fDNM3K7gWu27bVxNcfkguPFx2VdKazuiaVVuUCiaC1Xee9EPz6Kea8zATj1geFTfg/132" nickname="磊子 | 独立开发者" score="1" />
-<info index="20" avatar="https://thirdwx.qlogo.cn/mmopen/vi_32/BAo7oN89bad6atY95sIzZ50fDNM3K7gWu27bVxNcfkguPFx2VdKazuiaVVuUCiaC1Xee9EPz6Kea8zATj1geFTfg/132" nickname="磊子 | 独立开发者" score="1" />
-<info index="20" avatar="https://thirdwx.qlogo.cn/mmopen/vi_32/BAo7oN89bad6atY95sIzZ50fDNM3K7gWu27bVxNcfkguPFx2VdKazuiaVVuUCiaC1Xee9EPz6Kea8zATj1geFTfg/132" nickname="磊子 | 独立开发者" score="1" />
-<info index="20" avatar="https://thirdwx.qlogo.cn/mmopen/vi_32/BAo7oN89bad6atY95sIzZ50fDNM3K7gWu27bVxNcfkguPFx2VdKazuiaVVuUCiaC1Xee9EPz6Kea8zATj1geFTfg/132" nickname="磊子 | 独立开发者" score="1" />
-<info index="20" avatar="https://thirdwx.qlogo.cn/mmopen/vi_32/BAo7oN89bad6atY95sIzZ50fDNM3K7gWu27bVxNcfkguPFx2VdKazuiaVVuUCiaC1Xee9EPz6Kea8zATj1geFTfg/132" nickname="磊子 | 独立开发者" score="1" />
-<info index="20" avatar="https://thirdwx.qlogo.cn/mmopen/vi_32/BAo7oN89bad6atY95sIzZ50fDNM3K7gWu27bVxNcfkguPFx2VdKazuiaVVuUCiaC1Xee9EPz6Kea8zATj1geFTfg/132" nickname="磊子 | 独立开发者" score="1" />
-<info index="20" avatar="https://thirdwx.qlogo.cn/mmopen/vi_32/BAo7oN89bad6atY95sIzZ50fDNM3K7gWu27bVxNcfkguPFx2VdKazuiaVVuUCiaC1Xee9EPz6Kea8zATj1geFTfg/132" nickname="磊子 | 独立开发者" score="1" />
-<info index="20" avatar="https://thirdwx.qlogo.cn/mmopen/vi_32/BAo7oN89bad6atY95sIzZ50fDNM3K7gWu27bVxNcfkguPFx2VdKazuiaVVuUCiaC1Xee9EPz6Kea8zATj1geFTfg/132" nickname="磊子 | 独立开发者" score="1" />
-<info index="20" avatar="https://thirdwx.qlogo.cn/mmopen/vi_32/BAo7oN89bad6atY95sIzZ50fDNM3K7gWu27bVxNcfkguPFx2VdKazuiaVVuUCiaC1Xee9EPz6Kea8zATj1geFTfg/132" nickname="磊子 | 独立开发者" score="1" />
-<info index="20" avatar="https://thirdwx.qlogo.cn/mmopen/vi_32/BAo7oN89bad6atY95sIzZ50fDNM3K7gWu27bVxNcfkguPFx2VdKazuiaVVuUCiaC1Xee9EPz6Kea8zATj1geFTfg/132" nickname="磊子 | 独立开发者" score="1" />
-<info index="20" avatar="https://thirdwx.qlogo.cn/mmopen/vi_32/BAo7oN89bad6atY95sIzZ50fDNM3K7gWu27bVxNcfkguPFx2VdKazuiaVVuUCiaC1Xee9EPz6Kea8zATj1geFTfg/132" nickname="磊子 | 独立开发者" score="1" />
-<info index="20" avatar="https://thirdwx.qlogo.cn/mmopen/vi_32/BAo7oN89bad6atY95sIzZ50fDNM3K7gWu27bVxNcfkguPFx2VdKazuiaVVuUCiaC1Xee9EPz6Kea8zATj1geFTfg/132" nickname="磊子 | 独立开发者" score="1" />
-<info index="20" avatar="https://thirdwx.qlogo.cn/mmopen/vi_32/BAo7oN89bad6atY95sIzZ50fDNM3K7gWu27bVxNcfkguPFx2VdKazuiaVVuUCiaC1Xee9EPz6Kea8zATj1geFTfg/132" nickname="磊子 | 独立开发者" score="1" />
+<block wx:for="{{rankingList}}" wx:key="index" wx:for-index="index" wx:for-item="user">
+  <info 
+    index="{{user.index}}"
+    avatar="{{user.avatar}}"
+    nickname="{{user.nickname}}"
+    score="{{type === 'experience' ? user.experience : user.learning.maxScore}}"
+    tag="{{type === 'learning' ? user.learning.bookShortName : ''}}" 
+  />
+</block>
 
-<view class="mine">
-  <info index="1" avatar="https://thirdwx.qlogo.cn/mmopen/vi_32/BAo7oN89bad6atY95sIzZ50fDNM3K7gWu27bVxNcfkguPFx2VdKazuiaVVuUCiaC1Xee9EPz6Kea8zATj1geFTfg/132" nickname="磊子 | 独立开发者" score="1" />
+<view class="mine" wx:if="{{mine}}">
+  <info 
+    index="{{mine.index}}"
+    avatar="{{mine.avatar}}"
+    nickname="{{mine.nickname}}" 
+    score="{{type === 'experience' ? mine.experience : mine.learning.maxScore}}"
+    tag="{{type === 'learning' ? mine.learning.bookShortName : ''}}"  
+  />
 </view>
+
+<!-- 加载 -->
+<loading id="loading" />

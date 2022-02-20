@@ -188,8 +188,3 @@ export interface UserWord {
 
   timestamp: number
 }
-
-export interface IUserWords {
-  nextPage: number | null
-  list: Word[]
-}

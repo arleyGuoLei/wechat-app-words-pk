@@ -1,5 +1,6 @@
 import Base from './base'
 import { User, Book } from './../../typings/model'
+import { IRankingType, ILearningRanking, IExperienceRanking } from './../../typings/data'
 
 type LoginUserInfo = User & { book: Book[] }
 
@@ -141,6 +142,16 @@ class UserModel extends Base {
       }
     }).count()
     return number + 1
+  }
+
+  async getRanking (type: IRankingType): Promise<ILearningRanking | IExperienceRanking | null> {
+    const rankingData = await this.server<{state: 0, data: ILearningRanking | IExperienceRanking}, {type: IRankingType}>('user/getRanking', { type })
+
+    if (rankingData.state !== 0) {
+      return null
+    }
+
+    return rankingData.data
   }
 }
 

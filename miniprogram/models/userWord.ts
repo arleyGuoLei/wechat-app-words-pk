@@ -1,5 +1,5 @@
 import Base from './base'
-import { IUserWords } from './../../typings/model'
+import { IUserWords } from './../../typings/data'
 
 /**
  * 权限: 仅创建者可读写
