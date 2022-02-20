@@ -1,0 +1,11 @@
+{
+  "usingComponents": {
+    "top-bar": "components/topBar/topBar",
+    "info": "components/info/info"
+  },
+  "navigationStyle": "default",
+  "navigationBarTextStyle": "black",
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTitleText": "排行榜",
+  "backgroundColor": "#f8f8f8"
+}

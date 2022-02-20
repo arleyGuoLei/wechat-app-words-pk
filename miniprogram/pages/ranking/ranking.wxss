@@ -1,0 +1,14 @@
+page {
+  background-color: #f8f8f8;
+  box-sizing: border-box;
+  padding: 104rpx 0 124rpx 0;
+}
+
+.mine {
+  background:rgba(255, 255, 255, 1);
+  box-shadow: 0rpx -4rpx 10rpx 0rpx rgba(153, 153, 153, 0.2); 
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 750rpx;
+}

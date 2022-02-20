@@ -1,0 +1,4 @@
+<view class="top-bar">
+  <text catchtap="onTab" data-type="experience" class="top-bar__tab {{type === 'experience' ? 'active' : ''}}">词力值榜</text>
+  <text catchtap="onTab" data-type="learning" class="top-bar__tab {{type === 'learning' ? 'active' : ''}}">词汇榜</text>
+</view>

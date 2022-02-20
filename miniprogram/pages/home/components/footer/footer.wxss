@@ -10,7 +10,7 @@
   background: transparent;
   display: flex;
   align-items: center;
-  width: 172rpx!important;
+  width: 200rpx!important;
   border: 0;
   outline: none;
 }

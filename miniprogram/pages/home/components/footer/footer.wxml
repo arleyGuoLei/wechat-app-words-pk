@@ -10,9 +10,9 @@
     <text class="footer-text">建议反馈</text>
   </button>
 
-  <button class="footer-item" hover-class="touch-m" catchtap="onZan">
-    <image class="footer-icon" src="./../../../../images/home-zan.png" />
-    <text class="footer-text">打赏作者</text>
+  <button class="footer-item" hover-class="touch-m" catchtap="onAbout">
+    <image class="footer-icon" src="./../../../../images/about.png" />
+    <text class="footer-text">关于&公告</text>
   </button>
  
 </view>

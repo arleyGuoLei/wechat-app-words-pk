@@ -1,0 +1,16 @@
+<view class="info">
+  <view class="info-num">
+    <image wx:if="{{index<=3}}" class="info-num__img" src="./../../../../images/ranking-N{{index}}.png" />
+    <text wx:else class="info-num__text">{{index}}</text>
+  </view>
+
+  <image class="avartar" src="{{avatar}}" />
+  <text class="nickname">{{nickname}}</text>
+
+  <view wx:if="{{tag}}" class="tag">{{tag}}</view>
+
+  <view class="score">
+    <image class="score-img" src="./../../../../images/ranking-grade.png" />
+    <text class="score-text">{{score}}</text>
+  </view>
+</view>

@@ -1,3 +1,7 @@
+import { IAppOption } from './../../../../app'
+
+const app = getApp<IAppOption>()
+
 App.Component({
   options: {
     /** 页面 wxss 样式将影响到自定义组件，但自定义组件 wxss 中指定的样式不会影响页面 */
@@ -6,9 +10,9 @@ App.Component({
   },
   methods: {
     onToRanking () {
-
+      void app.routes.pages.ranking.go({})
     },
-    onZan () {
+    onAbout () {
 
     }
   }

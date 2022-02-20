@@ -59,6 +59,12 @@
           "pathName": "pages/review/review",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "排行榜",
+          "pathName": "pages/ranking/ranking",
+          "query": "",
+          "scene": null
         }
       ]
     }

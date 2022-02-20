@@ -3,7 +3,8 @@
     "pages/home/home",
     "pages/combat/combat",
     "pages/learning/learning",
-    "pages/review/review"
+    "pages/review/review",
+    "pages/ranking/ranking"
   ],
   "window": {
     "backgroundColor": "#FFFFFF",

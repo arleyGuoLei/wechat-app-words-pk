@@ -1,0 +1,39 @@
+.top-bar {
+  height: 88rpx;
+  width: 750rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background:rgba(255, 255, 255, 1);
+  box-shadow: 0rpx 4rpx 10rpx 0rpx rgba(153, 153, 153, 0.2); 
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.top-bar__tab {
+  width: 320rpx;
+  height: 64rpx;
+  line-height: 64rpx;
+  text-align: center;
+  margin: 0 24rpx;
+  color: #999999;
+}
+
+.top-bar::before{
+  position: absolute;
+  display: block;
+  width: 1rpx;
+  height: 64rpx;
+  background:rgba(238, 238, 238, 1);
+  content: ' ';
+  /* (88 - 64) / 2 */
+  top: 12rpx;
+  left: 50%;
+  transform: translateX(-0.5rpx);
+}
+
+.active {
+  color: #333333;
+  font-weight: 500;
+}
