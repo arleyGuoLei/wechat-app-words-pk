@@ -1,10 +1,7 @@
 
-import { IAppOption } from './../../app'
 import userModel from './../../models/user'
 import { loading } from './../../utils/util'
 import { IRankingType, IExperienceRanking, ILearningRanking } from './../../../typings/data'
-
-const app = getApp<IAppOption>()
 
 interface PageData {
   type: IRankingType
@@ -13,7 +10,7 @@ interface PageData {
 }
 
 interface PageInstance {
-  getData: () => Promise<void>
+  getData: (type?: IRankingType) => Promise<void>
   changeType: (event: WechatMiniprogram.CustomEvent<{type: IRankingType }>) => void
 }
 
@@ -26,9 +23,9 @@ App.Page<PageData, PageInstance>({
   onLoad () {
     void this.getData()
   },
-  async getData () {
+  async getData (type) {
     loading.show()
-    const data = await userModel.getRanking(this.data.type)
+    const data = await userModel.getRanking(type ?? this.data.type)
     loading.hide()
 
     if (!data) {
@@ -36,15 +33,11 @@ App.Page<PageData, PageInstance>({
       return
     }
 
-    this.setData({ rankingList: data.list, mine: data.mine })
+    this.setData({ rankingList: data.list, mine: data.mine, type: type ?? this.data.type })
   },
   changeType ({ detail: { type } }) {
     if (type !== this.data.type) {
-      this.setData({
-        type
-      }, () => {
-        void this.getData()
-      })
+      void this.getData(type)
     }
   }
 })
