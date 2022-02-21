@@ -6,6 +6,7 @@
     "main": "components/main/main",
     "footer": "components/footer/footer",
     "background": "components/background/background",
-    "book-select": "components/bookSelect/bookSelect"
+    "book-select": "components/bookSelect/bookSelect",
+    "home-add-tips": "components/homeAddTips/homeAddTips"
   }
 }

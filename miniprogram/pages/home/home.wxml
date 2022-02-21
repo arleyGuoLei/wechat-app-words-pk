@@ -18,5 +18,10 @@
 <!-- 单词书切换选择 -->
 <book-select id="book-select" />
 
+<home-add-tips />
+
 <!-- 加载 -->
 <loading id="loading"/>
+
+<!-- 弹窗 -->
+<toast id="toast" />
