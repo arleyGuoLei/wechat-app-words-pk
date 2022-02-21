@@ -21,7 +21,9 @@ App.Page<PageData, PageInstance>({
     mine: null
   },
   onLoad () {
-    void this.getData()
+    wx.nextTick(() => { // loading 组件可能还没挂载，延迟下一个 tick 再做数据请求
+      void this.getData()
+    })
   },
   async getData (type) {
     loading.show()
