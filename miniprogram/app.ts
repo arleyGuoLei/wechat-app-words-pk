@@ -1,3 +1,4 @@
+import 'umeng-polyfill'
 import config from './utils/config'
 import Store from 'wxministore'
 import userModel from './models/user'
