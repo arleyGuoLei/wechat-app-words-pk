@@ -2,12 +2,12 @@
 
   <!-- 主页头像信息，state 中有则显示 state 中数据，否则使用 open-data 显示用户头像 -->
   <image wx:if="{{$state.user.avatar}}" class="user-avatar" src="{{$state.user.avatar}}" />
-  <open-data wx:else class="user-avatar" type="userAvatarUrl"></open-data>
+  <image wx:else class="user-avatar" src="./../../../../images/combat-default-avatar.png"></image>
 
   <view class="user-info">
     <!-- 主页用户昵称信息，state 中的显示优先级大于 opendata 优先级 -->
     <text wx:if="{{$state.user.nickname}}" class="user-info__nickname">{{$state.user.nickname}}</text>
-    <open-data wx:else class="user-info__nickname" type="userNickName"></open-data>
+    <text wx:else class="user-info__nickname" catchtap="onGetUserInfo">神秘学霸 (点击登录)</text>
  
     <view class="user-info__grade">
       <image class="grade-icon" src="./../../../../images/home-grade.png" />

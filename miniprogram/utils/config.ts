@@ -63,5 +63,5 @@ export default {
   learningWordsSurplusPreload: 5,
 
   /** 对战设置每局的对战单词数目 */
-  combatQuestionNumbers: [5, 8, 10, 12, 15, 20]
+  combatQuestionNumbers: [8, 10, 12, 15, 20, 30]
 }
