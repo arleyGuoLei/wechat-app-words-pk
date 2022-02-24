@@ -27,15 +27,14 @@
     "uploadWithSourceMap": true,
     "compileHotReLoad": false,
     "lazyloadPlaceholderEnable": false,
-    "useMultiFrameRuntime": false,
-    "useApiHook": false,
-    "useApiHostProcess": false,
+    "useMultiFrameRuntime": true,
+    "useApiHook": true,
+    "useApiHostProcess": true,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
       "outputPath": ""
     },
-    "enableEngineNative": false,
     "useIsolateContext": false,
     "userConfirmedBundleSwitch": false,
     "packNpmManually": false,
@@ -46,11 +45,12 @@
     "showES6CompileOption": false,
     "useCompilerPlugins": [
       "typescript"
-    ]
+    ],
+    "ignoreUploadUnusedFiles": true
   },
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
-  "appid": "wxa705ce61a6f5bc5b",
+  "appid": "wx51a5362ef159dbcd",
   "cloudfunctionTemplateRoot": "cloudfunctionTemplate",
   "condition": {}
 }

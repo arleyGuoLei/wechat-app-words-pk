@@ -1,2 +1,4 @@
 node_modules/
 cloudfunctions/server/
+cloudfunctions/
+assets/
