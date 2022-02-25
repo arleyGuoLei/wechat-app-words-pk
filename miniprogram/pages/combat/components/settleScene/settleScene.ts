@@ -90,7 +90,7 @@ App.Component({
         const book = store.getState().book
 
         if (type === 'friend') {
-          const combatInfo = formatCombatInfo(userinfo, book, 'friend', new Array(userinfo.config.combatQuestionNumber).fill({}))
+          const combatInfo = formatCombatInfo(userinfo, book, 'friend', new Array(+userinfo.config.combatQuestionNumber).fill({}))
 
           const otherParame = isShareResult ? {} : { previousId: _id }
           await app.routes.pages.combat.redirectTo({ type: 'friend', state: 'create', ...otherParame }) // 注意跳转方式为 redirectTo，并且非分享战绩结果的房间需要携带上房间 id
@@ -100,7 +100,7 @@ App.Component({
             combat: { ...combatInfo, state: 'create', next: '', _id: '', _createTime: '', isOwner: true }
           })
         } else {
-          const combatInfo = formatCombatInfo(userinfo, book, 'random', new Array(userinfo.config.combatQuestionNumber).fill({}))
+          const combatInfo = formatCombatInfo(userinfo, book, 'random', new Array(+userinfo.config.combatQuestionNumber).fill({}))
 
           void app.routes.pages.combat.redirectTo({ type: 'random' })
 

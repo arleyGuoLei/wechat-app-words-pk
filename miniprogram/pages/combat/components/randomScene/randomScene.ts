@@ -22,7 +22,7 @@ App.Component({
     async debugInitPage () {
       const userinfo = await getUserInfo()
       const book = store.getState().book
-      const combatInfo = formatCombatInfo(userinfo, book, 'random', new Array(userinfo.config.combatQuestionNumber).fill({}))
+      const combatInfo = formatCombatInfo(userinfo, book, 'random', new Array(+userinfo.config.combatQuestionNumber).fill({}))
 
       store.setState({
         combat: { ...combatInfo, state: 'create', next: '', _id: '', _createTime: '', isOwner: true }
