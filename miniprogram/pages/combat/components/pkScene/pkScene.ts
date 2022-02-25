@@ -57,6 +57,9 @@ App.Component({
 
       clearInterval(countdownTimer) // NOTE: 不继续本题的倒计时了
 
+      // 清空选择结果，避免选项答案闪烁
+      this.setData({ selectIndex: -1 })
+
       // 延迟等待选项动画接近完成，再开始倒计时
       wx.nextTick(async () => {
         await sleep(300)
