@@ -85,7 +85,7 @@ const state: State = {
     nickname: '',
     bookId: '',
     config: {
-      combatQuestionNumber: 10,
+      combatQuestionNumber: 15,
       pronounce: true,
       backgroundMusic: true,
       vibrate: true
