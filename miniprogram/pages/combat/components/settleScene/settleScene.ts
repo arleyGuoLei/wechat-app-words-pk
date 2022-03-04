@@ -61,7 +61,11 @@ App.Component({
       const { users, isOwner } = store.$state.combat!
 
       // NOTE: 页面切换时，ready 安卓端偶现重新执行，当数据不存在的时候这里做一下拦截
-      if (!users[0]._openid || !users[1]._openid) { return 0 }
+      if (!users ||
+        users.length < 2 ||
+        !users[0]._openid ||
+        !users[1]._openid
+      ) { return 0 }
 
       const left = Math.floor(users[0].gradeTotal / 50)
       const right = Math.floor(users[1].gradeTotal / 50)

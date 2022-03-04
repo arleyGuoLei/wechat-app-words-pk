@@ -47,8 +47,8 @@ App.Component({
         const id = store.$state.combat?._id as DB.DocumentId
         const wordsIndex = store.$state.combat?.wordsIndex!
         const wordList = store.$state.combat?.wordList!
-        const correctIndex = wordList[wordsIndex].correctIndex
-        const index = (Math.random() > config.NPCCorrectRate) ? (config.combatOptionNumber - 1 - correctIndex) : correctIndex // NPCCorrectRate * 100%的概率正确, 其他选择错误答案(3-correctIndex)
+        const correctIndex = wordList[wordsIndex]?.correctIndex ?? -1 // 某些条件下报错 Cannot read property 'correctIndex' of undefined，当找不到时认为选择错误
+        const index = correctIndex === -1 ? correctIndex : ((Math.random() > config.NPCCorrectRate) ? (config.combatOptionNumber - 1 - correctIndex) : correctIndex) // NPCCorrectRate * 100%的概率正确, 其他选择错误答案(3-correctIndex)
         const npcInfo = this.data.npcInfo as INPC
 
         const score = index === correctIndex ? getCombatSelectScore(this.data.startTime) : config.combatWrongDeduction
