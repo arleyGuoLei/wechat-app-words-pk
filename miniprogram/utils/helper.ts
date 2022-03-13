@@ -6,12 +6,12 @@ import userModel from './../models/user'
 import { Word, CombatWord, COMBAT_TYPE, Combat, CombatUser } from './../../typings/model'
 
 export const DEFAULT_USER_INFO = {
-  avatarUrl: 'https://7072-prod-words-pk-1255907426.tcb.qcloud.la/word-pk-logo.jpeg',
+  avatarUrl: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-5988d11f-2178-4757-82ed-80342d2c8132/9e28e36a-84e3-499f-901b-4e7e8f6b923d.png',
   city: '',
   country: 'China',
   gender: 1,
   language: 'zh_CN',
-  nickName: '神秘学霸',
+  nickName: '单词天天斗',
   province: ''
 }
 

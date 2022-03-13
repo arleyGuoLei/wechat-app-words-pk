@@ -1,7 +1,7 @@
 export default {
   cloudEnv: {
-    develop: 'dev-lkupx',
-    release: 'prod-words-pk'
+    develop: '__DEVELOP_ENV__',
+    release: '__RELEASE_ENV__'
   },
   /** 对战模式每道题目的选项数目 */
   combatOptionNumber: 4,

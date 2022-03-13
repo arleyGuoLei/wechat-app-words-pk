@@ -7,7 +7,7 @@
   <view class="user-info">
     <!-- 主页用户昵称信息，state 中的显示优先级大于 opendata 优先级 -->
     <text wx:if="{{$state.user.nickname}}" class="user-info__nickname">{{$state.user.nickname}}</text>
-    <text wx:else class="user-info__nickname" catchtap="onGetUserInfo">神秘学霸 (点击登录)</text>
+    <text wx:else class="user-info__nickname" catchtap="onGetUserInfo">单词天天斗 (点击登录)</text>
  
     <view class="user-info__grade">
       <image class="grade-icon" src="./../../../../images/home-grade.png" />
