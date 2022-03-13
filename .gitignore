@@ -1,4 +1,5 @@
 node_modules/
-cloudfunctions/server/
-cloudfunctions/
 assets/
+server/
+db/
+delete_db_server.sh
