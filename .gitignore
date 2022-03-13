@@ -3,3 +3,4 @@ assets/
 server/
 db/
 delete_db_server.sh
+miniprogram/miniprogram_npm/
