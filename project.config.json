@@ -35,7 +35,8 @@
       "disablePlugins": [],
       "outputPath": ""
     },
-    "useIsolateContext": false,
+    "enableEngineNative": false,
+    "useIsolateContext": true,
     "userConfirmedBundleSwitch": false,
     "packNpmManually": false,
     "packNpmRelationList": [],
@@ -45,8 +46,7 @@
     "showES6CompileOption": false,
     "useCompilerPlugins": [
       "typescript"
-    ],
-    "ignoreUploadUnusedFiles": true
+    ]
   },
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
