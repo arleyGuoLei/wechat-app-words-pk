@@ -234,7 +234,7 @@ App.Component({
     },
 
     initBgm () {
-      bgm = wx.createInnerAudioContext()
+      bgm = wx.createInnerAudioContext({ useWebAudioImplement: true })
       bgm.loop = true
       bgm.autoplay = false
       bgm.src = store.$state.appConfig.backgroundMusicUrl
