@@ -163,6 +163,14 @@
 
 - [部署视频教程](https://www.bilibili.com/video/BV1434y1s7y9)
 
+![一键部署软件](https://pic2.zhimg.com/80/v2-3fc8dc5d89c758c7b2008e64eb3ce641_1440w.png)
+
+百度云 - v1.3.0 (最新版本，支持单环境部署)
+
+- windows: 链接: [https://pan.baidu.com/s/1yHVildx5XuZaNC_xZIAfmQ](https://pan.baidu.com/s/1yHVildx5XuZaNC_xZIAfmQ)  密码: kehu
+- mac链接(intel): [https://pan.baidu.com/s/1M4CRJledlKWQ1rZwDhYlKA](https://pan.baidu.com/s/1M4CRJledlKWQ1rZwDhYlKA)  密码: 5s6e
+- mac链接(苹果cpu、m1/m2): [https://pan.baidu.com/s/13GT6dscjYg_9zJIZpzETLg](https://pan.baidu.com/s/13GT6dscjYg_9zJIZpzETLg)  密码: 5o64
+
 #### 部署码
 
 - 联系微信：**34805850**获取，相应部署码收费服务如下 ↓
