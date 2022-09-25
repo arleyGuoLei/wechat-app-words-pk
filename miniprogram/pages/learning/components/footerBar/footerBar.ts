@@ -2,7 +2,7 @@ import { store, events } from './../../../../app'
 import userModel from './../../../../models/user'
 import { playPronunciation } from './../../../../utils/util'
 
-let bgm = wx.createInnerAudioContext()
+let bgm = wx.createInnerAudioContext({ useWebAudioImplement: true })
 
 App.Component({
   options: {

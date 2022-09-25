@@ -19,7 +19,7 @@ let detectCombatTimer = TIMER_NULL
 /** 每题的倒计时开始时间，用于选择时做分数计算 */
 let countDownStartTime = 0
 
-let bgm = wx.createInnerAudioContext()
+let bgm = wx.createInnerAudioContext({ useWebAudioImplement: true })
 
 App.Component({
   data: {

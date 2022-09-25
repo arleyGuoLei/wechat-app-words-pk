@@ -39,7 +39,9 @@ App.Component({
       const incExperience = this.getIncExperience()
       isOwner && combatModel.end(_id)
 
-      const isWin = isOwner ? users[0].gradeTotal >= users[1].gradeTotal : users[1].gradeTotal >= users[0].gradeTotal
+      // NOTE: 对战结算出现 users 长度 < 2 的情况，可能是用户逃离、异常，做兜底处理
+      const otherUserGradeTotal = (users.length > 1 && users[1].gradeTotal) ? users[1].gradeTotal : 0
+      const isWin = isOwner ? users[0]?.gradeTotal >= otherUserGradeTotal : otherUserGradeTotal >= users[0]?.gradeTotal
 
       // NOTE: 云端增加词力值
       await userModel.incExperience(incExperience, isWin)
@@ -81,8 +83,10 @@ App.Component({
       const { isOwner, _id, type } = store.$state.combat!
       const isShareResult = this.data.isShareResult
 
-      // 分享的房间点击再来一局 或 房主点击再来一局，将创建一个好友对战的房间
-      if (isShareResult || isOwner) {
+      // fix: 修复对战结束后的随机匹配再来一局
+      // 分享的房间点击再来一局 或 房主点击再来一局，好友对战将创建一个好友对战的房间，随机匹配和人机统一创建一局随机对战
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      if (isShareResult || isOwner || type === 'random') {
         // 结束本局的数据变更监听
         this.triggerEvent('onCloseWatcher')
         loading.show('创建中')

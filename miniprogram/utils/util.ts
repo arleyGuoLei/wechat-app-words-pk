@@ -78,7 +78,7 @@ export function chunk<T> (arr: T[], size: number): T[][] {
 }
 
 export function playAudio (src: string): void {
-  const innerAudioContext = wx.createInnerAudioContext()
+  const innerAudioContext = wx.createInnerAudioContext({ useWebAudioImplement: true })
   innerAudioContext.autoplay = true
   innerAudioContext.src = src
   innerAudioContext.onError((res) => console.log(res))

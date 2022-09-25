@@ -5,13 +5,16 @@ import config from './../../../../utils/config'
 import KvModel, { INPC } from './../../../../models/kv'
 import combatModel from './../../../../models/combat'
 
+const TIMER_NULL = -1
+
+// NOTE: FIX 人机多次选择 2022-09-25
+/** npc 自动选择器 */
+let npcSelectTimer = TIMER_NULL
+
 App.Component({
   data: {
     /** 人机是否已经选择，false 为未选 */
     npcSelected: false,
-
-    /** npc 自动选择器 */
-    $npcSelectTimer: 0,
 
     /** 当前题目开始时间，用于选择时做分数计算，该值和 pkScene 中的 countDownStartTime 一致 */
     startTime: 0,
@@ -36,13 +39,14 @@ App.Component({
       this.data.npcSelected = false
       this.data.startTime = Date.now()
 
-      this.data.$npcSelectTimer = setTimeout(() => {
+      npcSelectTimer = setTimeout(() => {
         void this.npcSelect()
       }, config.minNPCSelectTime + config.NPCSelectMaxGap * Math.random())
     },
     async npcSelect () {
       if (!this.data.npcSelected) {
-        clearTimeout(this.data.$npcSelectTimer)
+        clearTimeout(npcSelectTimer)
+        this.data.npcSelected = true
 
         const id = store.$state.combat?._id as DB.DocumentId
         const wordsIndex = store.$state.combat?.wordsIndex!
@@ -57,6 +61,7 @@ App.Component({
 
         // NOTE: 选择失败，进行重试
         if (!isSelect) {
+          this.data.npcSelected = false
           void this.npcSelect()
           return
         }
