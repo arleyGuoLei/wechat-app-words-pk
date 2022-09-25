@@ -1,8 +1,10 @@
-# 单词天天斗 (毕业设计/实战小程序学习/微信小程序完整项目)
+# 单词天天斗 (毕业设计/实战小程序/微信小程序完整项目)
 
 ## 介绍
 
-小程序我们都很熟悉，它是一种不用下载安装就能使用的、基于微信容器的轻应用。并且微信小程序提供了云开发能力，即无需搭建服务器就可实现后端服务，提供了数据库、云存储、云函数等能力。
+![首页](https://pica.zhimg.com/v2-6d0e708650b2ff598f77270f0b3a85d0.png)
+
+![项目后台](https://pic3.zhimg.com/v2-38edf31db34a0dd1bbcea727a2e2b393.png)
 
 该项目基于「微信小程序」原生框架和「微信小程序云开发」实现单词对战类小程序，支持好友对战、随机匹配、人机对战三种不同模式的「对战模式」；另外提供「每日词汇」、「生词本」、「排行榜」、「设置」等功能，实现完整的业务闭环。
 
@@ -155,6 +157,7 @@
 #### 在线文档
 
 - 部署文档：[http://words-pk-deploy.i7xy.cn/](http://words-pk-deploy.i7xy.cn/)
+- 部署文档 (备用链接): [https://www.wolai.com/arleyguolei/2ffjGJLABDiGm6zAuP1gqz](https://www.wolai.com/arleyguolei/2ffjGJLABDiGm6zAuP1gqz)
 
 #### 部署视频教程
 
